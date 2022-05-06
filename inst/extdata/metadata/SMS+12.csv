@@ -1,0 +1,6 @@
+name,Run,BioSample,Sample,"Field Code",Type,T,pH,"O2 (mg/L)","Eh (mV)",_Eh_source
+"Bison Pool, Yellowstone NP",mgm4946224.3,NA,1,N,Chemotrophic,93.3,7.35,0.173,-92,"Mound Spring"
+"Bison Pool, Yellowstone NP",mgm4946223.3,NA,2,S,Chemotrophic,79.4,7.678,0.776,128,"Bison Pool 2"
+"Bison Pool, Yellowstone NP",mgm4946225.3,NA,3,R,Transition,67.5,7.933,0.9,130,"Bison Pool 3"
+"Bison Pool, Yellowstone NP",mgm4946226.3,NA,4,Q,Phototrophic,65.3,7.995,1.6,150,"Bison Pool 4"
+"Bison Pool, Yellowstone NP",mgm4946227.3,NA,5,P,Phototrophic,57.1,8.257,2.8,150,"Bison Pool 4"

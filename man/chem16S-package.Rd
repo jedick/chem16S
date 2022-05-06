@@ -1,0 +1,100 @@
+\encoding{UTF-8}
+\name{chem16S-package}
+\alias{chem16S-package}
+\alias{chem16S}
+\docType{package}
+\title{Chemical analysis of proteomes estimated from 16S rRNA sequences}
+
+\description{
+
+Functions and data to calculate chemical metrics (carbon oxidation state (\ZC) and stoichiometric hydration state (\nH2O)) for estimated microbial community proteomes.
+Proteomes are estimated by combining taxonomic classifications of 16S rRNA gene sequences with RefSeq microbial proteomes.
+
+}
+
+\details{
+
+  \itemize{
+    \item \code{\link{readRDP}} - Read and filter an RDP Classifier table
+    \item \code{\link{mapRDP}} - Map RDP Classifier assignments to the NCBI taxonomy
+    \item \code{\link{getmetrics}} - Get chemical metrics for estimated community proteomes
+    \item \code{\link{getmdat_example}} - Example function for retrieving sample metadata
+    \item \code{\link{plotmet}} - Plotting metrics with symbols and colors based on metadata
+  }
+
+The datasets and estimation methods are described by Dick and Tan (2022).
+
+This package is used to make plots for the \samp{geo16S} and \samp{orp16S} papers in the JMDplots package on GitHub (\url{https://github.com/jedick/JMDplots}).
+
+}
+
+\section{Files in extdata/refseq}{
+  This directory contains the scripts used to process RefSeq sequence files and the resulting CSV files with amino acid compositions of reference proteomes and taxonomic names.
+  The files are based on RefSeq release 206 of 2021-05-21 (O'Leary et al., 2016).
+
+  \describe{
+
+    \item{\file{README.txt}}{README describing all steps of the procedure (including downloading and shell commands)}
+    \item{\file{protein.refseq.R}}{R code for processing RefSeq files}
+    \item{\file{taxid.names.R}}{R code for processing taxonomic IDs}
+
+    \item{\file{protein_refseq.csv.xz}}{
+      Reference proteomes: summed amino acid compositions of all proteins for each bacterial, archaeal, and viral taxon in the NCBI Reference Sequence database
+      The first five columns are: \code{protein} (\dQuote{refseq}), \code{organism} (taxonomic id), \code{ref} (organism name), \code{abbrv} (empty), \code{chains} (number of protein sequences for this organism).
+      Columns 6 to 25 have the counts of amino acids.
+    }
+
+    \item{\file{taxid_names.csv.xz}}{
+      Columns with NCBI taxonomic ID (taxid), and names at different taxonomic rank (species, genus, family, order, class, phylum, superkingdom).
+    }
+
+  }
+
+}
+
+
+\section{Files in extdata/chem16S}{
+
+  \describe{
+    \item{\file{bergeyTrainingTree.csv}}{Data from \code{bergeyTrainingTree.xml} in the RDP Classifier package version 2.1.3 (\url{https://sourceforge.net/projects/rdp-classifier/}), used for copy-number adjustment.}
+    \item{\file{process_refseq.R}}{Functions to create the processed data files listed below:}
+    \item{\file{taxon_AA.csv}}{Average amino acid composition of reference proteomes for all species in each genus and at higher taxonomic ranks. (\code{process.R:mkAA})}
+    \item{\file{taxon_metrics.csv}}{Chemical metrics (\ZC and \nH2O) for each RefSeq group. (\code{process.R:mkmetrics})}
+  }
+
+}
+
+\section{Files in extdata/metadata}{
+
+  \describe{
+    \item{\file{BGPF13.csv}}{Metadata for Heart Lake Geyser Basin, Yellowstone (Bowen De León et al., 2012).}
+    \item{\file{HLA+16.csv}}{Metadata for the Baltic Sea (Herlemann et al., 2016).}
+    \item{\file{SMS+12.csv}}{Metadata for Bison Pool, Yellowstone (Swingley et al., 2012).}
+  }
+
+}
+
+\section{Files in extdata/RDP}{
+
+  \describe{
+    \item{\file{BGPF13.tab.xz}}{RDP Classifier output for the 16S rRNA dataset of Heart Lake Geyser Basin.}
+    \item{\file{HLA+16.tab.xz}}{RDP Classifier output for the 16S rRNA dataset of the Baltic Sea.}
+    \item{\file{SMS+12.tab.xz}}{RDP Classifier output for the 16S rRNA dataset of Bison Pool.}
+  }
+
+}
+
+
+\references{
+
+Bowen De León K, Gerlach R, Peyton BM, Fields MW. 2013. Archaeal and bacterial communities in three alkaline hot springs in Heart Lake Geyser Basin, Yellowstone National Park. \emph{Frontiers in Microbiology} \bold{4}: 330. \doi{10.3389/fmicb.2013.00330}
+
+Dick JM, Tan J. 2022. Chemical links between redox conditions and estimated community proteomes from 16S rRNA and reference protein sequences. \emph{Microbial Ecology} \doi{10.1007/s00248-022-01988-9}
+
+Herlemann DPR, Lundin D, Andersson AF, Labrenz M, Jürgens K. 2016. Phylogenetic signals of salinity and season in bacterial community composition across the salinity gradient of the Baltic Sea. \emph{Frontiers in Microbiology} \bold{7}: 1883. \doi{10.3389/fmicb.2016.01883}
+
+O'Leary NA et al. 2016. Reference sequence (RefSeq) database at NCBI: current status, taxonomic expansion, and functional annotation. \emph{Nucleic Acids Res.} \bold{44}: D733-D745. \doi{10.1093/nar/gkv1189}
+
+Swingley WD, Meyer-Dombard DR, Shock EL, Alsop EB, Falenski HD, Havig JR, Raymond J. 2012. Coordinating environmental genomics and geochemistry reveals metabolic transitions in a hot spring ecosystem. \emph{PLOS One} \bold{7}(6): e38108. \doi{doi.org/10.1371/journal.pone.0038108}
+
+}

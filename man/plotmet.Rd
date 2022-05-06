@@ -1,0 +1,96 @@
+\encoding{UTF-8}
+\name{plotmet}
+\alias{plotmet}
+\alias{addhull}
+\title{Plot chemical metrics of estimated community proteomes}
+\description{
+Functions to plot chemical metrics (\ZC and \nH2O) for estimated community proteomes.
+}
+
+\usage{
+  plotmet(mdat, identify = FALSE, title = TRUE,
+    xlim = NULL, ylim = NULL, plot.it = TRUE, points = TRUE, lines = FALSE,
+    pch1 = 1, pch2 = 21, return = "data",
+    extracolumn = NULL, add = FALSE, plot.bg = TRUE)
+  addhull(x, y, basecol, outline = FALSE, ...)
+}
+
+\arguments{
+  \item{mdat}{list, output by \code{\link{getmdat_example}}}
+  \item{identify}{logical, run \code{\link{identify}} for interactive identification of points?}
+  \item{title}{character, plot title}
+  \item{xlim}{numeric, x axis limits}
+  \item{ylim}{numeric, y axis limits}
+  \item{plot.it}{logical, make a plot?}
+  \item{points}{logical, plot points?}
+  \item{lines}{logical, plot lines?}
+  \item{pch1}{numeric, symbol for samples in group 1}
+  \item{pch2}{numeric, symbol for samples in group 2}
+  \item{return}{character, indicates whether to return \samp{data} values or group \samp{means}}
+  \item{extracolumn}{character, the name of one or more extra columns (from \code{\link{getmdat_example}}) to include in the output}
+  \item{add}{logical, add to existing plot?}
+  \item{plot.bg}{logical, plot lines for background correlation from basis species?}
+  \item{x}{x values}
+  \item{y}{y values}
+  \item{basecol}{color used for hull lines}
+  \item{outline}{logical, draw hull lines?}
+  \item{...}{arguments passed to \code{\link{polygon}}}
+}
+
+\details{
+
+\code{plotmet} plots the \ZC and \nH2O values provided in \code{mdat$metrics}.
+Symbol shape and color (\code{pch} and \code{col}) are taken from \code{mdat$metadata}.
+
+If \code{pch1} and \code{pch2} are provided, then samples are classified into two groups according to the value of \code{mdat$metadata$pch}.
+Mean values of the chemical metrics for each group are plotted with star-shaped symbols.
+
+\code{addhull} uses \code{\link{polygon}} to draw a convex hull around the points given in \code{x}, \code{y}.
+The lines are drawn only if \code{outline} is TRUE; otherwise, the area of the hull is filled.
+The fill color is a semi-transparent version of the color given in \code{basecol}.
+
+}
+
+\value{
+A data frame with columns with study name and Run IDs (\samp{name}, \samp{Run}), plotting values (\samp{nH2O}, \samp{ZC}), and plotting symbols and colors (\samp{pch}, \samp{col}).
+}
+
+\references{
+Herlemann, D. P. R., Lundin, D., Andersson, A. F., Labrenz, M. and Jürgens, K. (2016) Phylogenetic signals of salinity and season in bacterial community composition across the salinity gradient of the Baltic Sea. \emph{Front. Microbiol.} \bold{7}, 1883. \doi{10.3389/fmicb.2016.01883}
+}
+
+\examples{
+# Make a plot for the Baltic Sea salinity gradient
+# (data from Herlemann et al., 2016)
+RDPfile <- system.file("extdata/RDP/HLA+16.tab.xz", package = "chem16S")
+RDP <- readRDP(RDPfile)
+map <- mapRDP(RDP)
+metrics <- getmetrics(RDP, map)
+mdatfile <- system.file("extdata/metadata/HLA+16.csv", package = "chem16S")
+mdat <- getmdat_example(mdatfile, metrics)
+pm <- plotmet(mdat)
+# Add a legend
+legend <- c("< 6 PSU", "6-20 PSU", "> 20 PSU")
+pch <- c(24, 20, 21)
+pt.bg <- c(3, NA, 4)
+legend("bottomright", legend, pch = pch, col = 1, pt.bg = pt.bg, bg = "white")
+# Classify samples with low and high salinity
+ilo <- mdat$metadata$salinity < 6
+ihi <- mdat$metadata$salinity > 20
+# Add convex hulls
+addhull(pm$ZC[ilo], pm$nH2O[ilo], "green3")
+addhull(pm$ZC[ihi], pm$nH2O[ihi], "blue")
+
+# Show points for all samples and larger points for
+# mean values of high- and low-salinity samples
+plotmet(mdat, pch1 = 21, pch2 = 24)
+
+## Some samples (i.e. outliers) have an NA name in the metadata
+## to exclude them from further calculations.
+## Use dropNA = FALSE to show all samples.
+#plotmet("UKD+18.sediment", dropNA = FALSE)
+#
+## Make a plot for only Proteobacteria
+#plotmet("HLA+16", lineage = "Proteobacteria")
+
+}

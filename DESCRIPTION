@@ -1,0 +1,19 @@
+Date: 2022-05-06
+Package: chem16S
+Version: 0.0.1
+Title: Chemical Metrics of Estimated Community Proteomes from 16S rRNA Data
+Authors@R: c(
+    person("Jeffrey", "Dick", , "jeff@chnosz.net", role = c("aut", "cre"),
+      comment = c(ORCID = "0000-0002-0687-5890"))
+    )
+Author: Jeffrey Dick [aut, cre] (0000-0002-0687-5890)
+Maintainer: Jeffrey Dick <jeff@chnosz.net>
+Depends: canprot (>= 1.1.2)
+Suggests: tinytest
+Description: Accepts RDP Classifier table of taxonomic assignments for environmental 16S rRNA sequences.
+    Combines taxonomic abundances with RefSeq reference proteomes to compute amino acid composition of estimated community proteome (ECP).
+    Outputs chemical metrics for ECP including carbon oxidation state and stoichiometric hydration state.
+    Examples are shown for environmental redox and salinity gradients.
+Encoding: UTF-8
+License: GPL-3
+URL: https://github.com/jedick/chem16S

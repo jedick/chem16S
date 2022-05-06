@@ -1,0 +1,15 @@
+# Exports for chem16S package
+export(
+  "readRDP",
+  "mapRDP",
+  "getmetrics",
+  "getmdat_example",
+  "plotmet",
+  "addhull"
+)
+
+importFrom("canprot", "H2OAA", "ZCAA")
+importFrom("stats", "aggregate", "na.omit")
+importFrom("utils", "read.csv", "read.table", "tail")
+importFrom("grDevices", "chull", "col2rgb", "rgb")
+importFrom("graphics", "box", "lines", "par", "polygon")

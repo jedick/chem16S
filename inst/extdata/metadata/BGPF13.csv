@@ -1,0 +1,15 @@
+study,name,Run,BioSample,sample,type,cohort
+BGPF13,"Heart Lake Geyser Basin",SRR900426,SAMN02191954,HLGB_44_2007,hydrothermal,Archaea
+BGPF13,"Heart Lake Geyser Basin",SRR900427,SAMN02191955,HLGB_44_2008,hydrothermal,Bacteria
+BGPF13,"Heart Lake Geyser Basin",SRR900428,SAMN02191955,HLGB_44_2008,hydrothermal,Archaea
+BGPF13,"Heart Lake Geyser Basin",SRR900429,SAMN02191956,HLGB_44_2009,hydrothermal,Bacteria
+BGPF13,"Heart Lake Geyser Basin",SRR900430,SAMN02191956,HLGB_44_2009,hydrothermal,Archaea
+BGPF13,"Heart Lake Geyser Basin",SRR900431,SAMN02191957,HLGB_63_2007,hydrothermal,Archaea
+BGPF13,"Heart Lake Geyser Basin",SRR900432,SAMN02191958,HLGB_63_2008,hydrothermal,Bacteria
+BGPF13,"Heart Lake Geyser Basin",SRR900433,SAMN02191958,HLGB_63_2008,hydrothermal,Archaea
+BGPF13,"Heart Lake Geyser Basin",SRR900434,SAMN02191959,HLGB_63_2009,hydrothermal,Bacteria
+BGPF13,"Heart Lake Geyser Basin",SRR900437,SAMN02191959,HLGB_63_2009,hydrothermal,Archaea
+BGPF13,"Heart Lake Geyser Basin",SRR900439,SAMN02191960,HLGB_75_2007,hydrothermal,Archaea
+BGPF13,"Heart Lake Geyser Basin",SRR900450,SAMN02191961,HLGB_75_2008,hydrothermal,Bacteria
+BGPF13,"Heart Lake Geyser Basin",SRR900451,SAMN02191961,HLGB_75_2008,hydrothermal,Archaea
+BGPF13,"Heart Lake Geyser Basin",SRR900457,SAMN02191962,HLGB_75_2009,hydrothermal,Archaea

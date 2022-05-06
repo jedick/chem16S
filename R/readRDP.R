@@ -1,0 +1,191 @@
+# chem16S/readRDP.R
+# Calculate chemical metrics based on 16S data and RefSeq proteins 20200902
+# Revised to include "unclassified" groups in RDP (i.e. classified above genera) 20200911
+# Moved to JMDplots 20210416
+# Moved to chem16S 20220505
+#   getmdat() stays in JMDplots
+
+# Usage
+# RDP <- readRDP("SVH+19")      # Read and filter RDP results
+# getmap("SVH+19")      # Map RDP to RefSeq taxonomy (match to rows of taxon_AA.csv)
+# getmetrics("SVH+19")  # Calculate chemical metrics (nH2O, ZC) for each sample
+
+# Read and filter RDP results for all samples in a study 20200912
+readRDP <- function(file, lineage = NULL, mincount = 200, lowest.level = NULL, cn = FALSE) {
+  # Handle missing arguments
+#  if(is.null(mdat)) mdat <- getmdat(study)
+#  # Get the sample Runs (SRR numbers)
+#  Run <- mdat$Run
+#  # Remove suffix after underscore 20200929
+#  studyfile <- gsub("_.*", "", study)
+#  # Read output of RDP classifer
+#  datadir <- getOption("chem16Sdir")
+#  file <- file.path(datadir, "RDP", paste0(studyfile, ".tab.xz"))
+#  # If there is no .xz file, look for a .tab file 20210607
+#  if(!file.exists(file)) file <- file.path(datadir, "RDP", paste0(studyfile, ".tab"))
+#  datorig <- dat <- read.table(file, sep = "\t", header = TRUE, check.names = FALSE)
+  dat <- read.table(file, sep = "\t", header = TRUE, check.names = FALSE)
+#  # Get counts for each sample
+#  icol <- match(Run, colnames(dat))
+#  # Error for samples not in RDP output 20210926
+#  if(any(is.na(icol))) stop(paste0("One or more runs in metadata not in RDP output for ", study, ": ", paste(Run[is.na(icol)], collapse = ", ")))
+#  # Keep the "lineage", "rank", "name", and counts columns
+#  dat <- dat[, c(2, 4, 3, icol)]
+#  dat <- dat[, c(2, 4, 3, 5:ncol(dat))]
+
+  # Basename of file to use in messages 20220505
+  basefile <- basename(file)
+
+  # Columns with classification counts
+  icol <- 5:ncol(dat)
+
+  # Rows with "unclassified" assignments
+  iunclass <- grepl("unclassified_", dat$name)
+  if(any(iunclass)) {
+    # Find the ranks for the "unclassified" sequences
+    # (which means classified at higher rank than genus)
+    unclassname <- gsub("unclassified_", "", dat$name[iunclass])
+    # Split the lineage text and find the length of each one
+    slineage <- strsplit(dat$lineage[iunclass], ";")
+    sllength <- vapply(slineage, length, 1)
+    # The rank is a certain number of positions before the end
+    irank <- sllength - 2
+    unclassrank <- mapply("[", slineage, irank)
+    dat$rank[iunclass] <- unclassrank
+    dat$name[iunclass] <- unclassname
+  }
+  if(dat$lineage[1] == "null") {
+    # This is for the actual output from the RDP Classifier
+    # We want to keep genus-level classifications; also:
+    # Remove the counts of classifications at higher ranks (which are also counted at lower ranks)
+    # *except* for the ones labeled "unclassified" (which are not counted at lower ranks)
+    igenus <- dat$rank == "genus"
+    out <- dat[igenus | iunclass, ]
+    isRDP <- TRUE
+  } else {
+    # Otherwise, the taxon counts are assembled from SI or OTU tables; use all the counts
+    out <- dat
+    isRDP <- FALSE
+  }
+  # Get the total counts
+  totalcounts <- colSums(out[, icol, drop = FALSE])
+  if(isRDP) {
+    # Get the "rootrank" counts
+    rootcounts <- dat[1, icol]
+    # Stop if total counts doesn't equal "rootrank" counts
+    stopifnot(all(abs(totalcounts - rootcounts) < 0.1))
+  }
+
+  # Keep specified lineage 20200924
+  if(!is.null(lineage)) {
+    precount <- sum(out[, icol])
+    irow <- grepl(lineage, out$lineage)
+    if(!any(irow)) stop(paste("nothing available for lineage =", lineage))
+    out <- out[irow, ]
+    postcount <- sum(out[, icol])
+    lpercent <- formatC(postcount / precount * 100, 1, format = "f")
+    print(paste0("getRDP [", basefile, "]: keeping ", lineage, " lineage (", lpercent, "%)"))
+    # Recalculate total counts 20211008
+    totalcounts <- colSums(out[, icol, drop = FALSE])
+  }
+
+  # Keep the rows with any counts > 0
+  groupcounts <- rowSums(out[, icol, drop = FALSE])
+  out <- out[groupcounts > 0, ]
+
+  # Get the number of counts classified at genus level
+  igenus <- out$rank == "genus"
+  genuscounts <- colSums(out[igenus, icol, drop = FALSE], na.rm = TRUE)
+  # Print percentage of assignments at genus level
+  genuspercent <- round(100 * sum(genuscounts) / sum(totalcounts))
+  print(paste0("getRDP [", basefile, "]: ", genuspercent, "% of classifications at genus level"))
+
+  # Remove classifications at root and domain level (Bacteria and Archaea),
+  # and Chlorophyta, Chloroplast and Bacillariophyta 20200922
+  # and Eukaryota 20211012
+  RDPgroups <- paste(out$rank, out$name, sep = "_")
+  RDPgroups[grepl("Eukaryota", out$lineage)] <- "Eukaryota"
+  rmgroups <- c("rootrank_Root", "domain_Bacteria", "domain_Archaea", "Eukaryota",
+    # Cyanobacteria/Chloroplast
+    "class_Chloroplast", "family_Chloroplast", "genus_Chlorophyta", "genus_Bacillariophyta")
+  isrm <- RDPgroups %in% rmgroups
+  if(any(isrm)) {
+    irm <- which(isrm)
+    rmpercent <- round(rowSums(out[irm, icol]) / sum(totalcounts) * 100, 1)
+    for(i in seq_along(irm)) {
+      # Only print message if removed group is >= 0.1% 20200927
+      if(rmpercent[i] >= 0.1) print(paste0("getRDP [", basefile, "]: removing ", RDPgroups[irm[i]], " (", rmpercent[i], "%)"))
+    }
+    out <- out[!isrm, ] 
+  }
+  # Recalculate total counts
+  totalcounts <- colSums(out[, icol, drop = FALSE])
+
+  # Discard samples with < mincount total counts 20201001
+  ismall <- totalcounts < mincount
+  if(any(ismall)) {
+    print(paste0("getRDP [", basefile, "]: discarding ", sum(ismall), " samples with < ", mincount, " total counts"))
+    out <- out[, c(TRUE, TRUE, TRUE, TRUE, !ismall)]
+    icol <- 5:ncol(out)
+  }
+  # Recalculate total counts
+  totalcounts <- colSums(out[, icol, drop = FALSE])
+  # Report the median number of counts 20200917
+  # Change this to range 20200924
+  if(length(totalcounts) == 0) {
+    print(paste0("getRDP [", basefile, "]: no samples contain at least ", mincount, " counts"))
+  } else {
+    print(paste0("getRDP [", basefile, "]: count range is [", paste(round(range(totalcounts)), collapse = " "), "]"))
+  }
+
+  # Adjust counts for 16S rRNA gene copy number 20200927
+  if(cn) {
+    # Data from rdp_classifier_2.13/src/data/classifier/16srrna/bergeyTrainingTree.xml (20200720)
+    bergey <- read.csv(system.file("extdata/chem16S/bergeyTrainingTree.csv", package = "chem16S"))
+    # Paste together rank and name
+    RDPgroups <- paste(out$rank, out$name, sep = "_")
+    bergeygroups <- paste(bergey$rank, bergey$name, sep = "_")
+    # Get the copy number for these groups
+    ibergey <- match(RDPgroups, bergeygroups)
+    cpNumber <- bergey$cpNumber[ibergey]
+    # Divide RDP Classifier counts by copy number
+    # Round to 3 decimal places following output of RDP Classifier with copy-number adjustment
+    out[, icol] <- round(out[, icol] / cpNumber, 3)
+  }
+
+  RDP <- out
+
+  # Trim classifications to specified lowest level 20220112
+  if(!is.null(lowest.level)) {
+    lineage <- RDP$lineage
+    # Split the lineage at the specified level
+    trimmed.lineage <- sapply(strsplit(RDP$lineage, lowest.level), "[", 1)
+    # Get the name of the taxon at this level
+    new.name <- sapply(strsplit(trimmed.lineage, ";"), tail, 1)
+    # To make the new lineage, add the name of the rank at the end
+    new.lineage <- paste0(trimmed.lineage, lowest.level, ";")
+    # Only update lineages that have the lowest-level classification
+    has.ll <- grepl(lowest.level, lineage)
+    RDP$lineage[has.ll] <- new.lineage[has.ll]
+    RDP$name[has.ll] <- new.name[has.ll]
+    RDP$rank[has.ll] <- lowest.level
+    # Check that each unique lineage string corresponds to a unique rank-name combination
+    stopifnot(identical(duplicated(RDP$lineage), duplicated(paste(RDP$rank, RDP$name))))
+    # Combine duplicated lineages
+    newRDP <- aggregate(RDP[, icol], list(lineage = RDP$lineage), sum)
+    # Prepend taxid, lineage, name, rank columns
+    iRDP <- match(newRDP$lineage, RDP$lineage)
+    newRDP <- cbind(RDP[iRDP, 1:4], newRDP[, -1, drop = FALSE])
+    RDP <- newRDP
+  }
+
+  # Set attributes 20220505
+  # Original attributes (names, row.names, class)
+  attr.orig <- attributes(RDP)
+  # New attributes
+  # (NOTE: NULL values are not stored)
+  attr.new <- list(file = file, lineage = lineage, mincount = mincount, lowest.level = lowest.level, cn = cn)
+  attributes(RDP) <- c(attr.orig, attr.new)
+
+  RDP
+}
