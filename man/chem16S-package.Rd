@@ -77,6 +77,7 @@ This package is used to make plots for the \samp{geo16S} and \samp{orp16S} paper
 \section{Files in extdata/RDP}{
 
   \describe{
+    \item{\file{pipeline.R}}{Pipeline for sequence data processing (uses external programs fastq-dump, vsearch, seqtk, RDP Classifier).}
     \item{\file{BGPF13.tab.xz}}{RDP Classifier output for the 16S rRNA dataset of Heart Lake Geyser Basin.}
     \item{\file{HLA+16.tab.xz}}{RDP Classifier output for the 16S rRNA dataset of the Baltic Sea.}
     \item{\file{SMS+12.tab.xz}}{RDP Classifier output for the 16S rRNA dataset of Bison Pool.}
