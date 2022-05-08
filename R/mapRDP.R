@@ -3,11 +3,7 @@
 # Moved to chem16S 20220505
 
 mapRDP <- function(RDP = NULL) {
-#  # Handle missing arguments
-#  if(is.null(RDP)) {
-#    mdat <- getmdat(study)
-#    RDP <- getRDP(study, mdat = mdat, lineage = lineage, mincount = mincount, lowest.level = lowest.level)
-#  }
+
   # Make group names by combining rank and name
   RDPgroups <- paste(RDP$rank, RDP$name, sep = "_")
   # Calculate group abundances for displaying messages
@@ -64,7 +60,7 @@ mapRDP <- function(RDP = NULL) {
     switchpercent <- round(switchcounts / sum(groupcounts) * 100, 1)
     # Only print message for mappings of groups at least 0.1% abundant 20200927
     if(any(switchpercent >= 0.1)) {
-      print(paste0("getmap [", basefile, "]: using the following RDP --> NCBI mapping(s):"))
+      print(paste0("mapRDP [", basefile, "]: using the following RDP --> NCBI mapping(s):"))
       for(i in seq_along(from)) {
         if(switchpercent[i] >= 0.1) message(paste0(from[i], " --> ", to[i], " (", switchpercent[i], "%)"))
       }
@@ -88,21 +84,22 @@ mapRDP <- function(RDP = NULL) {
   naorder <- order(napercent, decreasing = TRUE)
   ordergroups <- nagroups[naorder]
   orderpercent <- round(napercent[naorder], 2)
-  if(sum(naAA) > 0) namsg <- paste0("getmap [", basefile, "]: can't map RDP group ", ordergroups[1], " (", orderpercent[1], "%)")
-  if(sum(naAA) > 1) namsg <- paste0("getmap [", basefile, "]: can't map RDP groups ", ordergroups[1], " (", orderpercent[1], "%), ",
+  if(sum(naAA) > 0) namsg <- paste0("mapRDP [", basefile, "]: can't map RDP group ", ordergroups[1], " (", orderpercent[1], "%)")
+  if(sum(naAA) > 1) namsg <- paste0("mapRDP [", basefile, "]: can't map RDP groups ", ordergroups[1], " (", orderpercent[1], "%), ",
                                     ordergroups[2], " (", orderpercent[2], "%)")
-  if(sum(naAA) > 2) namsg <- paste0("getmap [", basefile, "]: can't map RDP groups ", ordergroups[1], " (", orderpercent[1], "%), ",
+  if(sum(naAA) > 2) namsg <- paste0("mapRDP [", basefile, "]: can't map RDP groups ", ordergroups[1], " (", orderpercent[1], "%), ",
                                     ordergroups[2], " (", orderpercent[2], "%), ", ordergroups[3], " (", orderpercent[3], "%)")
-  if(sum(naAA) > 3) namsg <- paste0("getmap [", basefile, "]: can't map RDP groups ", ordergroups[1], " (", orderpercent[1], "%), ",
+  if(sum(naAA) > 3) namsg <- paste0("mapRDP [", basefile, "]: can't map RDP groups ", ordergroups[1], " (", orderpercent[1], "%), ",
                                     ordergroups[2], " (", orderpercent[2], "%), ", sum(naAA) - 2, " others (", sum(orderpercent[-(1:2)]), "%)")
   if(sum(naAA) > 0) print(namsg)
   # Print message about total mapped percent 20200927
   mappedpercent <- formatC(100 - sum(napercent), 1, format = "f")
-  print(paste0("getmap [", basefile, "]: mapped ", mappedpercent, "% of RDP classifications to NCBI taxonomy"))
+  print(paste0("mapRDP [", basefile, "]: mapped ", mappedpercent, "% of RDP classifications to NCBI taxonomy"))
   # Set attributes to indicate unmapped groups 20211007
   attr(iAA, "unmapped_groups") <- nagroups
   attr(iAA, "unmapped_percent") <- napercent
   # Return result
   iAA
+
 }
 

@@ -3,13 +3,7 @@
 # Moved to chem16S 20220505
 
 getmetrics <- function(RDP = NULL, map = NULL, taxon_AA = NULL, groups = NULL) {
-#  # Handle missing arguments
-#  if(is.null(mdat)) mdat <- getmdat(study)
-#  if(is.null(RDP)) RDP <- getRDP(study, cn = cn, mdat = mdat, lineage = lineage, mincount = mincount, lowest.level = lowest.level)
-#  if(is.null(map)) map <- getmap(study, RDP = RDP, lineage = lineage, mincount = mincount, lowest.level = lowest.level)
-#  # Keep metadata only for samples with >= mincount counts 20201001
-#  mdat <- mdat[mdat$Run %in% colnames(RDP), ]
-#  if(nrow(mdat) == 0) stop("no samples have >= mincount counts!")
+
   # Exclude NA mappings
   RDP <- RDP[!is.na(map), ]
   map <- na.omit(map)
@@ -62,5 +56,6 @@ getmetrics <- function(RDP = NULL, map = NULL, taxon_AA = NULL, groups = NULL) {
 
   rownames(out) <- 1:nrow(out)
   out
+
 }
 

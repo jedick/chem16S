@@ -4,10 +4,6 @@
 plotmet <- function(mdat, identify = FALSE, title = TRUE, xlim = NULL, ylim = NULL,
   plot.it = TRUE, points = TRUE, lines = FALSE, pch1 = 1, pch2 = 21,
   return = "data", extracolumn = NULL, add = FALSE, plot.bg = TRUE) {
-#  # Get amino acid composition for samples
-#  mdat <- getmdat(study, dropNA = dropNA)
-#  RDP <- getRDP(study, cn = cn, mdat = mdat, lineage = lineage, mincount = mincount)
-#  metrics <- getmetrics(study, mdat = mdat, RDP = RDP, lineage = lineage, mincount = mincount)
 
   # Get pch and col
   pch <- mdat$metadata$pch
