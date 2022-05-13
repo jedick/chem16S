@@ -5,7 +5,7 @@
 # Moved to chem16S 20220505
 
 # Read and filter RDP results for all samples in a study 20200912
-readRDP <- function(file, lineage = NULL, mincount = 200, lowest.level = NULL, cn = FALSE) {
+readRDP <- function(file, lineage = NULL, mincount = 200, lowest.level = NULL, cn = FALSE, quiet = TRUE) {
 
   # Read file
   dat <- read.table(file, sep = "\t", header = TRUE, check.names = FALSE)
@@ -59,9 +59,11 @@ readRDP <- function(file, lineage = NULL, mincount = 200, lowest.level = NULL, c
     irow <- grepl(lineage, out$lineage)
     if(!any(irow)) stop(paste("nothing available for lineage =", lineage))
     out <- out[irow, ]
-    postcount <- sum(out[, icol])
-    lpercent <- formatC(postcount / precount * 100, 1, format = "f")
-    print(paste0("readRDP [", basefile, "]: keeping ", lineage, " lineage (", lpercent, "%)"))
+    if(!quiet) {
+      postcount <- sum(out[, icol])
+      lpercent <- formatC(postcount / precount * 100, 1, format = "f")
+      print(paste0("readRDP [", basefile, "]: keeping ", lineage, " lineage (", lpercent, "%)"))
+    }
     # Recalculate total counts 20211008
     totalcounts <- colSums(out[, icol, drop = FALSE])
   }
@@ -70,12 +72,14 @@ readRDP <- function(file, lineage = NULL, mincount = 200, lowest.level = NULL, c
   groupcounts <- rowSums(out[, icol, drop = FALSE])
   out <- out[groupcounts > 0, ]
 
-  # Get the number of counts classified at genus level
-  igenus <- out$rank == "genus"
-  genuscounts <- colSums(out[igenus, icol, drop = FALSE], na.rm = TRUE)
-  # Print percentage of assignments at genus level
-  genuspercent <- round(100 * sum(genuscounts) / sum(totalcounts))
-  print(paste0("readRDP [", basefile, "]: ", genuspercent, "% of classifications at genus level"))
+  if(!quiet) {
+    # Get the number of counts classified at genus level
+    igenus <- out$rank == "genus"
+    genuscounts <- colSums(out[igenus, icol, drop = FALSE], na.rm = TRUE)
+    # Print percentage of assignments at genus level
+    genuspercent <- round(100 * sum(genuscounts) / sum(totalcounts))
+    print(paste0("readRDP [", basefile, "]: ", genuspercent, "% of classifications at genus level"))
+  }
 
   # Remove classifications at root and domain level (Bacteria and Archaea),
   # and Chlorophyta, Chloroplast and Bacillariophyta 20200922
@@ -91,7 +95,7 @@ readRDP <- function(file, lineage = NULL, mincount = 200, lowest.level = NULL, c
     rmpercent <- round(rowSums(out[irm, icol]) / sum(totalcounts) * 100, 1)
     for(i in seq_along(irm)) {
       # Only print message if removed group is >= 0.1% 20200927
-      if(rmpercent[i] >= 0.1) print(paste0("readRDP [", basefile, "]: removing ", RDPgroups[irm[i]], " (", rmpercent[i], "%)"))
+      if(!quiet & rmpercent[i] >= 0.1) print(paste0("readRDP [", basefile, "]: removing ", RDPgroups[irm[i]], " (", rmpercent[i], "%)"))
     }
     out <- out[!isrm, ] 
   }
@@ -101,18 +105,21 @@ readRDP <- function(file, lineage = NULL, mincount = 200, lowest.level = NULL, c
   # Discard samples with < mincount total counts 20201001
   ismall <- totalcounts < mincount
   if(any(ismall)) {
-    print(paste0("readRDP [", basefile, "]: discarding ", sum(ismall), " samples with < ", mincount, " total counts"))
+    if(!quiet) print(paste0("readRDP [", basefile, "]: discarding ", sum(ismall), " samples with < ", mincount, " total counts"))
     out <- out[, c(TRUE, TRUE, TRUE, TRUE, !ismall)]
     icol <- 5:ncol(out)
   }
-  # Recalculate total counts
-  totalcounts <- colSums(out[, icol, drop = FALSE])
-  # Report the median number of counts 20200917
-  # Change this to range 20200924
-  if(length(totalcounts) == 0) {
-    print(paste0("readRDP [", basefile, "]: no samples contain at least ", mincount, " counts"))
-  } else {
-    print(paste0("readRDP [", basefile, "]: count range is [", paste(round(range(totalcounts)), collapse = " "), "]"))
+
+  if(!quiet) {
+    # Recalculate total counts
+    totalcounts <- colSums(out[, icol, drop = FALSE])
+    # Report the median number of counts 20200917
+    # Change this to range 20200924
+    if(length(totalcounts) == 0) {
+      print(paste0("readRDP [", basefile, "]: no samples contain at least ", mincount, " counts"))
+    } else {
+      print(paste0("readRDP [", basefile, "]: count range is [", paste(round(range(totalcounts)), collapse = " "), "]"))
+    }
   }
 
   # Adjust counts for 16S rRNA gene copy number 20200927

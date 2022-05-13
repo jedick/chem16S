@@ -8,7 +8,7 @@ Reads RDP Classifier output and optionally applis copy-number correction, extrac
 
 \usage{
   readRDP(file, lineage = NULL, mincount = 200,
-    lowest.level = NULL, cn = FALSE)
+    lowest.level = NULL, cn = FALSE, quiet = TRUE)
 }
 
 \arguments{
@@ -17,6 +17,7 @@ Reads RDP Classifier output and optionally applis copy-number correction, extrac
   \item{mincount}{integer, minimum classification count for each sample}
   \item{lowest.level}{character, truncate classifications at this taxonomic level}
   \item{cn}{logical, adjust counts for 16S rRNA gene copy number?}
+  \item{quiet}{logical, suppress printed messages?}
 }
 
 \details{
@@ -35,6 +36,8 @@ The lineage text of the RDP Classifier looks like \dQuote{Root;rootrank;Archaea;
 Use the \code{lowest.level} argument to truncate the classifications to a level higher than genus.
 This argument does not reduce the number of classifications, but only trims the RDP lineages to the specified level.
 This may create duplicate lineages, for which the classification counts are summed, and only unique lineages are present in the returned data frame.
+
+Change \code{quiet} to FALSE to enable printing of messages about percentage classification to genus level, omitted sequences, and final range of total counts among all samples.
 }
 
 \value{
@@ -46,15 +49,30 @@ This may create duplicate lineages, for which the classification counts are summ
 }
 
 \examples{
+# An example file
 file <- system.file("extdata/RDP/SMS+12.tab.xz", package = "chem16S")
-RDP <- readRDP(file)
+
+# Default settings
+r0 <- readRDP(file)
+
+# Print a lot of messages
+r1 <- readRDP(file, quiet = FALSE)
+
 # Increase minimum count threshold
 r2 <- readRDP(file, mincount = 500)
+# This should be 3 (i.e., 3 samples have less than 500 counts)
+ncol(r1) - ncol(r2)
+
 # Apply copy-number correction
 r3 <- readRDP(file, cn = TRUE)
+
 # Keep only Archaea
 r4 <- readRDP(file, lineage = "Archaea")
+# This should be TRUE
+all(grepl("Archaea", r4$lineage))
+
 # Truncate taxonomy at phylum
 r5 <- readRDP(file, lowest.level = "phylum")
-
+# This should be TRUE
+all(sapply(strsplit(r5$lineage, ";"), tail, 1) == "phylum")
 }
