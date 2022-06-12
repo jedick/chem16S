@@ -7,9 +7,20 @@ The amino acid compositions of the estimated community proteomes can be used to 
 This example from the [help page for the `plotmet` function](man/plotmet.Rd) shows relatively low *n*<sub>H<sub>2</sub>O</sub> in high-salinity samples from the Baltic Sea obtained by processing 16S rRNA gene sequencing data from [Herlemann et al. (2016)](https://doi.org/10.3389/fmicb.2016.01883).
 
 <!-- Default image is too big
-![plotmet example: Baltic Sea nH2O-ZC plot](inst/images/plotmet.png)
+![chem16S::plotmet example: Baltic Sea nH2O-ZC plot](inst/images/plotmet.png)
 -->
-<img src="inst/images/plotmet.png" width="500" />
+<img src="inst/images/plotmet.png" alt="chem16S::plotmet example: Baltic Sea nH2O-ZC plot" width="500" />
+
+### Reference proteomes
+
+See README.txt and scripts in the [`inst/extdata/refseq`](inst/extdata/refseq) directory for steps used to download protein sequences from the RefSeq database and calculate the total amino acid composition for each NCBI taxonomic ID (taxid).
+
+The `process_refseq.R` script in [`inst/extdata/chem16S`](inst/extdata/chem16S) directory generates the reference proteomes for each viral, archaeal and bacterial genus, family, order, class, and phylum in the RefSeq database as follows:
+
+* Only taxids classified at the species level are used, and archaeal and bacterial taxid with less than 500 sequences are excluded;
+* For each species-level taxid, the total amino acid composition is converted to per-protein mean amino acid composition (this is done so that species with different proteome sizes contribute equally to the reference proteomes of higher-level taxa);
+* For each genus, the mean amino acid compositions of all species-level taxids in that genus are summed and divided by number of taxids to get the amino acid composition of the reference proteome;
+* Analogously, all mean amino acid compositions of all species-level taxids in each family, order, class, and phylum are used to get the reference proteomes for taxa at those levels.
 
 ### Installation
 

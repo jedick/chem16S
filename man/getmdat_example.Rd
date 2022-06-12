@@ -34,14 +34,8 @@ In actual projects, customized getmdat_* functions can be used for more complex 
   A list with two components: \code{metadata} and \code{metrics}.
 }
 
-\references{
-
-XXX
-
-}
-
 \examples{
-# Get metrics for the Bison Pool dataset
+# Get metrics for the Bison Pool dataset (Swingley et al., 2012)
 RDPfile <- system.file("extdata/RDP/SMS+12.tab.xz", package = "chem16S")
 RDP <- readRDP(RDPfile)
 map <- mapRDP(RDP)
