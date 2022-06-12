@@ -14,7 +14,7 @@ Reads RDP Classifier output and optionally applis copy-number correction, extrac
 \arguments{
   \item{file}{character, file name}
   \item{lineage}{character, regular expression for filtering lineages}
-  \item{mincount}{integer, minimum classification count for each sample}
+  \item{mincount}{integer, samples with less than this number of RDP classifications are excluded}
   \item{lowest.level}{character, truncate classifications at this taxonomic level}
   \item{cn}{logical, adjust counts for 16S rRNA gene copy number?}
   \item{quiet}{logical, suppress printed messages?}
