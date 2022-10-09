@@ -58,7 +58,7 @@ readRDP <- function(file, lineage = NULL, mincount = 200, lowest.level = NULL, c
     precount <- sum(out[, icol])
     irow <- grepl(lineage, out$lineage)
     if(!any(irow)) stop(paste("nothing available for lineage =", lineage))
-    out <- out[irow, ]
+    out <- out[irow, , drop = FALSE]
     if(!quiet) {
       postcount <- sum(out[, icol])
       lpercent <- formatC(postcount / precount * 100, 1, format = "f")
@@ -70,7 +70,7 @@ readRDP <- function(file, lineage = NULL, mincount = 200, lowest.level = NULL, c
 
   # Keep the rows with any counts > 0
   groupcounts <- rowSums(out[, icol, drop = FALSE])
-  out <- out[groupcounts > 0, ]
+  out <- out[groupcounts > 0, , drop = FALSE]
 
   if(!quiet) {
     # Get the number of counts classified at genus level
@@ -92,12 +92,12 @@ readRDP <- function(file, lineage = NULL, mincount = 200, lowest.level = NULL, c
   isrm <- RDPgroups %in% rmgroups
   if(any(isrm)) {
     irm <- which(isrm)
-    rmpercent <- round(rowSums(out[irm, icol]) / sum(totalcounts) * 100, 1)
+    rmpercent <- round(rowSums(out[irm, icol, drop = FALSE]) / sum(totalcounts) * 100, 1)
     for(i in seq_along(irm)) {
       # Only print message if removed group is >= 0.1% 20200927
       if(!quiet & rmpercent[i] >= 0.1) print(paste0("readRDP [", basefile, "]: removing ", RDPgroups[irm[i]], " (", rmpercent[i], "%)"))
     }
-    out <- out[!isrm, ] 
+    out <- out[!isrm, , drop = FALSE] 
   }
   # Recalculate total counts
   totalcounts <- colSums(out[, icol, drop = FALSE])

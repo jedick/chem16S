@@ -2,7 +2,7 @@
 # Moved to chem16S 20220505
 
 plotmet <- function(mdat, identify = FALSE, title = TRUE, xlim = NULL, ylim = NULL,
-  plot.it = TRUE, points = TRUE, lines = FALSE, pch1 = 1, pch2 = 21,
+  plot.it = TRUE, points = TRUE, lines = FALSE, cex = 1, pch1 = 1, pch2 = 21,
   return = "data", extracolumn = NULL, add = FALSE, plot.bg = TRUE) {
 
   # Get pch and col
@@ -24,12 +24,14 @@ plotmet <- function(mdat, identify = FALSE, title = TRUE, xlim = NULL, ylim = NU
       if(plot.bg) lmlines()
       # Plot points for samples
       ifill <- pch > 20
-      points(ZC[ifill], nH2O[ifill], pch = pch[ifill], col = 1, bg = col[ifill])
-      points(ZC[!ifill], nH2O[!ifill], pch = pch[!ifill], col = col[!ifill])
+      points(ZC[ifill], nH2O[ifill], pch = pch[ifill], col = 1, bg = col[ifill], cex = cex)
+      points(ZC[!ifill], nH2O[!ifill], pch = pch[!ifill], col = col[!ifill], cex = cex)
     }
     if(lines) lines(ZC, nH2O, lty = 3)
-    if(isTRUE(title)) title(na.omit(mdat$metadata$name)[1], font.main = 1)
-    else if(!isFALSE(title)) title(title, font.main = 1)
+    if(isTRUE(title)) {
+      iname <- match("name", tolower(colnames(mdat$metadata)))
+      title(na.omit(mdat$metadata[, iname])[1], font.main = 1)
+    } else if(!isFALSE(title)) title(title, font.main = 1)
     # Identify points 20200903
     if(identify) {
       identify(ZC, nH2O, mdat$metrics$sample)
@@ -58,7 +60,8 @@ plotmet <- function(mdat, identify = FALSE, title = TRUE, xlim = NULL, ylim = NU
   # Return either the means or individual values 20210831
   if(return == "means") out <- means
   if(return == "data") {
-    name <- na.omit(mdat$metadata$name)[1]
+    iname <- match("name", tolower(colnames(mdat$metadata)))
+    name <- na.omit(mdat$metadata[, iname])[1]
     out <- data.frame(name = name, mdat$metrics, pch = pch, col = col)
     if(!is.null(extracolumn)) {
       # Add an extra column (e.g. 'type') to the output 20210901

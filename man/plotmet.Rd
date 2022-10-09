@@ -10,7 +10,7 @@ Functions to plot chemical metrics (\ZC and \nH2O) for estimated community prote
 \usage{
   plotmet(mdat, identify = FALSE, title = TRUE,
     xlim = NULL, ylim = NULL, plot.it = TRUE, points = TRUE, lines = FALSE,
-    pch1 = 1, pch2 = 21, return = "data",
+    cex = 1, pch1 = 1, pch2 = 21, return = "data",
     extracolumn = NULL, add = FALSE, plot.bg = TRUE)
   addhull(x, y, basecol, outline = FALSE, ...)
 }
@@ -24,6 +24,7 @@ Functions to plot chemical metrics (\ZC and \nH2O) for estimated community prote
   \item{plot.it}{logical, make a plot?}
   \item{points}{logical, plot points?}
   \item{lines}{logical, plot lines?}
+  \item{cex}{numeric, point size}
   \item{pch1}{numeric, symbol for samples in group 1}
   \item{pch2}{numeric, symbol for samples in group 2}
   \item{return}{character, indicates whether to return \samp{data} values or group \samp{means}}

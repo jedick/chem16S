@@ -1,7 +1,7 @@
-Date: 2022-07-04
+Date: 2022-08-14
 Package: chem16S
-Version: 0.1.0
-Title: Chemical Metrics of Estimated Community Proteomes from 16S rRNA Data
+Version: 0.1.0-1
+Title: Chemical Metrics of Estimated Community Proteomes from 16S rRNA Gene Sequences
 Authors@R: c(
     person("Jeffrey", "Dick", , "jeff@chnosz.net", role = c("aut", "cre"),
       comment = c(ORCID = "0000-0002-0687-5890"))

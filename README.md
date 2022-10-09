@@ -1,4 +1,7 @@
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6793059.svg)](https://doi.org/10.5281/zenodo.6793059)
+
 # chem16S
+
 ### Chemical metrics of estimated community proteomes from 16S rRNA data
 
 This R package implements the method described in [Dick and Tan (2022)](https://doi.org/10.1007/s00248-022-01988-9) for combining **RDP Classifier** output with **reference proteomes** of archaea and bacteria to generate the amino acid compositions of **estimated community proteomes**.
