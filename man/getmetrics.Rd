@@ -3,7 +3,7 @@
 \alias{getmetrics}
 \title{Calculate chemical metrics from RDP classifications and RefSeq reference proteomes}
 \description{
-Combines RDP classifications with RefSeq reference proteomes to get amino acid compositions of estimated community proteomes.
+Combines RDP classifications with RefSeq reference proteomes to get amino acid compositions of community reference proteomes.
 Amino acid compositions are used to calculate calculate chemical metrics (\ZC and \nH2O).
 }
 
@@ -20,9 +20,9 @@ Amino acid compositions are used to calculate calculate chemical metrics (\ZC an
 
 \details{
 
-\code{getmetrics} calculates the carbon oxidation state (\ZC) and stoichiometric hydration state (\nH2O) for the estimated community proteome in each sample.
-The estimated community proteome is computed as the weighted mean of amino acid compositions of reference proteomes for taxa, where weights are the RDP classification counts.
-Then, \ZC and \nH2O are calculated from the amino acid composition of the estimated community proteome with the \code{\link[canprot]{ZCAA}} and \code{\link[canprot]{H2OAA}} functions.
+\code{getmetrics} calculates the carbon oxidation state (\ZC) and stoichiometric hydration state (\nH2O) for the community reference proteome in each sample.
+The community reference proteome is computed as the weighted mean of amino acid compositions of reference proteomes for taxa, where weights are the RDP classification counts.
+Then, \ZC and \nH2O are calculated from the amino acid composition of the community reference proteome with the \code{\link[canprot]{ZCAA}} and \code{\link[canprot]{H2OAA}} functions.
 
 }
 

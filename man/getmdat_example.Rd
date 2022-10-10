@@ -46,7 +46,7 @@ mdat <- getmdat_example(mdatfile, metrics)
 
 # Print sample names
 mdat$metadata$Sample # 1 2 3 4 5
-# Plot ZC of estimated community proteomes at sites 1-5
+# Plot ZC of community reference proteomes at sites 1-5
 Site <- mdat$metadata$Sample
 ZC <- mdat$metrics$ZC
 plot(Site, ZC, ylab = "Carbon oxidation state", type = "b")

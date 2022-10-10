@@ -2,11 +2,11 @@
 
 # chem16S
 
-### Chemical metrics of estimated community proteomes from 16S rRNA data
+### Chemical metrics of community reference proteomes from 16S rRNA data
 
-This R package implements the method described in [Dick and Tan (2022)](https://doi.org/10.1007/s00248-022-01988-9) for combining **RDP Classifier** output with **reference proteomes** of archaea and bacteria to generate the amino acid compositions of **estimated community proteomes**.
+This R package implements the method described in [Dick and Tan (2022)](https://doi.org/10.1007/s00248-022-01988-9) for combining **RDP Classifier** output with **reference proteomes** of archaea and bacteria to generate the amino acid compositions of **community reference proteomes**.
 
-The amino acid compositions of the estimated community proteomes can be used to calculate chemical metrics such as **carbon oxidation state** (*Z*<sub>C</sub>) and **stoichiometric hydration state** (*n*<sub>H<sub>2</sub>O</sub>).
+The amino acid compositions of the community reference proteomes can be used to calculate chemical metrics such as **carbon oxidation state** (*Z*<sub>C</sub>) and **stoichiometric hydration state** (*n*<sub>H<sub>2</sub>O</sub>).
 This example from the help page for the [`plotmet`](man/plotmet.Rd) function shows relatively low *n*<sub>H<sub>2</sub>O</sub> in high-salinity samples from the Baltic Sea obtained by processing 16S rRNA gene sequencing data from [Herlemann et al. (2016)](https://doi.org/10.3389/fmicb.2016.01883).
 
 <!-- Default image is too big
@@ -14,7 +14,7 @@ This example from the help page for the [`plotmet`](man/plotmet.Rd) function sho
 -->
 <img src="inst/images/plotmet.png" alt="chem16S::plotmet example: Baltic Sea nH2O-ZC plot" width="500" />
 
-### Reference proteomes
+### Reference proteomes for taxa
 
 See README.txt and scripts in the [`inst/extdata/refseq`](inst/extdata/refseq) directory for steps used to download protein sequences from the RefSeq database and calculate the total amino acid composition for each NCBI taxonomic ID (taxid).
 

@@ -2,9 +2,9 @@
 \name{plotmet}
 \alias{plotmet}
 \alias{addhull}
-\title{Plot chemical metrics of estimated community proteomes}
+\title{Plot chemical metrics of community reference proteomes}
 \description{
-Functions to plot chemical metrics (\ZC and \nH2O) for estimated community proteomes.
+Functions to plot chemical metrics (\ZC and \nH2O) for community reference proteomes.
 }
 
 \usage{

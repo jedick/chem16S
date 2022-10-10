@@ -1,4 +1,4 @@
-# Plot chemical metrics for estimated community proteomes 20200901
+# Plot chemical metrics for community reference proteomes 20200901
 # Moved to chem16S 20220505
 
 plotmet <- function(mdat, identify = FALSE, title = TRUE, xlim = NULL, ylim = NULL,
