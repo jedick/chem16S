@@ -1,4 +1,10 @@
-CHANGES IN chem16 0.1.0
------------------------
+CHANGES IN chem16S 0.1.1
+------------------------
+
+- 20221011 Add 'cex' argument to plotmet(), don't drop dimensions in readRDP(),
+  and change "estimated community proteomes" to "community reference proteomes".
+
+CHANGES IN chem16S 0.1.0
+------------------------
 
 - 20220704 First release
