@@ -1,7 +1,7 @@
 # chem16S/RefSeq/taxon_AA.R
 
 # Functions to generate amino acid compositions and chemical metrics of
-# higher-level taxa from RefSeq species-level reference proteomes (protein.refseq.R)
+# higher-level taxa from RefSeq species-level reference proteomes (protein_refseq.R)
 
 # Calculate amino acid composition of taxonomic groups at genus and higher ranks --> taxon_AA.csv
 # taxon_AA()       
@@ -12,8 +12,8 @@
 taxon_AA <- function(ranks = c("genus", "family", "order", "class", "phylum", "superkingdom")) {
 
   # Read RefSeq amino acid compositions and taxon names
-  refseq <- read.csv(system.file("extdata/refseq/protein_refseq.csv.xz", package = "chem16S"), as.is = TRUE)
-  taxa <- read.csv(system.file("extdata/refseq/taxid_names.csv.xz", package = "chem16S"), as.is = TRUE)
+  refseq <- read.csv(system.file("extdata/RefSeq/protein_refseq.csv.xz", package = "JMDplots"), as.is = TRUE)
+  taxa <- read.csv(system.file("extdata/RefSeq/taxid_names.csv.xz", package = "JMDplots"), as.is = TRUE)
   # Make sure the data tables have consistent taxids
   stopifnot(all(refseq$organism == taxa$taxid))
   # Keep taxids classified at species level 20220104

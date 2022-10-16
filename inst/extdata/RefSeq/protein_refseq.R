@@ -1,4 +1,4 @@
-# chem16S/inst/extdata/protein.refseq.R
+# chem16S/RefSeq/protein_refseq.R
 # Calculate the overall amino acid composition of proteins for each taxid in RefSeq
 # 20100704 First version
 # 20130922 Deal with WP multispecies accessions (RefSeq 61)

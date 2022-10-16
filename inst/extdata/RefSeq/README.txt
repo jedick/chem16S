@@ -7,8 +7,8 @@ taxid_names.csv: taxid, phylum name and species name for 49448 taxa
 
 # These functions/scripts have the following purpose (output files listed in parentheses):
 gencat.sh - extract accession, taxid, sequence length from RefSeq release catalog (accession.taxid.txt)
-protein.refseq.R - get average amino acid composition for each taxid from gzipped sequence files (protein_refseq.csv)
-taxid.names.R - get taxonomic names for each taxid represented (taxid_names.csv)
+protein_refseq.R - get average amino acid composition for each taxid from gzipped sequence files (protein_refseq.csv)
+taxid_names.R - get taxonomic names for each taxid represented (taxid_names.csv)
 
 ## Download stuff
 
@@ -38,17 +38,17 @@ wget -N -i urllist
 7. Generate protein_refseq.csv
    mkdir csv
    Then, run these R commands in the working directory that contains accession.taxid.txt, protein/, and csv/
-   > source("protein.refseq.R")
+   > source("protein_refseq.R")
    > read.allfiles()    # ca. 19 hours (8 cores)
    > protein.refseq()   # 5 minutes
 
 ## Taxonomy stuff
 
-8. Edit 'taxid.names.R' so that 'taxdir' points to the directory where the files
+8. Edit 'taxid_names.R' so that 'taxdir' points to the directory where the files
     'names.dmp' and 'nodes.dmp' are present. These files can be downloaded from
     https://ftp.ncbi.nih.gov/pub/taxonomy/taxdump.tar.gz
 
     File info on server (accessed on 2021-05-21):
     taxdump.tar.gz            2021-05-21 21:27   53M
 
-9. Source 'taxid.names.R' to generate the file 'taxid_names.csv' [8 hours]
+9. Source 'taxid_names.R' to generate the file 'taxid_names.csv' [8 hours]

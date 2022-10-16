@@ -36,23 +36,24 @@ This package is used to make plots for the \samp{geo16S} and \samp{orp16S} paper
 
   \describe{
 
-    \item{\file{README.txt}}{README describing steps to generate reference proteomes of species-level taxa (including downloading and shell commands)}
-    \item{\file{protein.refseq.R}}{R code for processing RefSeq files}
-    \item{\file{taxid.names.R}}{R code for processing taxonomic IDs}
-
-    \item{\file{protein_refseq.csv.xz}}{
-      Reference proteomes: summed amino acid compositions of all proteins for each bacterial, archaeal, and viral taxon in the NCBI Reference Sequence database
+    \item{\file{README.txt}}{Description of steps to generate reference proteomes of species-level taxa (including downloads and shell commands).}
+    \item{\file{gencat.sh}}{Helper script to extract microbial protein records from the RefSeq catalog.}
+    \item{\file{protein_refseq.R}}{
+      R code to sum the amino acid compositions of all proteins for each bacterial, archaeal, and viral species in the NCBI Reference Sequence database.
+      The output file is \file{protein_refseq.csv}.
       The first five columns are: \code{protein} (\dQuote{refseq}), \code{organism} (taxonomic id), \code{ref} (organism name), \code{abbrv} (empty), \code{chains} (number of protein sequences for this organism).
       Columns 6 to 25 have the counts of amino acids.
     }
-
-    \item{\file{taxid_names.csv.xz}}{
-      Columns with NCBI taxonomic ID (taxid), and names at different taxonomic rank (species, genus, family, order, class, phylum, superkingdom).
+    \item{\file{taxid_names.R}}{
+      R code for processing taxonomic IDs; the output file is \file{taxid_names.csv}.
+      The columns are NCBI taxonomic ID (taxid), and names at different taxonomic rank (species, genus, family, order, class, phylum, superkingdom).
     }
+
+    \item{NOTE}{To save space, the two above-mentioned CSV output files are not stored here but are in the \code{extdata/RefSeq} directory of the JMDplots package on GitHub (\url{https://github.com/jedick/JMDplots}.}
 
     \item{\file{taxon_AA.R}}{Functions to create the files listed below:}
     \item{\file{taxon_AA.csv}}{Average amino acid composition of reference proteomes for all species in each genus and at higher taxonomic ranks.}
-    \item{\file{taxon_metrics.csv}}{Chemical metrics (\ZC and \nH2O) for each RefSeq group.}
+    \item{\file{taxon_metrics.csv}}{Chemical metrics (\ZC and \nH2O) for amino acid composition of taxa at genus and higher ranks.}
   }
 
 
