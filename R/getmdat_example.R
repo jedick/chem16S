@@ -15,8 +15,8 @@ getmdat_example <- function(file, metrics = NULL) {
   if(basefile == "BGPF13.csv") {
     # Bowen De León et al., (2013)
     # Heart Lake Geyser Basin, Yellowstone
-    pch <- sapply(metadata$cohort, switch, Bacteria = 22, Archaea = 23)
-    col <- sapply(metadata$cohort, switch, Bacteria = 5, Archaea = 6)
+    pch <- sapply(metadata$domain, switch, Bacteria = 22, Archaea = 23)
+    col <- sapply(metadata$domain, switch, Bacteria = 5, Archaea = 6)
   }
   if(basefile == "SMS+12.csv") {
     # Swingley et al. (2012)

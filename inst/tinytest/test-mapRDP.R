@@ -14,7 +14,7 @@ expect_equal(sum(attr(map, "unmapped_percent")), NAcounts / allcounts * 100)
 
 info <- "For the test file, 53 RDP and NCBI names are identical and 2 are different"
 # Read amino acid compositions of reference proteomes for genus and higher taxonomic groups from NCBI RefSeq`
-AAfile <- system.file("extdata/RefSeq/taxon_AA.csv", package = "chem16S")
+AAfile <- system.file("extdata/RefSeq/taxon_AA.csv.xz", package = "chem16S")
 AA <- read.csv(AAfile, as.is = TRUE)
 # Make names by combining rank and name
 NCBIname <- paste(AA$protein, AA$organism, sep = "_")[map]

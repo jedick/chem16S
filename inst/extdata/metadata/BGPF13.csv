@@ -1,4 +1,4 @@
-study,name,Run,BioSample,sample,type,cohort
+study,name,Run,BioSample,sample,type,domain
 BGPF13,"Heart Lake Geyser Basin",SRR900426,SAMN02191954,HLGB_44_2007,hydrothermal,Archaea
 BGPF13,"Heart Lake Geyser Basin",SRR900427,SAMN02191955,HLGB_44_2008,hydrothermal,Bacteria
 BGPF13,"Heart Lake Geyser Basin",SRR900428,SAMN02191955,HLGB_44_2008,hydrothermal,Archaea

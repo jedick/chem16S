@@ -1,17 +1,20 @@
 # chem16S/getmetrics.R
 # Get chemical metrics from RDP classifications and RefSeq reference proteomes 20200927
 # Moved to chem16S 20220505
+# Add refdb argument 20221016
 
-getmetrics <- function(RDP = NULL, map = NULL, taxon_AA = NULL, groups = NULL) {
+getmetrics <- function(RDP = NULL, map = NULL, refdb = "RefSeq", taxon_AA = NULL, groups = NULL) {
 
   # Exclude NA mappings
   RDP <- RDP[!is.na(map), ]
   map <- na.omit(map)
   if(length(map) == 0) stop("no available mappings RefSeq taxa!")
 
-  # Get amino acid compositions of taxa compiled from RefSeq sequences
-  # (no longer using precompiled metrics in taxon_metrics.csv 20220108)
-  AAfile <- system.file("extdata/RefSeq/taxon_AA.csv", package = "chem16S")
+  # Get amino acid compositions of taxa compiled from:
+  #   - RefSeq sequences (no longer using precompiled metrics in taxon_metrics.csv 20220108) or
+  #   - GTDB marker proteins 20221016
+  AApath <- file.path("extdata", refdb, "taxon_AA.csv.xz")
+  AAfile <- system.file(AApath, package = "chem16S")
   if(is.null(taxon_AA)) taxon_AA <- read.csv(AAfile, as.is = TRUE)
   # Keep only those taxa used in the mapping
   taxon_AA <- taxon_AA[map, ]
@@ -49,9 +52,9 @@ getmetrics <- function(RDP = NULL, map = NULL, taxon_AA = NULL, groups = NULL) {
       ZC <- c(ZC, ZCAA(AAcomp))
       nH2O <- c(nH2O, H2OAA(AAcomp))
     }
-    sample <- names(groups)
-    if(is.null(sample)) sample <- 1:length(groups)
-    out <- data.frame(Run = rep(NA, length(groups)), sample = sample, nH2O = nH2O, ZC = ZC)
+    group <- names(groups)
+    if(is.null(group)) group <- 1:length(groups)
+    out <- data.frame(group = group, nH2O = nH2O, ZC = ZC)
   }
 
   rownames(out) <- 1:nrow(out)

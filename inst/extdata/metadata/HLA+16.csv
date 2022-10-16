@@ -1,4 +1,4 @@
-study,name,Run,BioSample,sample,type,cohort,depth,salinity,temperature
+study,name,Run,BioSample,sample,type,domain,depth,salinity,temperature
 HLA+16,"Baltic Sea",ERR215808,SAMEA1696215,S1,Marine,Summer,10,10.5,16.6
 HLA+16,"Baltic Sea",ERR215790,SAMEA1696353,S101,Mesohaline,Summer,20,6.5,7.2
 HLA+16,"Baltic Sea",ERR215925,SAMEA1696319,S104,Mesohaline,Summer,17,6.2,6.8

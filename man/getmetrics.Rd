@@ -8,13 +8,14 @@ Amino acid compositions are used to calculate calculate chemical metrics (\ZC an
 }
 
 \usage{
-  getmetrics(RDP, map, taxon_AA = NULL, groups = NULL)
+  getmetrics(RDP, map, refdb = "RefSeq", taxon_AA = NULL, groups = NULL)
 }
 
 \arguments{
   \item{RDP}{data frame, output from \code{\link{readRDP}}}
   \item{map}{data frame, output from \code{\link{mapRDP}}}
-  \item{taxon_AA}{data frame, content of \code{extdata/RefSeq/taxon_AA.csv} (used for speed-up)}
+  \item{refdb}{character, name of reference database (\samp{RefSeq} or \samp{GTDB})}
+  \item{taxon_AA}{data frame, content of \code{extdata/RefSeq/taxon_AA.csv.xz} (used for speed-up)}
   \item{groups}{list, indexing vectors to identify groups of samples whose taxonomic classifications are aggregated before calculating amino acid composition and chemical metrics}
 }
 
@@ -31,19 +32,39 @@ Then, \ZC and \nH2O are calculated from the amino acid composition of the commun
 }
 
 \examples{
+## First two examples are for RDP Classifier with default training set
+## and mapping to NCBI taxonomy with RefSeq reference proteomes
+
 # Get chemical metrics for all samples in a dataset
 RDPfile <- system.file("extdata/RDP/BGPF13.tab.xz", package = "chem16S")
 RDP <- readRDP(RDPfile)
 map <- mapRDP(RDP)
-metrics <- getmetrics(RDP, map)
+# This is a data frame with 14 rows and Run, nH2O, and ZC columns
+(metrics <- getmetrics(RDP, map))
 
 # Read the metadata file
 mdatfile <- system.file("extdata/metadata/BGPF13.csv", package = "chem16S")
-mdat <- getmdat_example(mdatfile)
-# Make sure samples are in same order
-stopifnot(mdat$Run == metrics$Run)
-
+# Create list with metadata and metrics in same sample order
+mdat <- getmdat_example(mdatfile, metrics)
 # Calculate metrics for aggregated samples of Archaea and Bacteria
-groups <- list(A = mdat$cohort == "Archaea", B = mdat$cohort == "Bacteria")
+groups <- list(A = mdat$metadata$domain == "Archaea", B = mdat$metadata$domain == "Bacteria")
+# This is a data frame with 2 rows and group, nH2O, and ZC columns
 getmetrics(RDP, map, groups = groups)
+
+## Third example is for RDP Classifer with GTDB SSU training set
+## and mapping to GTDB taxonomy with GTDB marker genes
+
+RDPfile_GTDB <- system.file("extdata/RDP-GTDB/BGPF13.tab.xz", package = "chem16S")
+RDP_GTDB <- readRDP(RDPfile_GTDB)
+map_GTDB <- mapRDP(RDP_GTDB)
+metrics_GTDB <- getmetrics(RDP_GTDB, map_GTDB)
+
+# Plot ZC from GTDB vs RefSeq
+xylim <- range(metrics$ZC, metrics_GTDB$ZC)
+plot(metrics$ZC, metrics_GTDB$ZC, xlim = xylim, ylim = xylim, type = "n")
+lines(xylim, xylim, lty = 2, col = 8)
+points(metrics$ZC, metrics_GTDB$ZC, pch = mdat$metadata$pch, bg = mdat$metadata$col)
+md.leg <- mdat$metadata[1:2, ]
+legend("bottomright", md.leg$domain, pch = md.leg$pch, pt.bg = md.leg$col)
+title(quote(italic(Z)[C]~"from GTDB vs RefSeq"))
 }
