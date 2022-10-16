@@ -1,14 +1,15 @@
-# chem16S/process_refseq.R
+# chem16S/RefSeq/taxon_AA.R
 
-# Functions to create intermediate data files from RefSeq amino acid compositions
+# Functions to generate amino acid compositions and chemical metrics of
+# higher-level taxa from RefSeq species-level reference proteomes (protein.refseq.R)
 
 # Calculate amino acid composition of taxonomic groups at genus and higher ranks --> taxon_AA.csv
-# mkAA()       
+# taxon_AA()       
 # Calculate chemical metrics (nH2O, ZC) for each RefSeq group --> taxon_metrics.csv
-# mkmetrics()         
+# taxon_metrics()         
 
 # Calculate average amino acid composition of genus and higher ranks in RefSeq 20200911
-mkAA <- function(ranks = c("genus", "family", "order", "class", "phylum", "superkingdom")) {
+taxon_AA <- function(ranks = c("genus", "family", "order", "class", "phylum", "superkingdom")) {
 
   # Read RefSeq amino acid compositions and taxon names
   refseq <- read.csv(system.file("extdata/refseq/protein_refseq.csv.xz", package = "chem16S"), as.is = TRUE)
@@ -106,7 +107,7 @@ mkAA <- function(ranks = c("genus", "family", "order", "class", "phylum", "super
 }
 
 # Compute chemical metrics for each RefSeq group 20200927
-mkmetrics <- function() {
+taxon_metrics <- function() {
   # Read amino acid compositions of all groups
   AA <- read.csv("taxon_AA.csv", as.is = TRUE)
   # Build output data frame; rename columns for better readability
@@ -118,7 +119,7 @@ mkmetrics <- function() {
   write.csv(out, "taxon_metrics.csv", row.names = FALSE, quote = FALSE)
 }
 
-# Function used in mkmetrics() to calculate number of carbon atoms in amino acid compositions 20200927
+# Function used in taxon_metrics() to calculate number of carbon atoms in amino acid compositions 20200927
 CAA <- function(AAcomp) {
   # the number of carbons of the amino acids
   nC_AA <- c(Ala = 3, Cys = 3, Asp = 4, Glu = 5, Phe = 9, Gly = 2, His = 6, 
@@ -134,4 +135,4 @@ CAA <- function(AAcomp) {
   nCtot <- rowSums(multC)
   nCtot / rowSums(AAcomp[, isAA])
 }
-
+al

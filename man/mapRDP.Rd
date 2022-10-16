@@ -18,7 +18,7 @@ Maps RDP classifications to NCBI taxonomy by automatic matching of taxonomic nam
 \details{
 \code{getmap} maps RDP names to the NCBI taxonomy.
 RDP group names are made by combining the rank and name with an underscore separator (e.g. \samp{genus_Escherichia/Shigella}).
-The group names are then matched to the NCBI taxa listed in \code{extdata/chem16S/taxon_AA.csv}.
+The group names are then matched to the NCBI taxa listed in \code{extdata/RefSeq/taxon_AA.csv}.
 The \code{protein} and \code{organism} columns in this file hold the rank and taxon name extracted from the RefSeq database.
 Only exactly matching names are automatically mapped.
 

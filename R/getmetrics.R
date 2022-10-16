@@ -11,7 +11,7 @@ getmetrics <- function(RDP = NULL, map = NULL, taxon_AA = NULL, groups = NULL) {
 
   # Get amino acid compositions of taxa compiled from RefSeq sequences
   # (no longer using precompiled metrics in taxon_metrics.csv 20220108)
-  AAfile <- system.file("extdata/chem16S/taxon_AA.csv", package = "chem16S")
+  AAfile <- system.file("extdata/RefSeq/taxon_AA.csv", package = "chem16S")
   if(is.null(taxon_AA)) taxon_AA <- read.csv(AAfile, as.is = TRUE)
   # Keep only those taxa used in the mapping
   taxon_AA <- taxon_AA[map, ]

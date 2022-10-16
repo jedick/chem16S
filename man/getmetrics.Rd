@@ -14,7 +14,7 @@ Amino acid compositions are used to calculate calculate chemical metrics (\ZC an
 \arguments{
   \item{RDP}{data frame, output from \code{\link{readRDP}}}
   \item{map}{data frame, output from \code{\link{mapRDP}}}
-  \item{taxon_AA}{data frame, content of \code{extdata/chem16S/taxon_AA.csv} (used for speed-up)}
+  \item{taxon_AA}{data frame, content of \code{extdata/RefSeq/taxon_AA.csv} (used for speed-up)}
   \item{groups}{list, indexing vectors to identify groups of samples whose taxonomic classifications are aggregated before calculating amino acid composition and chemical metrics}
 }
 

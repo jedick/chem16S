@@ -125,7 +125,7 @@ readRDP <- function(file, lineage = NULL, mincount = 200, lowest.level = NULL, c
   # Adjust counts for 16S rRNA gene copy number 20200927
   if(cn) {
     # Data from rdp_classifier_2.13/src/data/classifier/16srrna/bergeyTrainingTree.xml (20200720)
-    bergey <- read.csv(system.file("extdata/chem16S/bergeyTrainingTree.csv", package = "chem16S"))
+    bergey <- read.csv(system.file("extdata/RDP/bergeyTrainingTree.csv", package = "chem16S"))
     # Paste together rank and name
     RDPgroups <- paste(out$rank, out$name, sep = "_")
     bergeygroups <- paste(bergey$rank, bergey$name, sep = "_")

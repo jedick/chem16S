@@ -72,7 +72,7 @@ mapRDP <- function(RDP = NULL, quiet = TRUE) {
   }
 
   # Read amino acid compositions of reference proteomes for genus and higher taxonomic groups from NCBI RefSeq
-  AAfile <- system.file("extdata/chem16S/taxon_AA.csv", package = "chem16S")
+  AAfile <- system.file("extdata/RefSeq/taxon_AA.csv", package = "chem16S")
   taxon_AA <- read.csv(AAfile, as.is = TRUE)
   AAgroups <- paste(taxon_AA$protein, taxon_AA$organism, sep = "_")
   # Do the mapping!

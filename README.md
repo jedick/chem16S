@@ -18,7 +18,7 @@ This example from the help page for the [`plotmet`](man/plotmet.Rd) function sho
 
 See README.txt and scripts in the [`inst/extdata/refseq`](inst/extdata/refseq) directory for steps used to download protein sequences from the RefSeq database and calculate the total amino acid composition for each NCBI taxonomic ID (taxid).
 
-The `process_refseq.R` script in the [`inst/extdata/chem16S`](inst/extdata/chem16S) directory generates the reference proteomes for each viral, archaeal and bacterial genus, family, order, class, and phylum in the RefSeq database as follows:
+The `taxon_AA.R` script in the [`inst/extdata/chem16S`](inst/extdata/chem16S) directory generates the reference proteomes for each viral, archaeal and bacterial genus, family, order, class, and phylum in the RefSeq database as follows:
 
 * Only taxids classified at the species level are used, and archaeal and bacterial species with less than 500 reference protein sequences are excluded;
 * For each species-level taxid, the total amino acid composition is converted to per-protein mean amino acid composition (this is done so that species with different proteome sizes contribute equally to the reference proteomes of higher-level taxa);

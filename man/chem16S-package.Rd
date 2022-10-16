@@ -28,13 +28,15 @@ This package is used to make plots for the \samp{geo16S} and \samp{orp16S} paper
 
 }
 
-\section{Files in extdata/refseq}{
-  This directory contains the scripts used to process RefSeq sequence files and the resulting CSV files with amino acid compositions of reference proteomes and taxonomic names.
+\section{Files in extdata/RefSeq}{
+  This directory contains two sets of files:
+    1) scripts to process source RefSeq sequence files to generate amino acid compositions of species-level reference proteomes and taxonomic names;
+    2) script and output for amino acid compositions of higher-level taxa.
   The files are based on RefSeq release 206 of 2021-05-21 (O'Leary et al., 2016).
 
   \describe{
 
-    \item{\file{README.txt}}{README describing all steps of the procedure (including downloading and shell commands)}
+    \item{\file{README.txt}}{README describing steps to generate reference proteomes of species-level taxa (including downloading and shell commands)}
     \item{\file{protein.refseq.R}}{R code for processing RefSeq files}
     \item{\file{taxid.names.R}}{R code for processing taxonomic IDs}
 
@@ -48,21 +50,14 @@ This package is used to make plots for the \samp{geo16S} and \samp{orp16S} paper
       Columns with NCBI taxonomic ID (taxid), and names at different taxonomic rank (species, genus, family, order, class, phylum, superkingdom).
     }
 
+    \item{\file{taxon_AA.R}}{Functions to create the files listed below:}
+    \item{\file{taxon_AA.csv}}{Average amino acid composition of reference proteomes for all species in each genus and at higher taxonomic ranks.}
+    \item{\file{taxon_metrics.csv}}{Chemical metrics (\ZC and \nH2O) for each RefSeq group.}
   }
+
 
 }
 
-
-\section{Files in extdata/chem16S}{
-
-  \describe{
-    \item{\file{bergeyTrainingTree.csv}}{Data from \code{bergeyTrainingTree.xml} in the RDP Classifier package version 2.1.3 (\url{https://sourceforge.net/projects/rdp-classifier/}), used for copy-number adjustment.}
-    \item{\file{process_refseq.R}}{Functions to create the processed data files listed below:}
-    \item{\file{taxon_AA.csv}}{Average amino acid composition of reference proteomes for all species in each genus and at higher taxonomic ranks. (\code{process.R:mkAA})}
-    \item{\file{taxon_metrics.csv}}{Chemical metrics (\ZC and \nH2O) for each RefSeq group. (\code{process.R:mkmetrics})}
-  }
-
-}
 
 \section{Files in extdata/metadata}{
 
@@ -81,6 +76,7 @@ This package is used to make plots for the \samp{geo16S} and \samp{orp16S} paper
     \item{\file{BGPF13.tab.xz}}{RDP Classifier output for the 16S rRNA dataset of Heart Lake Geyser Basin.}
     \item{\file{HLA+16.tab.xz}}{RDP Classifier output for the 16S rRNA dataset of the Baltic Sea.}
     \item{\file{SMS+12.tab.xz}}{RDP Classifier output for the 16S rRNA dataset of Bison Pool.}
+    \item{\file{bergeyTrainingTree.csv}}{Data from \code{bergeyTrainingTree.xml} in the RDP Classifier package version 2.1.3 (\url{https://sourceforge.net/projects/rdp-classifier/}), used for copy-number adjustment (this option is not active by default).}
   }
 
 }
