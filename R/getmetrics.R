@@ -3,7 +3,7 @@
 # Moved to chem16S 20220505
 # Add refdb argument 20221016
 
-getmetrics <- function(RDP = NULL, map = NULL, refdb = "RefSeq", taxon_AA = NULL, groups = NULL) {
+getmetrics <- function(RDP = NULL, map = NULL, refdb = "RefSeq", taxon_AA = NULL, groups = NULL, return_AA = FALSE, zero_AA = NULL) {
 
   # Exclude NA mappings
   RDP <- RDP[!is.na(map), ]
@@ -16,8 +16,10 @@ getmetrics <- function(RDP = NULL, map = NULL, refdb = "RefSeq", taxon_AA = NULL
   AApath <- file.path("extdata", refdb, "taxon_AA.csv.xz")
   AAfile <- system.file(AApath, package = "chem16S")
   if(is.null(taxon_AA)) taxon_AA <- read.csv(AAfile, as.is = TRUE)
-  # Keep only those taxa used in the mapping
+  
+  # Apply the mapping
   taxon_AA <- taxon_AA[map, ]
+  # Check that the before and after ranks are equal
   equalrank <- RDP$rank == taxon_AA$protein
   # Don't test particular RDP-NCBI mappings that cross ranks
   iclassCyano <- RDP$rank == "class" & RDP$name == "Cyanobacteria"
@@ -32,16 +34,21 @@ getmetrics <- function(RDP = NULL, map = NULL, refdb = "RefSeq", taxon_AA = NULL
   # Get classification matrix (rows = taxa, columns = samples)
   RDPmat <- as.matrix(RDP[, -(1:4), drop = FALSE])
   # Get amino acid matrix (rows = taxa, columns = amino acid)
-  AAmat <- as.matrix(taxon_AA[, 6:25, drop = FALSE])
+  AAmat <- as.matrix(taxon_AA[, 5:25, drop = FALSE])
 
   if(is.null(groups)) {
     # Calculate amino acid composition for each sample (weighted by taxon abundances)
     AAcomp <- t(RDPmat) %*% AAmat
+    # Check that the number of protein sequences is equal to the number of classifications
+    stopifnot(all(AAcomp[, "chains"] == colSums(RDPmat)))
+    # Set counts of specified amino acids to zero 20221018
+    if(!is.null(zero_AA)) AAcomp[, zero_AA] <- 0
     # Calculate ZC and nH2O from amino acid composition
     ZC <- ZCAA(AAcomp)
     nH2O <- H2OAA(AAcomp)
     # Create output data frame
     out <- data.frame(Run = colnames(RDPmat), nH2O = nH2O, ZC = ZC)
+    if(return_AA) out <- cbind(data.frame(Run = colnames(RDPmat)), AAcomp)
   } else {
     # Split data into sample groups and calculate metrics for each group 20210607
     nH2O <- ZC <- numeric()
@@ -49,16 +56,18 @@ getmetrics <- function(RDP = NULL, map = NULL, refdb = "RefSeq", taxon_AA = NULL
       # Use rowSums to combine all samples in each group into one meta-sample
       thisRDP <- rowSums(RDPmat[, groups[[i]], drop = FALSE])
       AAcomp <- t(thisRDP) %*% AAmat
+      # Set counts of specified amino acids to zero 20221018
+      if(!is.null(zero_AA)) AAcomp[, zero_AA] <- 0
       ZC <- c(ZC, ZCAA(AAcomp))
       nH2O <- c(nH2O, H2OAA(AAcomp))
     }
     group <- names(groups)
     if(is.null(group)) group <- 1:length(groups)
     out <- data.frame(group = group, nH2O = nH2O, ZC = ZC)
+    if(return_AA) out <- cbind(data.frame(group = group), AAcomp)
   }
 
   rownames(out) <- 1:nrow(out)
   out
 
 }
-

@@ -1,10 +1,21 @@
-CHANGES IN chem16S 0.1.1
-------------------------
+CHANGES IN chem16S 0.1.2 (2022-10-22)
+-------------------------------------
 
-- 20221011 Add 'cex' argument to plotmet(), don't drop dimensions in readRDP(),
-  and change "estimated community proteomes" to "community reference proteomes".
+- Add 'return_AA' argument to getmetrics() to return amino acid composition.
 
-CHANGES IN chem16S 0.1.0
-------------------------
+- Add and 'zero_AA' argument to getmetrics() specify amino acids with
+  abundances set to zero for calculating chemical metrics.
 
-- 20220704 First release
+CHANGES IN chem16S 0.1.1 (2022-10-11)
+-------------------------------------
+
+- Add 'cex' argument to plotmet().
+
+- Don't drop dimensions in readRDP().
+
+- Change "estimated community proteomes" to "community reference proteomes".
+
+CHANGES IN chem16S 0.1.0 (2022-07-04)
+-------------------------------------
+
+- First release

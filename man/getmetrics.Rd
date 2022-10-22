@@ -8,15 +8,18 @@ Amino acid compositions are used to calculate calculate chemical metrics (\ZC an
 }
 
 \usage{
-  getmetrics(RDP, map, refdb = "RefSeq", taxon_AA = NULL, groups = NULL)
+  getmetrics(RDP, map, refdb = "RefSeq", taxon_AA = NULL, groups = NULL,
+    return_AA = FALSE, zero_AA = NULL)
 }
 
 \arguments{
   \item{RDP}{data frame, output from \code{\link{readRDP}}}
   \item{map}{data frame, output from \code{\link{mapRDP}}}
   \item{refdb}{character, name of reference database (\samp{RefSeq} or \samp{GTDB})}
-  \item{taxon_AA}{data frame, content of \code{extdata/RefSeq/taxon_AA.csv.xz} (used for speed-up)}
+  \item{taxon_AA}{data frame, content of \code{extdata/RefSeq/taxon_AA.csv.xz} or \code{extdata/GTDB/taxon_AA.csv.xz} (used for speed-up)}
   \item{groups}{list, indexing vectors to identify groups of samples whose taxonomic classifications are aggregated before calculating amino acid composition and chemical metrics}
+  \item{return_AA}{logical, return the amino acid composition for each sample instead of the chemical metrics?}
+  \item{zero_AA}{character, set counts of the specified amino acids to zero for calculating chemical metrics (uses three-letter abbreviations).}
 }
 
 \details{
@@ -67,4 +70,8 @@ points(metrics$ZC, metrics_GTDB$ZC, pch = mdat$metadata$pch, bg = mdat$metadata$
 md.leg <- mdat$metadata[1:2, ]
 legend("bottomright", md.leg$domain, pch = md.leg$pch, pt.bg = md.leg$col)
 title(quote(italic(Z)[C]~"from GTDB vs RefSeq"))
+
+## Suppose we want to exclude tryptophan, tyrosine, and phenylalanine
+## from the calculation of chemical metrics
+getmetrics(RDP_GTDB, map_GTDB, zero_AA = c("Trp", "Tyr", "Phe"))
 }
