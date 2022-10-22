@@ -1,6 +1,6 @@
 Date: 2022-10-22
 Package: chem16S
-Version: 0.1.1-4
+Version: 0.1.1-5
 Title: Chemical Metrics of Community Reference Proteomes from 16S rRNA Gene Sequences
 Authors@R: c(
     person("Jeffrey", "Dick", , "jeff@chnosz.net", role = c("aut", "cre"),
@@ -10,18 +10,21 @@ Author: Jeffrey Dick [aut, cre] (0000-0002-0687-5890)
 Maintainer: Jeffrey Dick <jeff@chnosz.net>
 Depends: canprot (>= 1.1.2)
 Suggests: tinytest
-Description: This package is used to calculate chemical metrics (carbon oxidation
-  state and stoichiometric hydration state) of reference proteomes for bacterial and
-  archaeal communities. The user-input data are taxonomic classifications from
-  the RDP Classifier, using either the default training set for 16S rRNA gene
-  sequences, or an externally available training set derived from the Genome
-  Taxonomy Database (GTDB). The package includes the amino acid compositions of
-  reference proteomes of prokaryotic taxa precomputed from protein sequences in
-  the RefSeq (NCBI) database or from marker proteins in the GTDB. The taxonomic
-  classifications are combined with the included reference proteomes to generate
-  the amino acid compositions of community reference proteomes, which are then used
-  to calculate the chemical metrics. Example datasets are provided to show the trends
-  of chemical metrics for communities in environmental redox and salinity gradients.
+Description: This package is designed to calculate chemical metrics (carbon
+  oxidation state and stoichiometric hydration state) of reference proteomes for
+  bacterial and archaeal communities. The user-input data are taxonomic
+  classifications of 16S rRNA gene sequences from the RDP Classifier, which can
+  be generated using either the default RDP training set or a separately
+  available training set derived from the Genome Taxonomy Database (GTDB). The
+  package includes amino acid compositions of reference proteomes of genus-and
+  higher-level taxa precomputed from the NCBI RefSeq database and manual mappings
+  from RDP to RefSeq taxonomy, both described in Dick and Tan (2022)
+  <doi:10.1007/s00248-022-01988-9>. Reference proteomes for genus- and
+  higher-level taxa in the GTDB are also provided. The taxonomic classifications
+  are combined with the included reference proteomes to generate the amino acid
+  compositions of community reference proteomes, which are then used to calculate
+  the chemical metrics. Example datasets are provided to show the trends of
+  chemical metrics for communities in environmental redox and salinity gradients.
 Encoding: UTF-8
 License: GPL-3
 URL: https://github.com/jedick/chem16S

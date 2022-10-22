@@ -63,7 +63,7 @@ This package is used to make plots for the \samp{geo16S} and \samp{orp16S} paper
 \section{Files in extdata/GTDB}{
 
   \describe{
-    \item{\file{taxon_AA.R}}{Functions to process GTDB source files (Parks et al., 2022) and produce following output file:}
+    \item{\file{taxon_AA.R}}{Functions to process GTDB source files (Parks et al., 2022) and produce the following output file:}
     \item{\file{taxon_AA.csv.xz}}{
       Average amino acid composition of reference proteomes for all species in each genus, family, order, class, phylum, and domain.
       In both this file and the corresponding file for RefSeq (see above), the \code{protein}, \code{organism}, \code{ref}, and \code{abbrv} columns contain the rank, taxon name, number of species used to generate the amino acid composition of this taxon, and parent taxon.

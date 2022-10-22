@@ -55,7 +55,7 @@ groups <- list(A = mdat$metadata$domain == "Archaea", B = mdat$metadata$domain =
 getmetrics(RDP, map, groups = groups)
 
 ## Third example is for RDP Classifer with GTDB SSU training set
-## and mapping to GTDB taxonomy with GTDB marker genes
+## and mapping to GTDB taxonomy with GTDB reference proteomes
 
 RDPfile_GTDB <- system.file("extdata/RDP-GTDB/BGPF13.tab.xz", package = "chem16S")
 RDP_GTDB <- readRDP(RDPfile_GTDB)
