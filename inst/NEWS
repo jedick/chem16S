@@ -1,9 +1,11 @@
-CHANGES IN chem16S 0.1.2 (2022-10-22)
+CHANGES IN chem16S 0.1.2 (2022-10-24)
 -------------------------------------
+
+- Add reference proteomes for taxa based on the Genome Taxonomy Database (GTDB).
 
 - Add 'return_AA' argument to getmetrics() to return amino acid composition.
 
-- Add and 'zero_AA' argument to getmetrics() specify amino acids with
+- Add 'zero_AA' argument to getmetrics() to specify amino acids with
   abundances set to zero for calculating chemical metrics.
 
 CHANGES IN chem16S 0.1.1 (2022-10-11)
