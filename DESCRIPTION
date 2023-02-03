@@ -1,6 +1,6 @@
-Date: 2022-10-24
+Date: 2023-02-03
 Package: chem16S
-Version: 0.1.2
+Version: 0.1.2-1
 Title: Chemical Metrics of Community Reference Proteomes from 16S rRNA Gene Sequences
 Authors@R: c(
     person("Jeffrey", "Dick", , "jeff@chnosz.net", role = c("aut", "cre"),

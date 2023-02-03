@@ -3,7 +3,8 @@
 
 plotmet <- function(mdat, identify = FALSE, title = TRUE, xlim = NULL, ylim = NULL,
   plot.it = TRUE, points = TRUE, lines = FALSE, cex = 1, pch1 = 1, pch2 = 21,
-  return = "data", extracolumn = NULL, add = FALSE, plot.bg = TRUE) {
+  return = "data", extracolumn = NULL, add = FALSE, plot.bg = TRUE, pt.open.col = 1,
+  xlab = canprot::cplab$ZC, ylab = canprot::cplab$nH2O) {
 
   # Get pch and col
   pch <- mdat$metadata$pch
@@ -18,13 +19,14 @@ plotmet <- function(mdat, identify = FALSE, title = TRUE, xlim = NULL, ylim = NU
     if(is.null(xlim)) xlim <- range(na.omit(ZC[!is.na(pch)]))
     if(is.null(ylim)) ylim <- range(na.omit(nH2O[!is.na(pch)]))
     # Start plot
-    if(!add) plot(xlim, ylim, xlab = canprot::cplab$ZC, ylab = canprot::cplab$nH2O, type = "n")
+    if(!add) plot(xlim, ylim, xlab = xlab, ylab = ylab, type = "n")
     if(points) {
       # Add background nH2O-ZC correlation (from basis species)
       if(plot.bg) lmlines()
-      # Plot points for samples
+      # Determine which point symbols are filled (we use col for their bg)
       ifill <- pch > 20
-      points(ZC[ifill], nH2O[ifill], pch = pch[ifill], col = 1, bg = col[ifill], cex = cex)
+      # Plot points
+      points(ZC[ifill], nH2O[ifill], pch = pch[ifill], col = pt.open.col, bg = col[ifill], cex = cex)
       points(ZC[!ifill], nH2O[!ifill], pch = pch[!ifill], col = col[!ifill], cex = cex)
     }
     if(lines) lines(ZC, nH2O, lty = 3)

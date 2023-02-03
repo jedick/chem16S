@@ -11,7 +11,8 @@ Functions to plot chemical metrics (\ZC and \nH2O) for community reference prote
   plotmet(mdat, identify = FALSE, title = TRUE,
     xlim = NULL, ylim = NULL, plot.it = TRUE, points = TRUE, lines = FALSE,
     cex = 1, pch1 = 1, pch2 = 21, return = "data",
-    extracolumn = NULL, add = FALSE, plot.bg = TRUE)
+    extracolumn = NULL, add = FALSE, plot.bg = TRUE, pt.open.col = 1,
+    xlab = canprot::cplab$ZC, ylab = canprot::cplab$nH2O)
   addhull(x, y, basecol, outline = FALSE, ...)
 }
 
@@ -31,6 +32,9 @@ Functions to plot chemical metrics (\ZC and \nH2O) for community reference prote
   \item{extracolumn}{character, the name of one or more extra columns (from \code{\link{getmdat_example}}) to include in the output}
   \item{add}{logical, add to existing plot?}
   \item{plot.bg}{logical, plot lines for background correlation from basis species?}
+  \item{pt.open.col}{color of border for open point symbols (\code{pch > 20})}
+  \item{xlab}{x axis label}
+  \item{ylab}{y axis label}
   \item{x}{x values}
   \item{y}{y values}
   \item{basecol}{color used for hull lines}

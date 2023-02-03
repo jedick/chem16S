@@ -1,3 +1,10 @@
+CHANGES IN chem16S 0.1.2-1 (2023-02-03)
+---------------------------------------
+
+- Add 'pt.open.col' argument to plotmet() for border color of open plot symbols.
+
+- Add 'xlab' and 'ylab' arguments to plotmet().
+
 CHANGES IN chem16S 0.1.2 (2022-10-24)
 -------------------------------------
 
