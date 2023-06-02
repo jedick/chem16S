@@ -15,7 +15,7 @@ plotmet <- function(mdat, identify = FALSE, title = TRUE, xlim = NULL, ylim = NU
 
   if(plot.it) {
     # Get axis limits, excluding values of non-plotted points 20210820
-    # Also exclude NA values (for Bison Pool site Q with lineage = "Archaea") 20210916
+    # Also exclude NA values 20210916
     if(is.null(xlim)) xlim <- range(na.omit(ZC[!is.na(pch)]))
     if(is.null(ylim)) ylim <- range(na.omit(nH2O[!is.na(pch)]))
     # Start plot

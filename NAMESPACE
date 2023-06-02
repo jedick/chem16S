@@ -8,7 +8,7 @@ export(
   "addhull"
 )
 
-importFrom("canprot", "H2OAA", "ZCAA")
+importFrom("canprot", "ZCAA", "O2AA", "H2OAA")
 importFrom("stats", "aggregate", "na.omit")
 importFrom("utils", "read.csv", "read.table", "tail")
 importFrom("grDevices", "chull", "col2rgb", "rgb")

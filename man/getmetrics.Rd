@@ -4,7 +4,7 @@
 \title{Calculate chemical metrics from RDP classifications and RefSeq reference proteomes}
 \description{
 Combines RDP classifications with RefSeq reference proteomes to get amino acid compositions of community reference proteomes.
-Amino acid compositions are used to calculate calculate chemical metrics (\ZC and \nH2O).
+Amino acid compositions are used to calculate calculate chemical metrics (\ZC, \nO2, and \nH2O).
 }
 
 \usage{
@@ -24,9 +24,9 @@ Amino acid compositions are used to calculate calculate chemical metrics (\ZC an
 
 \details{
 
-\code{getmetrics} calculates the carbon oxidation state (\ZC) and stoichiometric hydration state (\nH2O) for the community reference proteome in each sample.
+\code{getmetrics} calculates the carbon oxidation state (\ZC), stoichiometric oxidation state (\nO2), and stoichiometric hydration state (\nH2O) for the community reference proteome in each sample.
 The community reference proteome is computed as the weighted mean of amino acid compositions of reference proteomes for taxa, where weights are the RDP classification counts.
-Then, \ZC and \nH2O are calculated from the amino acid composition of the community reference proteome with the \code{\link[canprot]{ZCAA}} and \code{\link[canprot]{H2OAA}} functions.
+Then, \ZC, \nO2, and \nH2O are calculated from the amino acid composition of the community reference proteome with the \code{\link[canprot]{ZCAA}}, \code{\link[canprot]{O2AA}}, and \code{\link[canprot]{H2OAA}} functions.
 
 }
 
@@ -42,7 +42,7 @@ Then, \ZC and \nH2O are calculated from the amino acid composition of the commun
 RDPfile <- system.file("extdata/RDP/BGPF13.tab.xz", package = "chem16S")
 RDP <- readRDP(RDPfile)
 map <- mapRDP(RDP)
-# This is a data frame with 14 rows and Run, nH2O, and ZC columns
+# This is a data frame with 14 rows and Run, ZC, nO2, and nH2O columns
 (metrics <- getmetrics(RDP, map))
 
 # Read the metadata file
@@ -51,7 +51,7 @@ mdatfile <- system.file("extdata/metadata/BGPF13.csv", package = "chem16S")
 mdat <- getmdat_example(mdatfile, metrics)
 # Calculate metrics for aggregated samples of Archaea and Bacteria
 groups <- list(A = mdat$metadata$domain == "Archaea", B = mdat$metadata$domain == "Bacteria")
-# This is a data frame with 2 rows and group, nH2O, and ZC columns
+# This is a data frame with 2 rows and group, ZC, nO2, and nH2O columns
 getmetrics(RDP, map, groups = groups)
 
 ## Third example is for RDP Classifer with GTDB SSU training set
