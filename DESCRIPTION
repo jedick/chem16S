@@ -1,6 +1,6 @@
-Date: 2023-04-06
+Date: 2023-06-02
 Package: chem16S
-Version: 0.1.3-1
+Version: 0.1.3-2
 Title: Chemical Metrics of Community Reference Proteomes from 16S rRNA Gene Sequences
 Authors@R: c(
     person("Jeffrey", "Dick", , "jeff@chnosz.net", role = c("aut", "cre"),
@@ -18,7 +18,7 @@ Description: This package is designed to calculate chemical metrics (carbon
   available training set derived from the Genome Taxonomy Database (GTDB). The
   package includes amino acid compositions of reference proteomes of genus-and
   higher-level taxa precomputed from the NCBI RefSeq database and manual mappings
-  from RDP to RefSeq taxonomy, both described in Dick and Tan (2022)
+  from RDP to RefSeq taxonomy, both described in Dick and Tan (2023)
   <doi:10.1007/s00248-022-01988-9>. Reference proteomes for genus- and
   higher-level taxa in the GTDB are also provided. The taxonomic classifications
   are combined with the included reference proteomes to generate the amino acid
