@@ -3,12 +3,12 @@
 
 protein_refseq.csv: total amino acid composition of all proteins for
   bacteria, archaea, and viral genomes in the RefSeq collection (n = 49448)
-taxid_names.csv: taxid, phylum name and species name for 49448 taxa
+taxon_names.csv: taxid, phylum name and species name for 49448 taxa
 
 # These functions/scripts have the following purpose (output files listed in parentheses):
 gencat.sh - extract accession, taxid, sequence length from RefSeq release catalog (accession.taxid.txt)
 protein_refseq.R - get average amino acid composition for each taxid from gzipped sequence files (protein_refseq.csv)
-taxid_names.R - get taxonomic names for each taxid represented (taxid_names.csv)
+taxon_names.R - get taxonomic names for each taxid represented (taxon_names.csv)
 
 ## Download stuff
 
@@ -44,11 +44,11 @@ wget -N -i urllist
 
 ## Taxonomy stuff
 
-8. Edit 'taxid_names.R' so that 'taxdir' points to the directory where the files
+8. Edit 'taxon_names.R' so that 'taxdir' points to the directory where the files
     'names.dmp' and 'nodes.dmp' are present. These files can be downloaded from
     https://ftp.ncbi.nih.gov/pub/taxonomy/taxdump.tar.gz
 
     File info on server (accessed on 2021-05-21):
     taxdump.tar.gz            2021-05-21 21:27   53M
 
-9. Source 'taxid_names.R' to generate the file 'taxid_names.csv' [8 hours]
+9. Source 'taxon_names.R' to generate the file 'taxon_names.csv' [8 hours]

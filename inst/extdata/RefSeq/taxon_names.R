@@ -56,4 +56,4 @@ cat("done!\n")
 # Write results to a file
 out <- as.data.frame(out)
 out <- cbind(data.frame(taxid = taxid[ii], out))
-write.csv(out, "taxid_names.csv", row.names = FALSE, quote = FALSE)
+write.csv(out, "taxon_names.csv", row.names = FALSE, quote = FALSE)

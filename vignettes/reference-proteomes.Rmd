@@ -66,7 +66,7 @@ boxplot(ZC_list, horizontal = TRUE, las = 1, xlab = cplab$ZC)
 * Define a function to get `r ZC` for named genera.
 * Calculate mean `r ZC` for genera in selected phyla.
 ```{r phylum_to_genus}
-taxnames <- read.csv(system.file("extdata/RefSeq/taxid_names.csv.xz", package = "chem16S"))
+taxnames <- read.csv(system.file("extdata/RefSeq/taxon_names.csv.xz", package = "chem16S"))
 phylum_to_genus <- function(phylum) na.omit(unique(taxnames$genus[taxnames$phylum == phylum]))
 get_ZC <- function(genera) na.omit(taxon_ZC[match(genera, taxon_AA$organism)])
 sapply(sapply(sapply(c("Crenarchaeota", "Euryarchaeota"), phylum_to_genus), get_ZC), mean)
