@@ -44,13 +44,13 @@ This package is used to make plots for the \samp{geo16S} and \samp{orp16S} paper
       The output file is \file{protein_refseq.csv}.
       The first five columns are: \code{protein} (\dQuote{refseq}), \code{organism} (taxonomic id), \code{ref} (organism name), \code{abbrv} (empty), \code{chains} (number of protein sequences for this organism).
       Columns 6 to 25 have the counts of amino acids.
+      NOTE: To save space, the output CSV file is not stored here but is in the \code{extdata/RefSeq} directory of the JMDplots package on GitHub (\url{https://github.com/jedick/JMDplots}.
     }
     \item{\file{taxid_names.R}}{
       R code for processing taxonomic IDs; the output file is \file{taxid_names.csv}.
       The columns are NCBI taxonomic ID (taxid), and names at different taxonomic rank (species, genus, family, order, class, phylum, superkingdom).
     }
 
-    \item{NOTE}{To save space, the two above-mentioned CSV output files are not stored here but are in the \code{extdata/RefSeq} directory of the JMDplots package on GitHub (\url{https://github.com/jedick/JMDplots}.}
 
     \item{\file{taxon_AA.R}}{Functions to create the files listed below:}
     \item{\file{taxon_AA.csv.xz}}{Average amino acid composition of reference proteomes for all species in each genus, family, order, class, phylum, and superkingdom.}

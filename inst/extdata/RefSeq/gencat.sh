@@ -2,7 +2,7 @@
 # gencat.sh: extract microbial protein records from the RefSeq catalog
 # 20130120 First(?) version for RefSeq release 57 (in CHNOSZ)
 # 20190830 Update for RefSeq release 95 (use accessions not gi numbers)
-# 20200716 Update for RefSeq release 201 (moved to JMDplots)
+# 20200716 Update for RefSeq release 201
 # 20210523 Version number update for RefSeq release 206
 
 # zcat: Decompress the release catalog
