@@ -1,7 +1,7 @@
 # 20220505
 
 file <- system.file("extdata/RDP/SMS+12.tab.xz", package = "chem16S")
-RDP <- readRDP(file)
+RDP <- read_RDP(file)
 map <- map_taxa(RDP)
 
 info <- "NA mappings are listed in unmapped_groups attribute"

@@ -1,9 +1,9 @@
-# chem16S/getmetrics.R
+# chem16S/get_metrics.R
 # Get chemical metrics from RDP classifications and RefSeq reference proteomes 20200927
 # Moved to chem16S 20220505
 # Add refdb argument 20221016
 
-getmetrics <- function(RDP = NULL, map = NULL, refdb = "RefSeq", taxon_AA = NULL, groups = NULL, return_AA = FALSE, zero_AA = NULL) {
+get_metrics <- function(RDP = NULL, map = NULL, refdb = "RefSeq", taxon_AA = NULL, groups = NULL, return_AA = FALSE, zero_AA = NULL) {
 
   # Exclude NA mappings
   RDP <- RDP[!is.na(map), ]

@@ -1,7 +1,7 @@
 # Plot chemical metrics for community reference proteomes 20200901
 # Moved to chem16S 20220505
 
-plotmet <- function(mdat, identify = FALSE, title = TRUE, xlim = NULL, ylim = NULL,
+plot_metrics <- function(mdat, identify = FALSE, title = TRUE, xlim = NULL, ylim = NULL,
   plot.it = TRUE, points = TRUE, lines = FALSE, cex = 1, pch1 = 1, pch2 = 21,
   return = "data", extracolumn = NULL, add = FALSE, plot.bg = TRUE, pt.open.col = 1,
   xlab = canprot::cplab$ZC, ylab = canprot::cplab$nH2O) {
@@ -76,7 +76,7 @@ plotmet <- function(mdat, identify = FALSE, title = TRUE, xlim = NULL, ylim = NU
 }
 
 # Add convex hulls 20200923
-addhull <- function(x, y, basecol, outline = FALSE, ...) {
+add_hull <- function(x, y, basecol, outline = FALSE, ...) {
   i <- chull(x, y)
   r <- as.numeric(col2rgb(basecol))
   if(outline) {

@@ -1,13 +1,13 @@
 # Exports for chem16S package
 export(
-  "readRDP",
+  "read_RDP",
   "map_taxa",
-  "getmetrics",
-  "getmdat_example",
-  "plotmet",
-  "addhull",
+  "get_metrics",
+  "get_metadata",
+  "plot_metrics",
+  "add_hull",
   # Integration with phyloseq 20230608
-  "physeq_taxacounts", "physeq_metrics", "plot_metrics"
+  "ps_taxacounts", "ps_metrics", "plot_ps_metrics"
 )
 
 importFrom("canprot", "ZCAA", "O2AA", "H2OAA")

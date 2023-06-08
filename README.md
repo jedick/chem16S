@@ -7,12 +7,12 @@
 This R package implements the method described in [Dick and Tan (2023)](https://doi.org/10.1007/s00248-022-01988-9) for combining **RDP Classifier** output with **reference proteomes** of archaea and bacteria to generate the amino acid compositions of **community reference proteomes**.
 
 The amino acid compositions of the community reference proteomes can be used to calculate chemical metrics such as **carbon oxidation state** (*Z*<sub>C</sub>) and **stoichiometric hydration state** (*n*<sub>H<sub>2</sub>O</sub>).
-This example from the help page for the [`plotmet`](man/plotmet.Rd) function shows relatively low *n*<sub>H<sub>2</sub>O</sub> in high-salinity samples from the Baltic Sea with 16S rRNA gene sequencing data from [Herlemann et al. (2016)](https://doi.org/10.3389/fmicb.2016.01883).
+This example from the help page for the [`plot_metrics`](man/plot_metrics.Rd) function shows relatively low *n*<sub>H<sub>2</sub>O</sub> in high-salinity samples from the Baltic Sea with 16S rRNA gene sequencing data from [Herlemann et al. (2016)](https://doi.org/10.3389/fmicb.2016.01883).
 
 <!-- Default image is too big
-![chem16S::plotmet example: Baltic Sea nH2O-ZC plot](inst/images/plotmet.png)
+![chem16S::plot_metrics example: Baltic Sea nH2O-ZC plot](inst/images/plot_metrics.png)
 -->
-<img src="inst/images/plotmet.png" alt="chem16S::plotmet example: Baltic Sea nH2O-ZC plot" width="500" />
+<img src="inst/images/plot_metrics.png" alt="chem16S::plot_metrics example: Baltic Sea nH2O-ZC plot" width="500" />
 
 ### Reference proteomes for taxa
 

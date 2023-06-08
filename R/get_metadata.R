@@ -1,7 +1,7 @@
 # Get metadata for a study, appending columns for pch and col 20200914
 # Moved to chem16S 20220505
 
-getmdat_example <- function(file, metrics = NULL) {
+get_metadata <- function(file, metrics = NULL) {
   # Read metadata file
   metadata <- read.csv(file, as.is = TRUE, check.names = FALSE)
 

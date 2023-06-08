@@ -1,23 +1,23 @@
 \encoding{UTF-8}
-\name{plotmet}
-\alias{plotmet}
-\alias{addhull}
+\name{plot_metrics}
+\alias{plot_metrics}
+\alias{add_hull}
 \title{Plot chemical metrics of community reference proteomes}
 \description{
 Functions to plot chemical metrics (\ZC and \nH2O) for community reference proteomes.
 }
 
 \usage{
-  plotmet(mdat, identify = FALSE, title = TRUE,
+  plot_metrics(mdat, identify = FALSE, title = TRUE,
     xlim = NULL, ylim = NULL, plot.it = TRUE, points = TRUE, lines = FALSE,
     cex = 1, pch1 = 1, pch2 = 21, return = "data",
     extracolumn = NULL, add = FALSE, plot.bg = TRUE, pt.open.col = 1,
     xlab = canprot::cplab$ZC, ylab = canprot::cplab$nH2O)
-  addhull(x, y, basecol, outline = FALSE, ...)
+  add_hull(x, y, basecol, outline = FALSE, ...)
 }
 
 \arguments{
-  \item{mdat}{list, output by \code{\link{getmdat_example}}}
+  \item{mdat}{list, output by \code{\link{get_metadata}}}
   \item{identify}{logical, run \code{\link{identify}} for interactive identification of points?}
   \item{title}{character, plot title}
   \item{xlim}{numeric, x axis limits}
@@ -29,7 +29,7 @@ Functions to plot chemical metrics (\ZC and \nH2O) for community reference prote
   \item{pch1}{numeric, symbol for samples in group 1}
   \item{pch2}{numeric, symbol for samples in group 2}
   \item{return}{character, indicates whether to return \samp{data} values or group \samp{means}}
-  \item{extracolumn}{character, the name of one or more extra columns (from \code{\link{getmdat_example}}) to include in the output}
+  \item{extracolumn}{character, the name of one or more extra columns (from \code{\link{get_metadata}}) to include in the output}
   \item{add}{logical, add to existing plot?}
   \item{plot.bg}{logical, plot lines for background correlation from basis species?}
   \item{pt.open.col}{color of border for open point symbols (\code{pch > 20})}
@@ -44,13 +44,13 @@ Functions to plot chemical metrics (\ZC and \nH2O) for community reference prote
 
 \details{
 
-\code{plotmet} plots the \ZC and \nH2O values provided in \code{mdat$metrics}.
+\code{plot_metrics} plots the \ZC and \nH2O values provided in \code{mdat$metrics}.
 Symbol shape and color (\code{pch} and \code{col}) are taken from \code{mdat$metadata}.
 
 If \code{pch1} and \code{pch2} are provided, then samples are classified into two groups according to the value of \code{mdat$metadata$pch}.
 Mean values of the chemical metrics for each group are plotted with star-shaped symbols.
 
-\code{addhull} uses \code{\link{polygon}} to draw a convex hull around the points given in \code{x}, \code{y}.
+\code{add_hull} uses \code{\link{polygon}} to draw a convex hull around the points given in \code{x}, \code{y}.
 The lines are drawn only if \code{outline} is TRUE; otherwise, the area of the hull is filled.
 The fill color is a semi-transparent version of the color given in \code{basecol}.
 
@@ -68,12 +68,12 @@ Herlemann, D. P. R., Lundin, D., Andersson, A. F., Labrenz, M. and Jürgens, K. 
 # Make a plot for the Baltic Sea salinity gradient
 # (data from Herlemann et al., 2016)
 RDPfile <- system.file("extdata/RDP/HLA+16.tab.xz", package = "chem16S")
-RDP <- readRDP(RDPfile)
+RDP <- read_RDP(RDPfile)
 map <- map_taxa(RDP)
-metrics <- getmetrics(RDP, map)
+metrics <- get_metrics(RDP, map)
 mdatfile <- system.file("extdata/metadata/HLA+16.csv", package = "chem16S")
-mdat <- getmdat_example(mdatfile, metrics)
-pm <- plotmet(mdat)
+mdat <- get_metadata(mdatfile, metrics)
+pm <- plot_metrics(mdat)
 # Add a legend
 legend <- c("< 6 PSU", "6-20 PSU", "> 20 PSU")
 pch <- c(24, 20, 21)
@@ -83,19 +83,19 @@ legend("bottomright", legend, pch = pch, col = 1, pt.bg = pt.bg, bg = "white")
 ilo <- mdat$metadata$salinity < 6
 ihi <- mdat$metadata$salinity > 20
 # Add convex hulls
-addhull(pm$ZC[ilo], pm$nH2O[ilo], "green3")
-addhull(pm$ZC[ihi], pm$nH2O[ihi], "blue")
+add_hull(pm$ZC[ilo], pm$nH2O[ilo], "green3")
+add_hull(pm$ZC[ihi], pm$nH2O[ihi], "blue")
 
 # Show points for all samples and larger points for
 # mean values of high- and low-salinity samples
-plotmet(mdat, pch1 = 21, pch2 = 24)
+plot_metrics(mdat, pch1 = 21, pch2 = 24)
 
 ## Some samples (i.e. outliers) have an NA name in the metadata
 ## to exclude them from further calculations.
 ## Use dropNA = FALSE to show all samples.
-#plotmet("UKD+18.sediment", dropNA = FALSE)
+#plot_metrics("UKD+18.sediment", dropNA = FALSE)
 #
 ## Make a plot for only Proteobacteria
-#plotmet("HLA+16", lineage = "Proteobacteria")
+#plot_metrics("HLA+16", lineage = "Proteobacteria")
 
 }

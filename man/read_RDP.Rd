@@ -1,13 +1,13 @@
 \encoding{UTF-8}
-\name{readRDP}
-\alias{readRDP}
+\name{read_RDP}
+\alias{read_RDP}
 \title{Read and filter RDP Classifier output}
 \description{
 Reads RDP Classifier output and optionally applies copy-number correction, extracts lineages, removes classifications below a certain count, or extracts lineages, or truncates classifications to lowest taxonomic level.
 }
 
 \usage{
-  readRDP(file, lineage = NULL, mincount = 200,
+  read_RDP(file, lineage = NULL, mincount = 200,
     lowest.level = NULL, cn = FALSE, quiet = TRUE)
 }
 
@@ -21,7 +21,7 @@ Reads RDP Classifier output and optionally applies copy-number correction, extra
 }
 
 \details{
-\code{readRDP} reads and filters RDP results for all samples in a study.
+\code{read_RDP} reads and filters RDP results for all samples in a study.
 The input file should be created by RDP Classifer using the -h option to create a hierarchical listing.
 Classifications for multiple samples can be combined into a single file using the merge-count command of RDP Classifier.
 
@@ -45,7 +45,7 @@ Change \code{quiet} to FALSE to enable printing of messages about percentage cla
   If any sample has less than \code{mincount} counts, that column is omitted from the result.
   Output has rows from \code{file} that are selected or modified by filtering operations.
 
-  NB: taxid is not the same as NCBI taxid.
+  NB: taxids in RDP files are not NCBI taxids.
 }
 
 \examples{
@@ -53,26 +53,26 @@ Change \code{quiet} to FALSE to enable printing of messages about percentage cla
 file <- system.file("extdata/RDP/SMS+12.tab.xz", package = "chem16S")
 
 # Default settings
-r0 <- readRDP(file)
+r0 <- read_RDP(file)
 
 # Print a lot of messages
-r1 <- readRDP(file, quiet = FALSE)
+r1 <- read_RDP(file, quiet = FALSE)
 
 # Increase minimum count threshold
-r2 <- readRDP(file, mincount = 500)
+r2 <- read_RDP(file, mincount = 500)
 # This should be 3 (i.e., 3 samples have less than 500 counts)
 ncol(r1) - ncol(r2)
 
 # Apply copy-number correction
-r3 <- readRDP(file, cn = TRUE)
+r3 <- read_RDP(file, cn = TRUE)
 
 # Keep only Archaea
-r4 <- readRDP(file, lineage = "Archaea")
+r4 <- read_RDP(file, lineage = "Archaea")
 # This should be TRUE
 all(grepl("Archaea", r4$lineage))
 
 # Truncate taxonomy at phylum
-r5 <- readRDP(file, lowest.level = "phylum")
+r5 <- read_RDP(file, lowest.level = "phylum")
 # This should be TRUE
 all(sapply(strsplit(r5$lineage, ";"), tail, 1) == "phylum")
 }

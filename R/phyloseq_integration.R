@@ -1,9 +1,9 @@
-# chem16S/physeq.R
+# chem16S/phyloseq_integration.R
 # Calculating chemical metrics from phyloseq objects
 
 # Returns data frame with lowest-level classifications for each OTU 20230607
 # (genus to domain level - use column names similar to output from RDP Classifier)
-physeq_taxacounts <- function(physeq, split = TRUE) {
+ps_taxacounts <- function(physeq, split = TRUE) {
 
   # Get taxonomy table
   tax <- tax_table(physeq)
@@ -44,13 +44,13 @@ physeq_taxacounts <- function(physeq, split = TRUE) {
 }
 
 # Calculate chemical metrics from phyloseq object
-physeq_metrics <- function(physeq, split = TRUE, metrics = c("ZC", "nO2", "nH2O"), quiet = TRUE) {
+ps_metrics <- function(physeq, split = TRUE, metrics = c("ZC", "nO2", "nH2O"), quiet = TRUE) {
   # Obtain data frame with lowest-level (to genus) classifications for each OTU
-  taxacounts <- physeq_taxacounts(physeq, split = split)
+  taxacounts <- ps_taxacounts(physeq, split = split)
   # Map names to NCBI taxonomy
   map <- map_taxa(taxacounts, quiet = quiet)
   # Calculate chemical metrics for community reference proteomes
-  met <- getmetrics(taxacounts, map)
+  met <- get_metrics(taxacounts, map)
   # Put sample names in rownames (analogous to phyloseq::estimate_richness)
   rownames(met) <- met$Run
   met <- met[, -1]
@@ -59,11 +59,11 @@ physeq_metrics <- function(physeq, split = TRUE, metrics = c("ZC", "nO2", "nH2O"
   met
 }
 
-plot_metrics <- function(physeq, x = "samples", color = NULL, shape = NULL, title = NULL,
+plot_ps_metrics <- function(physeq, x = "samples", color = NULL, shape = NULL, title = NULL,
   scales = "free_y", nrow = 1, metrics = c("ZC", "nO2", "nH2O"), sortby = NULL) { 
 
   # Calculate the chemical metrics
-  pmDF <- physeq_metrics(physeq, split = TRUE, metrics = metrics)
+  pmDF <- ps_metrics(physeq, split = TRUE, metrics = metrics)
 
   # Make the plotting data.frame.
   # This coerces to data.frame, required for reliable output from reshape2::melt()
