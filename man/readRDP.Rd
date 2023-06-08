@@ -3,7 +3,7 @@
 \alias{readRDP}
 \title{Read and filter RDP Classifier output}
 \description{
-Reads RDP Classifier output and optionally applis copy-number correction, extracts lineages, removes classifications below a certain count, or extracts lineages, or truncates classifications to lowest taxonomic level.
+Reads RDP Classifier output and optionally applies copy-number correction, extracts lineages, removes classifications below a certain count, or extracts lineages, or truncates classifications to lowest taxonomic level.
 }
 
 \usage{

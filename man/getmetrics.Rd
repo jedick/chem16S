@@ -4,7 +4,7 @@
 \title{Calculate chemical metrics from RDP classifications and RefSeq reference proteomes}
 \description{
 Combines RDP classifications with RefSeq reference proteomes to get amino acid compositions of community reference proteomes.
-Amino acid compositions are used to calculate calculate chemical metrics (\ZC, \nO2, and \nH2O).
+Amino acid compositions are used to calculate chemical metrics (\ZC, \nO2, and \nH2O).
 }
 
 \usage{

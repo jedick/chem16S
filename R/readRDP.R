@@ -12,6 +12,7 @@ readRDP <- function(file, lineage = NULL, mincount = 200, lowest.level = NULL, c
 
   # Basename of file to use in messages 20220505
   basefile <- basename(file)
+  basetxt <- paste0(" [", basefile, "]")
 
   # Columns with classification counts
   icol <- 5:ncol(dat)
@@ -62,7 +63,7 @@ readRDP <- function(file, lineage = NULL, mincount = 200, lowest.level = NULL, c
     if(!quiet) {
       postcount <- sum(out[, icol])
       lpercent <- formatC(postcount / precount * 100, 1, format = "f")
-      print(paste0("readRDP [", basefile, "]: keeping ", lineage, " lineage (", lpercent, "%)"))
+      print(paste0("readRDP", basetxt, ": keeping ", lineage, " lineage (", lpercent, "%)"))
     }
     # Recalculate total counts 20211008
     totalcounts <- colSums(out[, icol, drop = FALSE])
@@ -78,7 +79,7 @@ readRDP <- function(file, lineage = NULL, mincount = 200, lowest.level = NULL, c
     genuscounts <- colSums(out[igenus, icol, drop = FALSE], na.rm = TRUE)
     # Print percentage of assignments at genus level
     genuspercent <- round(100 * sum(genuscounts) / sum(totalcounts))
-    print(paste0("readRDP [", basefile, "]: ", genuspercent, "% of classifications at genus level"))
+    print(paste0("readRDP", basetxt, ": ", genuspercent, "% of classifications at genus level"))
   }
 
   # Remove classifications at root and domain level (Bacteria and Archaea),
@@ -95,7 +96,7 @@ readRDP <- function(file, lineage = NULL, mincount = 200, lowest.level = NULL, c
     rmpercent <- round(rowSums(out[irm, icol, drop = FALSE]) / sum(totalcounts) * 100, 1)
     for(i in seq_along(irm)) {
       # Only print message if removed group is >= 0.1% 20200927
-      if(!quiet & rmpercent[i] >= 0.1) print(paste0("readRDP [", basefile, "]: removing ", RDPgroups[irm[i]], " (", rmpercent[i], "%)"))
+      if(!quiet & rmpercent[i] >= 0.1) print(paste0("readRDP", basetxt, ": removing ", RDPgroups[irm[i]], " (", rmpercent[i], "%)"))
     }
     out <- out[!isrm, , drop = FALSE] 
   }
@@ -105,7 +106,7 @@ readRDP <- function(file, lineage = NULL, mincount = 200, lowest.level = NULL, c
   # Discard samples with < mincount total counts 20201001
   ismall <- totalcounts < mincount
   if(any(ismall)) {
-    if(!quiet) print(paste0("readRDP [", basefile, "]: discarding ", sum(ismall), " samples with < ", mincount, " total counts"))
+    if(!quiet) print(paste0("readRDP", basetxt, ": discarding ", sum(ismall), " samples with < ", mincount, " total counts"))
     out <- out[, c(TRUE, TRUE, TRUE, TRUE, !ismall)]
     icol <- 5:ncol(out)
   }
@@ -116,9 +117,9 @@ readRDP <- function(file, lineage = NULL, mincount = 200, lowest.level = NULL, c
     # Report the median number of counts 20200917
     # Change this to range 20200924
     if(length(totalcounts) == 0) {
-      print(paste0("readRDP [", basefile, "]: no samples contain at least ", mincount, " counts"))
+      print(paste0("readRDP", basetxt, ": no samples contain at least ", mincount, " counts"))
     } else {
-      print(paste0("readRDP [", basefile, "]: count range is [", paste(round(range(totalcounts)), collapse = " "), "]"))
+      print(paste0("readRDP", basetxt, ": count range is", paste(round(range(totalcounts)), collapse = " "), ""))
     }
   }
 

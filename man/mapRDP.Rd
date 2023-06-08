@@ -11,7 +11,7 @@ Maps RDP classifications to a taxonomy by automatic matching of taxonomic names,
 }
 
 \arguments{
-  \item{RDP}{data frame, output from \code{getRDP}}
+  \item{RDP}{data frame, output from \code{\link{readRDP}}}
   \item{refdb}{character, name of reference database (\samp{RefSeq} or \samp{GTDB})}
   \item{quiet}{logical, suppress printed messages?}
 }
