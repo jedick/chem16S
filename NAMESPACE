@@ -1,7 +1,7 @@
 # Exports for chem16S package
 export(
   "readRDP",
-  "mapRDP",
+  "map_taxa",
   "getmetrics",
   "getmdat_example",
   "plotmet",

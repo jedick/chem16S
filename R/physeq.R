@@ -48,7 +48,7 @@ physeq_metrics <- function(physeq, split = TRUE, metrics = c("ZC", "nO2", "nH2O"
   # Obtain data frame with lowest-level (to genus) classifications for each OTU
   taxacounts <- physeq_taxacounts(physeq, split = split)
   # Map names to NCBI taxonomy
-  map <- mapRDP(taxacounts, quiet = quiet)
+  map <- map_taxa(taxacounts, quiet = quiet)
   # Calculate chemical metrics for community reference proteomes
   met <- getmetrics(taxacounts, map)
   # Put sample names in rownames (analogous to phyloseq::estimate_richness)

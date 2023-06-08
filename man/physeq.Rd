@@ -19,7 +19,7 @@ Functions to process phyloseq objects for chemical metrics (\ZC, \nO2, and \nH2O
   \item{physeq}{phyloseq-class, a phyloseq object containing an otu_table and tax_table}
   \item{split}{logical, calculate metrics for each sample (TRUE) or the entire set (FALSE)}
   \item{metrics}{character, names of metrics to calculate}
-  \item{quiet}{logical, suppress printed messages? (passed to \code{\link{mapRDP}})}
+  \item{quiet}{logical, suppress printed messages? (passed to \code{\link{map_taxa}})}
   \item{x}{map this variable to horizontal axis}
   \item{color}{map this variable to different colors}
   \item{shape}{map this variable to different shapes}
@@ -32,7 +32,7 @@ Functions to process phyloseq objects for chemical metrics (\ZC, \nO2, and \nH2O
 \details{
 
 \code{physeq_taxacounts} returns a data frame with lowest-level classifications (from genus to domain) and abundances for each OTU in the \code{physeq} object.
-\code{physeq_metrics} calculates chemical metrics of community reference proteomes from the lowest-level classifications after mapping to the NCBI taxonomy with \code{\link{mapRDP}}.
+\code{physeq_metrics} calculates chemical metrics of community reference proteomes from the lowest-level classifications after mapping to the NCBI taxonomy with \code{\link{map_taxa}}.
 
 \code{plot_metrics} creates a ggplot object for plotting the metrics.
 This function is modified from \code{\link{plot_richness}}; see that help page for further details about graphics-related arguments.

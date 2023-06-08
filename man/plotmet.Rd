@@ -69,7 +69,7 @@ Herlemann, D. P. R., Lundin, D., Andersson, A. F., Labrenz, M. and Jürgens, K. 
 # (data from Herlemann et al., 2016)
 RDPfile <- system.file("extdata/RDP/HLA+16.tab.xz", package = "chem16S")
 RDP <- readRDP(RDPfile)
-map <- mapRDP(RDP)
+map <- map_taxa(RDP)
 metrics <- getmetrics(RDP, map)
 mdatfile <- system.file("extdata/metadata/HLA+16.csv", package = "chem16S")
 mdat <- getmdat_example(mdatfile, metrics)

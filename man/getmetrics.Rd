@@ -14,7 +14,7 @@ Amino acid compositions are used to calculate chemical metrics (\ZC, \nO2, and \
 
 \arguments{
   \item{RDP}{data frame, output from \code{\link{readRDP}}}
-  \item{map}{data frame, output from \code{\link{mapRDP}}}
+  \item{map}{data frame, output from \code{\link{map_taxa}}}
   \item{refdb}{character, name of reference database (\samp{RefSeq} or \samp{GTDB})}
   \item{taxon_AA}{data frame, content of \code{extdata/RefSeq/taxon_AA.csv.xz} or \code{extdata/GTDB/taxon_AA.csv.xz} (used for speed-up)}
   \item{groups}{list, indexing vectors to identify groups of samples whose taxonomic classifications are aggregated before calculating amino acid composition and chemical metrics}
@@ -41,7 +41,7 @@ Then, \ZC, \nO2, and \nH2O are calculated from the amino acid composition of the
 # Get chemical metrics for all samples in a dataset
 RDPfile <- system.file("extdata/RDP/BGPF13.tab.xz", package = "chem16S")
 RDP <- readRDP(RDPfile)
-map <- mapRDP(RDP)
+map <- map_taxa(RDP)
 # This is a data frame with 14 rows and Run, ZC, nO2, and nH2O columns
 (metrics <- getmetrics(RDP, map))
 
@@ -59,7 +59,7 @@ getmetrics(RDP, map, groups = groups)
 
 RDPfile_GTDB <- system.file("extdata/RDP-GTDB/BGPF13.tab.xz", package = "chem16S")
 RDP_GTDB <- readRDP(RDPfile_GTDB)
-map_GTDB <- mapRDP(RDP_GTDB)
+map_GTDB <- map_taxa(RDP_GTDB)
 metrics_GTDB <- getmetrics(RDP_GTDB, map_GTDB)
 
 # Plot ZC from GTDB vs RefSeq
