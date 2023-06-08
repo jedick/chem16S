@@ -1,6 +1,6 @@
-Date: 2023-06-07
+Date: 2023-06-08
 Package: chem16S
-Version: 0.1.3-6
+Version: 0.1.3-7
 Title: Chemical Metrics of Community Reference Proteomes from 16S rRNA Gene Sequences
 Authors@R: c(
     person("Jeffrey", "Dick", , "jeff@chnosz.net", role = c("aut", "cre"),
@@ -9,6 +9,7 @@ Authors@R: c(
 Author: Jeffrey Dick [aut, cre] (0000-0002-0687-5890)
 Maintainer: Jeffrey Dick <jeff@chnosz.net>
 Depends: canprot (>= 1.1.2)
+Imports: phyloseq, plyr, ggplot2, rlang, reshape2
 Suggests: tinytest, knitr
 Description: This package is designed to calculate chemical metrics (carbon
   oxidation state and stoichiometric hydration state) of reference proteomes for
