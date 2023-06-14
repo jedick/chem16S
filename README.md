@@ -2,7 +2,7 @@
 
 # chem16S
 
-### Chemical metrics of community reference proteomes from 16S rRNA data
+### Chemical metrics of community reference proteomes from taxonomic classifications
 
 This R package implements the method described in [Dick and Tan (2023)](https://doi.org/10.1007/s00248-022-01988-9) for combining **RDP Classifier** output with **reference proteomes** of archaea and bacteria to generate the amino acid compositions of **community reference proteomes**.
 
@@ -16,9 +16,8 @@ This example from the help page for the [`plot_metrics`](man/plot_metrics.Rd) fu
 
 ### Reference proteomes for taxa
 
-See README.txt and scripts in [`inst/extdata/refseq`](inst/extdata/refseq) for steps used to download protein sequences from the RefSeq database and calculate the total amino acid composition for each NCBI taxonomic ID (taxid).
-
-The `taxon_AA.R` script in [`inst/extdata/chem16S`](inst/extdata/chem16S) generates the reference proteomes for each viral, archaeal and bacterial genus, family, order, class, and phylum in the RefSeq database as follows:
+See README.txt and scripts in [`inst/extdata/RefSeq`](inst/extdata/RefSeq) for steps used to download protein sequences from the RefSeq database and calculate the total amino acid composition for each NCBI taxonomic ID (taxid).
+The `taxon_AA.R` script generates the reference proteomes for each viral, archaeal and bacterial genus, family, order, class, and phylum in the RefSeq database as follows:
 
 * Only taxids classified at the species level are used, and archaeal and bacterial species with less than 500 reference protein sequences are excluded;
 * For each species-level taxid, the total amino acid composition is converted to per-protein mean amino acid composition (this is done so that species with different proteome sizes contribute equally to the reference proteomes of higher-level taxa);

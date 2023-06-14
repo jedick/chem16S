@@ -39,7 +39,23 @@ ps_taxacounts <- function(physeq, split = TRUE) {
     ichl <- is.classified & has.lineage
     taxacounts$lineage[ichl] <- paste(taxacounts$lineage[ichl], names[ichl], sep = ";")
   }
-  taxacounts
+
+  # Sum counts for each unique lineage 20230614
+  idup <- duplicated(taxacounts$lineage)
+  dedup <- taxacounts[!idup, ]
+  for(i in 1:nrow(dedup)) {
+    lineage <- dedup$lineage[i]
+    ilin <- taxacounts$lineage == lineage
+    if(sum(ilin) > 1) {
+      # For lineages that appear more than once, sum the counts for all occurrences
+      sumcounts <- colSums(taxacounts[ilin, -(1:4)])
+      dedup[i, -(1:4)] <- sumcounts
+      # Paste together the taxids (sample names)
+      dedup$taxid[i] <- paste(taxacounts$taxid[ilin], collapse = ";")
+    }
+  }
+
+  dedup
 
 }
 
@@ -90,7 +106,7 @@ plot_ps_metrics <- function(physeq, x = "samples", color = NULL, shape = NULL, t
     x <- "samples"
   }
   # melt to display different chemical metrics separately
-  mdf = melt(DF, metric.vars = metrics)
+  mdf = melt(DF, measure.vars = metrics)
 
 #  # Initialize the se column. Helpful even if not used.
 #  mdf$se <- NA_integer_
@@ -163,3 +179,4 @@ plot_ps_metrics <- function(physeq, x = "samples", color = NULL, shape = NULL, t
   return(p)
 
 }
+

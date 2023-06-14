@@ -49,7 +49,7 @@ For \code{plot_ps_metrics}, a ggplot object.
 
 \author{
 The author of this Rd file and the \code{ps_taxacounts} and \code{ps_metrics} functions is Jeffrey Dick.
-The \code{\link{plot_richness}} function was written by Paul J. McMurdie and was modified by Jeffrey Dick to make \code{plot_ps_metrics}.
+\code{plot_ps_metrics} is based on the \code{\link{plot_richness}} function by Paul J. McMurdie and was modified from that function by Jeffrey Dick.
 }
 
 \examples{
