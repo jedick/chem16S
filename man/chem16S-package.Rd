@@ -107,19 +107,6 @@ This package is used to make plots for the \samp{geo16S} and \samp{orp16S} paper
 
 }
 
-\section{Files in extdata/DADA2}{
-
-  Objects in \code{\link{phyloseq-class}} format created by following the \href{https://benjjneb.github.io/dada2/tutorial.html}{DADA2 Pipeline Tutorial} (version 1.16, accessed on 2023-06-14).
-  These files were made by using three different training sets to assign taxonomy to genus level:
-
-  \describe{
-    \item{\file{dada2_tutorial-silva_nr99_v138.1-phyloseq.Rdata}}{\href{https://zenodo.org/record/4587955}{Silva 138.1 prokaryotic SSU taxonomic training data formatted for DADA2}}
-    \item{\file{dada2_tutorial-rdp_train_set_18-phyloseq.Rdata}}{\href{https://zenodo.org/record/4310151}{RDP taxonomic training data formatted for DADA2 (RDP trainset 18/release 11.5)}}
-    \item{\file{dada2_tutorial-GTDB_bac120_arc53_ssu_r207-phyloseq.Rdata}}{\href{https://zenodo.org/record/6655692}{GTDB: DADA2 formatted 16S rRNA gene sequences for both bacteria & archaea}}
-  }
-
-}
-
 \section{Files in extdata}{
 
   \describe{

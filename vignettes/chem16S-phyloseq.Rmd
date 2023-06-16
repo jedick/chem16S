@@ -66,12 +66,11 @@ This vignette was compiled on `r Sys.Date()` with **chem16S** version `r session
 The [mothur MiSeq SOP](https://mothur.org/wiki/miseq_sop/) has an example dataset with 16S rRNA sequences for mouse gut communities.
 This example dataset includes data collected at 0--9 (early) and 141-150 (late) days post-weaning from one mouse.
 This dataset is used in the [DADA2 Pipeline Tutorial](https://benjjneb.github.io/dada2/tutorial.html) to demonstrate construction of amplicon sequence variants (ASV), taxonomic classification of the ASVs, and analysis using the **phyloseq** package.
-Here, we load the phyloseq object that was created on 2023-06-14 using dada2 (version 1.28.0) following the steps in the DADA2 tutorial (version 1.16).
+Here, we load the phyloseq object that was created on 2023-06-14 using dada2 (version 1.28.0) following the steps in the DADA2 pipeline tutorial (version 1.16).
 Note that taxonomy was assigned to genus level using a newer version of the Silva training set ([`silva_nr99_v138.1_train_set.fa.gz`](https://zenodo.org/record/4587954)) than that indicated in the DADA2 tutorial on this date (`silva_nr_v132_train_set.fa.gz`).
 
 ```{r load_ps.silva}
-ps.silva_file <- "extdata/DADA2/dada2_tutorial-silva_nr99_v138.1-phyloseq.Rdata"
-load(system.file(ps.silva_file, package = "chem16S"))
+data(ps.silva)
 ps.silva
 ```
 
@@ -101,7 +100,7 @@ tc.silva <- ps_taxacounts(ps.silva)
 ASVs with identical lowest-level taxonomic assignments are merged, so this data frame has fewer rows than the number of ASVs.
 The short names of the ASVs are stored in the `taxid` column, and the names of multiple ASVs with the same lowest-level taxonomic classification are separated by a semicolon.
 The ASVs themselves (DNA sequences, not short names) are available in the phyloseq object as explained in the DADA2 tutorial, but are not used here.
-Now we can look at the number of lowest-level classifications at each taxonomic level:
+Now we can look at the number of unique lowest-level classifications at each taxonomic level:
 
 ```{r ps.silva_levels, collapse = TRUE}
 table(tc.silva$rank)
@@ -126,8 +125,7 @@ The messages show that one group was manually mapped, and the total mapped (both
 We can increase the mapped percent by using classifications generated with the RDP training set, for which manual mappings to RefSeq were proposed by @DT23.
 
 ```{r map.RDP, collapse = TRUE}
-ps.RDP_file <- "extdata/DADA2/dada2_tutorial-rdp_train_set_18-phyloseq.Rdata"
-load(system.file(ps.RDP_file, package = "chem16S"))
+data(ps.RDP)
 tc.RDP <- ps_taxacounts(ps.RDP)
 map.RDP <- map_taxa(tc.RDP, quiet = FALSE)
 ```
@@ -150,10 +148,10 @@ AA.RDP <- ps_metrics(ps.RDP, return_AA = TRUE)
 head(AA.RDP)
 ```
 
-In this data frame, columns named `Run` and `chains` have the sample name and number of reference proteomes (i.e., the number of lowest-level taxonomic classifications with mappings to the RefSeq taxonomy) used to construct the amino acid composition.
+In this data frame, columns named `Run` and `chains` have the sample name and abundance-weighted number of reference proteomes (i.e., the total abundance of ASVs that have taxonomic classifications with mappings to the RefSeq taxonomy) used to construct the amino acid composition.
 We can use this to calculate the average protein length of the reference proteomes in each community and make a histogram:
 
-```{r AA.RDP_length, fig.width = 8, fig.height = 5, fig.align = "center"}
+```{r AA.RDP_length, fig.width = 7, fig.height = 5, fig.align = "center"}
 lengths <- rowSums(AA.RDP[, -(1:2)]) / AA.RDP$chains
 hist(lengths)
 imin <- which.min(lengths)
