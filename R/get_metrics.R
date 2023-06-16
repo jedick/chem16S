@@ -2,6 +2,7 @@
 # Get chemical metrics from RDP classifications and RefSeq reference proteomes 20200927
 # Moved to chem16S 20220505
 # Add refdb argument 20221016
+# TODO: Put mapping checks into test file, not this function 20230615
 
 get_metrics <- function(RDP = NULL, map = NULL, refdb = "RefSeq", taxon_AA = NULL, groups = NULL, return_AA = FALSE, zero_AA = NULL) {
 

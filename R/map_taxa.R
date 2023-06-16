@@ -2,6 +2,7 @@
 # Map RDP to RefSeq taxonomy 20200912
 # Moved to chem16S 20220505
 # Add refdb argument to use RefSeq or GTDB 20221016
+# TODO: warn when mapped percentage is below a certain value 20230615
 
 map_taxa <- function(taxacounts = NULL, refdb = "RefSeq", quiet = TRUE) {
 
@@ -69,7 +70,7 @@ map_taxa <- function(taxacounts = NULL, refdb = "RefSeq", quiet = TRUE) {
         switchpercent <- round(switchcounts / sum(groupcounts) * 100, 1)
         # Only print message for mappings of groups at least 0.1% abundant 20200927
         if(any(switchpercent >= 0.1)) {
-          print(paste0("map_taxa", basetxt, ": using the following source --> RefSeq (NCBI) mapping(s):"))
+          print(paste0("map_taxa", basetxt, ": using the following manual mapping(s) to NCBI RefSeq:"))
           for(i in seq_along(from)) {
             if(switchpercent[i] >= 0.1) message(paste0(from[i], " --> ", to[i], " (", switchpercent[i], "%)"))
           }

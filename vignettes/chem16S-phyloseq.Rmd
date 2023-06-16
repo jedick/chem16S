@@ -2,9 +2,10 @@
 title: "Chemical analysis of microbiomes with chem16S and phyloseq"
 author: "Jeffrey M. Dick"
 output:
-  html_vignette:
+  html_document:
     mathjax: null
     toc: true
+    css: style.css
 vignette: >
   %\VignetteIndexEntry{Chemical analysis of microbiomes with chem16S and phyloseq}
   %\VignetteEngine{knitr::rmarkdown}
@@ -54,22 +55,33 @@ This vignette demonstrates the integration of **chem16S** with **phyloseq** to c
 ```{r load_packages}
 library(chem16S)
 library(phyloseq)
+library(ggplot2)
+theme_set(theme_bw())
 ```
 
 This vignette was compiled on `r Sys.Date()` with **chem16S** version `r sessionInfo()$otherPkgs$chem16S$Version` and **phyloseq** version `r sessionInfo()$otherPkgs$phyloseq$Version`.
 
-## Data
+## Mouse microbiome data
 
 The [mothur MiSeq SOP](https://mothur.org/wiki/miseq_sop/) has an example dataset with 16S rRNA sequences for mouse gut communities.
-This example dataset has data collected at early () and late () times from one mouse.
+This example dataset includes data collected at 0--9 (early) and 141-150 (late) days post-weaning from one mouse.
 This dataset is used in the [DADA2 Pipeline Tutorial](https://benjjneb.github.io/dada2/tutorial.html) to demonstrate construction of amplicon sequence variants (ASV), taxonomic classification of the ASVs, and analysis using the **phyloseq** package.
-Here, we load the phyloseq object that was created on 2023-06-14 following the steps in the DADA2 tutorial (version 1.16).
+Here, we load the phyloseq object that was created on 2023-06-14 using dada2 (version 1.28.0) following the steps in the DADA2 tutorial (version 1.16).
 Note that taxonomy was assigned to genus level using a newer version of the Silva training set ([`silva_nr99_v138.1_train_set.fa.gz`](https://zenodo.org/record/4587954)) than that indicated in the DADA2 tutorial on this date (`silva_nr_v132_train_set.fa.gz`).
 
-```{r load_ps_silva}
-ps_silva_file <- "extdata/DADA2/dada2_tutorial-silva_nr99_v138.1-phyloseq.Rdata"
-load(system.file(ps_silva_file, package = "chem16S"))
-ps_silva
+```{r load_ps.silva}
+ps.silva_file <- "extdata/DADA2/dada2_tutorial-silva_nr99_v138.1-phyloseq.Rdata"
+load(system.file(ps.silva_file, package = "chem16S"))
+ps.silva
+```
+
+To quickly visualize this data, let's reproduce the bar plot from the DADA2 tutorial:
+
+```{r ps_dada2_barplot, fig.width = 8, fig.height = 5, fig.align = "center"}
+top20 <- names(sort(taxa_sums(ps.silva), decreasing = TRUE))[1:20]
+ps.top20 <- transform_sample_counts(ps.silva, function(OTU) OTU/sum(OTU))
+ps.top20 <- prune_taxa(top20, ps.top20)
+plot_bar(ps.top20, x = "Day", fill = "Family") + facet_wrap(~When, scales = "free_x")
 ```
 
 ## Lowest-level taxa
@@ -78,24 +90,77 @@ The **chem16S** package contains the amino acid compositions of archaeal, bacter
 There are denoted as *reference proteomes* for taxa.
 Several functions are available to identify the lowest-level taxon for each classified read (or in this case, each ASV), combine the reference proteomes for all taxa to create *community reference proteomes*, and calculate chemical metrics from them.
 
-First, let's make a table that contains the lowest-level taxon and abundance of each ASV.
+First, let's make a table that lists the lowest-level taxon for each ASV and their abundances.
 Because **chem16S** was first developed to analyze the output from the RDP Classifier, this data frame has a similar format to the file created by using the `classify -h` command of the RDP Classifier followed by the `merge-count` command.
 That is, the data frame has columns named `taxid`, `rank`, `lineage`, and `name`, followed by columns for all samples.
 
-```{r ps_silva_taxacounts}
-tc <- ps_taxacounts(ps_silva)
+```{r ps.silva_taxacounts}
+tc.silva <- ps_taxacounts(ps.silva)
 ```
 
-Note that ASVs with identical lowest-level taxonomic assignments are merged, this data frame has fewer rows than the number of ASVs.
+ASVs with identical lowest-level taxonomic assignments are merged, so this data frame has fewer rows than the number of ASVs.
 The short names of the ASVs are stored in the `taxid` column, and the names of multiple ASVs with the same lowest-level taxonomic classification are separated by a semicolon.
 The ASVs themselves (DNA sequences, not short names) are available in the phyloseq object as explained in the DADA2 tutorial, but are not used here.
 Now we can look at the number of lowest-level classifications at each taxonomic level:
 
-```{r ps_silva_levels}
-table(tc$rank)
+```{r ps.silva_levels, collapse = TRUE}
+table(tc.silva$rank)
 ```
 
+These taxa will be used below to construct community reference proteomes.
+
+## Taxonomic mapping
+
+A challenge of using reference proteomes is that they come from one source (RefSeq is the default in chem16S), but taxonomic assignments may be made using a different training set (such as Silva or RDP).
+While identical names can be automatically matched from taxonomic assignments to reference proteomes, those with different names pose difficulties.
+For example, RDP uses the name *Escherichia/Shigella*, while RefSeq has *Escherichia*.
+This and other manual mappings were proposed by @DT23 for mapping between RDP and RefSeq.
+
+Let's try out the mapping with the phyloseq object created using the Silva training set.
+
+```{r map.silva, collapse = TRUE}
+map.silva <- map_taxa(tc.silva, quiet = FALSE)
+```
+
+The messages show that one group was manually mapped, and the total mapped (both automatic and manual) abundance is `r round(100 - sum(attr(map.silva, "unmapped_percent")), 1)`% of the dataset.
+We can increase the mapped percent by using classifications generated with the RDP training set, for which manual mappings to RefSeq were proposed by @DT23.
+
+```{r map.RDP, collapse = TRUE}
+ps.RDP_file <- "extdata/DADA2/dada2_tutorial-rdp_train_set_18-phyloseq.Rdata"
+load(system.file(ps.RDP_file, package = "chem16S"))
+tc.RDP <- ps_taxacounts(ps.RDP)
+map.RDP <- map_taxa(tc.RDP, quiet = FALSE)
+```
+
+Now the total mapped abundance is `r round(100 - sum(attr(map.RDP, "unmapped_percent")), 1)`%. 
+
+::: {.infobox .note}
+Manual mapping does not overcome inconsistencies between different taxonomies but is simply a starting point for using more of the data to assess chemical differences between communities.
+Using the Genome Taxonomy Database (GTDB) for both taxonomic classification and reference proteomes obviates the need for manual mapping and is described further below.
+:::
+
 ## From taxonomy to chemical metrics
+
+The `ps_metrics()` function in chem16S wraps the previous two functions (`ps_taxacounts()` and `map_taxa()`) as well as another function (`get_metrics()`).
+In order, these functions get the lowest-level taxa for each assignment, map taxonomic names to RefSeq by automatic and manual name matching, and combine taxonomic abundances with reference proteomes for taxa to calculate the amino acid composition of community reference proteomes, which are then used to calculate chemical metrics.
+To peek into this process, let's first request just the amino acid composition of the community reference proteomes.
+
+```{r AA.RDP, collapse = TRUE}
+AA.RDP <- ps_metrics(ps.RDP, return_AA = TRUE)
+head(AA.RDP)
+```
+
+In this data frame, columns named `Run` and `chains` have the sample name and number of reference proteomes (i.e., the number of lowest-level taxonomic classifications with mappings to the RefSeq taxonomy) used to construct the amino acid composition.
+We can use this to calculate the average protein length of the reference proteomes in each community and make a histogram:
+
+```{r AA.RDP_length, fig.width = 8, fig.height = 5, fig.align = "center"}
+lengths <- rowSums(AA.RDP[, -(1:2)]) / AA.RDP$chains
+hist(lengths)
+imin <- which.min(lengths)
+text(lengths[imin], 1.5, AA.RDP$Run[imin], adj = 1)
+```
+
+Sample `r AA.RDP$Run[imin]` (from Day `r strsplit(AA.RDP$Run[imin], "D")[[1]][2]`) has the lowest average protein length and looks like it might be an outlier.
 
 ## Chemical analysis of genus-level assignments
 Let's analyze the `GlobalPatterns` dataset that is part of **phyloseq**.

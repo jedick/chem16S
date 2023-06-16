@@ -10,7 +10,7 @@ Functions to process phyloseq objects for chemical metrics (\ZC, \nO2, and \nH2O
 
 \usage{
   ps_taxacounts(physeq, split = TRUE)
-  ps_metrics(physeq, split = TRUE, metrics = c("ZC", "nO2", "nH2O"), quiet = TRUE)
+  ps_metrics(physeq, split = TRUE, metrics = c("ZC", "nO2", "nH2O"), quiet = TRUE, ...)
   plot_ps_metrics(physeq, x = "samples", color = NULL, shape = NULL, title = NULL,
     scales = "free_y", nrow = 1, metrics = c("ZC", "nO2", "nH2O"), sortby = NULL)
 }
@@ -20,6 +20,7 @@ Functions to process phyloseq objects for chemical metrics (\ZC, \nO2, and \nH2O
   \item{split}{logical, calculate metrics for each sample (TRUE) or the entire set (FALSE)}
   \item{metrics}{character, names of metrics to calculate}
   \item{quiet}{logical, suppress printed messages? (passed to \code{\link{map_taxa}})}
+  \item{...}{additional arguments for \code{\link{get_metrics}}}
   \item{x}{map this variable to horizontal axis}
   \item{color}{map this variable to different colors}
   \item{shape}{map this variable to different shapes}
