@@ -42,6 +42,9 @@ if (!nzchar(Sys.which("pngquant"))) pngquant <- NULL
 ```{r HTML, include = FALSE}
 ZC <- "<i>Z</i><sub>C</sub>"
 nH2O <- "<i>n</i><sub>H<sub>2</sub>O</sub>"
+nO2 <- "<i>n</i>O<sub>2</sub>"
+H2O <- "<sub>H<sub>2</sub>O</sub>"
+O2 <- "O<sub>2</sub>"
 ```
 
 This vignette demonstrates the integration of **chem16S** with **phyloseq** to calculate chemical metrics of community reference proteomes.
@@ -137,7 +140,7 @@ Manual mapping does not overcome inconsistencies between different taxonomies bu
 Using the Genome Taxonomy Database (GTDB) for both taxonomic classification and reference proteomes obviates the need for manual mapping and is described further below.
 :::
 
-## From taxonomy to chemical metrics
+## From taxonomy to amino acid composition
 
 The `ps_metrics()` function in chem16S wraps the previous two functions (`ps_taxacounts()` and `map_taxa()`) as well as another function (`get_metrics()`).
 In order, these functions get the lowest-level taxa for each assignment, map taxonomic names to RefSeq by automatic and manual name matching, and combine taxonomic abundances with reference proteomes for taxa to calculate the amino acid composition of community reference proteomes, which are then used to calculate chemical metrics.
@@ -158,7 +161,39 @@ imin <- which.min(lengths)
 text(lengths[imin], 1.5, AA.RDP$Run[imin], adj = 1)
 ```
 
-Sample `r AA.RDP$Run[imin]` (from Day `r strsplit(AA.RDP$Run[imin], "D")[[1]][2]`) has the lowest average protein length and looks like it might be an outlier.
+Sample `r AA.RDP$Run[imin]` (from Day `r strsplit(AA.RDP$Run[imin], "D")[[1]][2]`) has the lowest average protein length of the reference proteomes in the community and might even be an outlier.
+
+## From taxonomy to chemical metrics
+
+We're now ready to calculcate chemical metrics from the amino acid composition.
+
+```{r metrics.RDP, collapse = TRUE}
+metrics.RDP <- ps_metrics(ps.RDP)
+head(metrics.RDP)
+```
+
+This data frame has three columns for `r ZC` (carbon oxidation state), `r nO2` (stoichiometric oxidation state), and `r nH2O` (stoichiometric hydration state).
+`ZC` is computed from the elemental formula, while `r nO2` and `r nH2O` are coefficients on `r O2` and `r nH2O` in theoretical formation reactions of the proteins from a particular set of thermodynamic components, also known as basis species.
+The considerations for the basis species used here (glutamine, glutamic acid, cysteine, `r O2`, and `r nH2O`, abbreviated as QEC) are described in @DT23.
+Because they are both measures of oxidation state, we expect to see a strong positive correlation between `r ZC` and `r nO2`.
+For this dataset, there is in addition a strong negative correlation between `r ZC` and `r nH2O`; importantly, other datasets do not show such a correlation.
+
+```{r cor.RDP, collapse = TRUE}
+cor(metrics.RDP$ZC, metrics.RDP$nO2)
+cor(metrics.RDP$ZC, metrics.RDP$nH2O)
+```
+
+Let's plot the chemical metrics, each one against the sampling day.
+
+```{r plot_metrics.RDP, fig.width = 7, fig.height = 5, fig.align = "center"}
+plot_ps_metrics(ps.RDP, x = "Day", color = "When")
+```
+
+Let's plot two chemical metrics against each other.
+
+```{r plot_metrics2.RDP, fig.width = 7, fig.height = 5, fig.align = "center"}
+#plot_ps_metrics2(ps.RDP, color = "When")
+```
 
 ## Chemical analysis of genus-level assignments
 Let's analyze the `GlobalPatterns` dataset that is part of **phyloseq**.

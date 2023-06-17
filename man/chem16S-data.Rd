@@ -5,7 +5,7 @@
 \alias{ps.GTDB}
 \title{phyloseq objects generated using the DADA2 Pipeline Tutorial}
 \description{
-  Objects in \code{\link{phyloseq-class}} format created by following the \href{https://benjjneb.github.io/dada2/tutorial.html}{DADA2 Pipeline Tutorial} (version 1.16, accessed on 2023-06-14).
+  Objects in \code{\link{phyloseq-class}} format created by following the DADA2 Pipeline Tutorial (Callahan, 2020).
 }
 \details{
   These files were made by using three different training sets to assign taxonomy to genus level:
@@ -23,9 +23,9 @@ data(ps.silva)
 ps.silva
 }
 \references{
-Benjamin Callahan. DADA2 Pipeline Tutorial (1.16). \url{https://benjjneb.github.io/dada2/tutorial.html}, accessed on 2023-06-14.
+Benjamin Callahan (2020). DADA2 Pipeline Tutorial (1.16). \url{https://benjjneb.github.io/dada2/tutorial.html}, accessed on 2023-06-14. Publication year taken from \url{https://code.bioconductor.org/browse/dada2/blob/RELEASE_3_11/DESCRIPTION}.
 }
 \author{
-Jeffrey M. Dick, following the DADA2 Pipeline Tutorial
+Jeffrey M. Dick, following the DADA2 Pipeline Tutorial.
 }
 \keyword{data}

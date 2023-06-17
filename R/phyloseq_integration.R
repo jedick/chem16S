@@ -1,6 +1,11 @@
 # chem16S/phyloseq_integration.R
 # Calculating chemical metrics from phyloseq objects
 
+## Required packages:
+#library(phyloseq)
+#library(reshape2)
+#library(ggplot2)
+
 # Returns data frame with lowest-level classifications for each OTU 20230607
 # (genus to domain level - use column names similar to output from RDP Classifier)
 ps_taxacounts <- function(physeq, split = TRUE) {
@@ -172,8 +177,15 @@ plot_ps_metrics <- function(physeq, x = "samples", color = NULL, shape = NULL, t
   p <- p + theme(axis.text.x = element_text(angle = -90, vjust = 0.5, hjust = 0))
   # Add y-label 
   p <- p + ylab("Chemical Metric") 
+  # Define function for facet labels 20230617
+  # https://stackoverflow.com/questions/3472980/how-to-change-facet-labels [outdated]
+  metrics_labels <- function(variable) {
+    cplab[variable]
+  }
   # Facet wrap using user-options
-  p <- p + facet_wrap(~variable, nrow = nrow, scales = scales)
+  # Plot expressions with label_parsed
+  # https://stackoverflow.com/questions/37089052/r-ggplot2-facet-grid-how-include-math-expressions-in-few-not-all-labels
+  p <- p + facet_wrap(. ~ variable, nrow = nrow, scales = scales, labeller = labeller(.default = label_parsed, variable = metrics_labels))
   # Optionally add a title to the plot
   if( !is.null(title) ){
     p <- p + ggtitle(title)
