@@ -4,7 +4,7 @@
 \alias{add_hull}
 \title{Plot chemical metrics of community reference proteomes}
 \description{
-Functions to plot chemical metrics (\ZC and \nH2O) for community reference proteomes.
+Functions to plot chemical metrics (\Zc and \nH2O) for community reference proteomes.
 }
 
 \usage{
@@ -12,7 +12,7 @@ Functions to plot chemical metrics (\ZC and \nH2O) for community reference prote
     xlim = NULL, ylim = NULL, plot.it = TRUE, points = TRUE, lines = FALSE,
     cex = 1, pch1 = 1, pch2 = 21, return = "data",
     extracolumn = NULL, add = FALSE, plot.bg = TRUE, pt.open.col = 1,
-    xlab = canprot::cplab$ZC, ylab = canprot::cplab$nH2O)
+    xlab = canprot::cplab$Zc, ylab = canprot::cplab$nH2O)
   add_hull(x, y, basecol, outline = FALSE, ...)
 }
 
@@ -44,7 +44,7 @@ Functions to plot chemical metrics (\ZC and \nH2O) for community reference prote
 
 \details{
 
-\code{plot_metrics} plots the \ZC and \nH2O values provided in \code{mdat$metrics}.
+\code{plot_metrics} plots the \Zc and \nH2O values provided in \code{mdat$metrics}.
 Symbol shape and color (\code{pch} and \code{col}) are taken from \code{mdat$metadata}.
 
 If \code{pch1} and \code{pch2} are provided, then samples are classified into two groups according to the value of \code{mdat$metadata$pch}.
@@ -57,7 +57,7 @@ The fill color is a semi-transparent version of the color given in \code{basecol
 }
 
 \value{
-A data frame with columns with study name and Run IDs (\samp{name}, \samp{Run}), plotting values (\samp{nH2O}, \samp{ZC}), and plotting symbols and colors (\samp{pch}, \samp{col}).
+A data frame with columns with study name and Run IDs (\samp{name}, \samp{Run}), plotting values (\samp{nH2O}, \samp{Zc}), and plotting symbols and colors (\samp{pch}, \samp{col}).
 }
 
 \references{
@@ -83,8 +83,8 @@ legend("bottomright", legend, pch = pch, col = 1, pt.bg = pt.bg, bg = "white")
 ilo <- mdat$metadata$salinity < 6
 ihi <- mdat$metadata$salinity > 20
 # Add convex hulls
-add_hull(pm$ZC[ilo], pm$nH2O[ilo], "green3")
-add_hull(pm$ZC[ihi], pm$nH2O[ihi], "blue")
+add_hull(pm$Zc[ilo], pm$nH2O[ilo], "green3")
+add_hull(pm$Zc[ihi], pm$nH2O[ihi], "blue")
 
 # Show points for all samples and larger points for
 # mean values of high- and low-salinity samples

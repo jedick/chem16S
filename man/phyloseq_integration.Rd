@@ -6,15 +6,15 @@
 \alias{plot_ps_metrics2}
 \title{Calculate and plot chemical metrics from phyloseq objects}
 \description{
-Functions to process phyloseq objects for chemical metrics (\ZC, \nO2, and \nH2O) of community reference proteomes.
+Functions to process phyloseq objects for chemical metrics (\Zc, \nO2, and \nH2O) of community reference proteomes.
 }
 
 \usage{
   ps_taxacounts(physeq, split = TRUE)
-  ps_metrics(physeq, split = TRUE, metrics = c("ZC", "nO2", "nH2O"), quiet = TRUE, ...)
+  ps_metrics(physeq, split = TRUE, metrics = c("Zc", "nO2", "nH2O"), quiet = TRUE, ...)
   plot_ps_metrics(physeq, x = "samples", color = NULL, shape = NULL, title = NULL,
-    scales = "free_y", nrow = 1, metrics = c("ZC", "nO2", "nH2O"), sortby = NULL)
-  plot_ps_metrics2(physeq, x = "ZC", y = "nH2O", color = NULL, shape = NULL, title = NULL)
+    scales = "free_y", nrow = 1, metrics = c("Zc", "nO2", "nH2O"), sortby = NULL)
+  plot_ps_metrics2(physeq, x = "Zc", y = "nH2O", color = NULL, shape = NULL, title = NULL)
 }
 
 \arguments{
@@ -76,6 +76,6 @@ head(sort(table(attr(map, "unmapped_groups")), TRUE), 5)
 ps_metrics(GlobalPatterns, quiet = FALSE)
 }
 
-# Plot metrics grouped by sample type and sorted by mean ZC
-plot_ps_metrics(GlobalPatterns, x = "SampleType", sortby = "ZC")
+# Plot metrics grouped by sample type and sorted by mean Zc
+plot_ps_metrics(GlobalPatterns, x = "SampleType", sortby = "Zc")
 }

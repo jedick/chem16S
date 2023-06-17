@@ -10,9 +10,9 @@ The amino acid compositions of the community reference proteomes can be used to 
 This example from the help page for the [`plot_metrics`](man/plot_metrics.Rd) function shows relatively low *n*<sub>H<sub>2</sub>O</sub> in high-salinity samples from the Baltic Sea with 16S rRNA gene sequencing data from [Herlemann et al. (2016)](https://doi.org/10.3389/fmicb.2016.01883).
 
 <!-- Default image is too big
-![chem16S::plot_metrics example: Baltic Sea nH2O-ZC plot](inst/images/plot_metrics.png)
+![chem16S::plot_metrics example: Baltic Sea nH2O-Zc plot](inst/images/plot_metrics.png)
 -->
-<img src="inst/images/plot_metrics.png" alt="chem16S::plot_metrics example: Baltic Sea nH2O-ZC plot" width="500" />
+<img src="inst/images/plot_metrics.png" alt="chem16S::plot_metrics example: Baltic Sea nH2O-Zc plot" width="500" />
 
 ### Reference proteomes for taxa
 

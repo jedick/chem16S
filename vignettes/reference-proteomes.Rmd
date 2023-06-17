@@ -23,14 +23,14 @@ if (!nzchar(Sys.which("pngquant"))) pngquant <- NULL
 ```
 
 ```{r HTML, include = FALSE}
-ZC <- "<i>Z</i><sub>C</sub>"
+Zc <- "<i>Z</i><sub>C</sub>"
 nH2O <- "<i>n</i><sub>H<sub>2</sub>O</sub>"
 ```
 
 Here we visualize chemical metrics for genera aggregated to higher levels, using precomputed reference proteomes for taxa in the **chem16S** package.
 
-> *Chemical metrics* are molecular properties computed from elemental compositions (derived from amino acid compositions) of proteins and include carbon oxidation state (`r ZC`) and stoichiometric hydration state (`r nH2O`), as described by @DYT20.
-**chem16S** uses the `ZCAA()` and `H2OAA()` functions from the **canprot** package to calculate chemical metrics.
+> *Chemical metrics* are molecular properties computed from elemental compositions (derived from amino acid compositions) of proteins and include carbon oxidation state (`r Zc`) and stoichiometric hydration state (`r nH2O`), as described by @DYT20.
+**chem16S** uses the `Zc()` and `nH2O()` functions from the **canprot** package to calculate chemical metrics.
 
 ## Required packages
 
@@ -50,46 +50,46 @@ ranks <- taxon_AA$protein
 table(ranks)[unique(ranks)]
 ```
 
-* Calculate `r ZC`.
+* Calculate `r Zc`.
 * Make boxplots for the taxa at each rank.
-```{r ZC_boxplot, fig.width = 5, fig.height = 5, fig.align = "center"}
-taxon_ZC <- ZCAA(taxon_AA)
-ZC_list <- sapply( unique(ranks), function(rank) taxon_ZC[ranks == rank] )
+```{r Zc_boxplot, fig.width = 5, fig.height = 5, fig.align = "center"}
+taxon_Zc <- Zc(taxon_AA)
+Zc_list <- sapply( unique(ranks), function(rank) taxon_Zc[ranks == rank] )
 par(mar = c(4, 7, 1, 1))
-boxplot(ZC_list, horizontal = TRUE, las = 1, xlab = cplab$ZC)
+boxplot(Zc_list, horizontal = TRUE, las = 1, xlab = cplab$Zc)
 ```
 
-## `r ZC` for genera in selected phyla and classes
+## `r Zc` for genera in selected phyla and classes
 
 * Read the list of taxonomic names.
 * Define a function to get the names of unique genera in a phylum.
-* Define a function to get `r ZC` for named genera.
-* Calculate mean `r ZC` for genera in selected phyla.
+* Define a function to get `r Zc` for named genera.
+* Calculate mean `r Zc` for genera in selected phyla.
 ```{r phylum_to_genus}
 taxnames <- read.csv(system.file("extdata/RefSeq/taxon_names.csv.xz", package = "chem16S"))
 phylum_to_genus <- function(phylum) na.omit(unique(taxnames$genus[taxnames$phylum == phylum]))
-get_ZC <- function(genera) na.omit(taxon_ZC[match(genera, taxon_AA$organism)])
-sapply(sapply(sapply(c("Crenarchaeota", "Euryarchaeota"), phylum_to_genus), get_ZC), mean)
+get_Zc <- function(genera) na.omit(taxon_Zc[match(genera, taxon_AA$organism)])
+sapply(sapply(sapply(c("Crenarchaeota", "Euryarchaeota"), phylum_to_genus), get_Zc), mean)
 ```
 
-Within the Euryarchaeota, there are classes with extremely high and low `r ZC` [see below and @DT23]. Let's look at a couple of them:
+Within the Euryarchaeota, there are classes with extremely high and low `r Zc` [see below and @DT23]. Let's look at a couple of them:
 ```{r class_to_genus}
 class_to_genus <- function(class) na.omit(unique(taxnames$genus[taxnames$class == class]))
-sapply(sapply(sapply(c("Methanococci", "Halobacteria"), class_to_genus), get_ZC), mean)
+sapply(sapply(sapply(c("Methanococci", "Halobacteria"), class_to_genus), get_Zc), mean)
 ```
 
 ## Prokaryotic genera, aggregated to phylum
 
-Read full list of taxonomic names; remove viruses; prune to keep unique genera; count number of genera in each phylum; calculate `r ZC` for genera in 20 most highly represented phyla of Bacteria and Archaea; order according to mean `r ZC`; make boxplots:
-```{r phylum_ZC, fig.width = 7, fig.height = 6, fig.align = "center"}
+Read full list of taxonomic names; remove viruses; prune to keep unique genera; count number of genera in each phylum; calculate `r Zc` for genera in 20 most highly represented phyla of Bacteria and Archaea; order according to mean `r Zc`; make boxplots:
+```{r phylum_Zc, fig.width = 7, fig.height = 6, fig.align = "center"}
 taxnames2 <- taxnames[taxnames$superkingdom != "Viruses", ]
 taxnames3 <- taxnames2[!duplicated(taxnames2$genus), ]
 (top20_phyla <- head(sort(table(taxnames3$phylum), TRUE), 20))
-ZC_list <- sapply(sapply(names(top20_phyla), phylum_to_genus), get_ZC)
-order_ZC <- order(sapply(ZC_list, mean))
-ZC_list <- ZC_list[order_ZC]
+Zc_list <- sapply(sapply(names(top20_phyla), phylum_to_genus), get_Zc)
+order_Zc <- order(sapply(Zc_list, mean))
+Zc_list <- Zc_list[order_Zc]
 par(mar = c(4, 13, 1, 1))
-boxplot(ZC_list, horizontal = TRUE, las = 1, xlab = cplab$ZC)
+boxplot(Zc_list, horizontal = TRUE, las = 1, xlab = cplab$Zc)
 ```
 
 ## Prokaryotic genera, aggregated to class
@@ -101,19 +101,19 @@ Let's take a closer look at the classes within each phylum.
 * Remove viruses.
 * Prune to keep unique genera.
 * Count number of genera in each class.
-* Calculate `r ZC` for genera in 10 most highly represented classes of Bacteria and Archaea.
-* Order according to mean `r ZC`.
+* Calculate `r Zc` for genera in 10 most highly represented classes of Bacteria and Archaea.
+* Order according to mean `r Zc`.
 * Make boxplots.
-```{r class_ZC, fig.width = 10, fig.height = 5, fig.align = "center"}
+```{r class_Zc, fig.width = 10, fig.height = 5, fig.align = "center"}
 par(mfrow = c(1, 2))
 for(phylum in c("Euryarchaeota", "Proteobacteria")) {
   taxnames4 <- taxnames3[taxnames3$phylum == phylum, ]
   (top10_classes <- head(sort(table(taxnames4$class), TRUE), 10))
-  ZC_list <- sapply(sapply(names(top10_classes), class_to_genus), get_ZC)
-  order_ZC <- order(sapply(ZC_list, mean))
-  ZC_list <- ZC_list[order_ZC]
+  Zc_list <- sapply(sapply(names(top10_classes), class_to_genus), get_Zc)
+  order_Zc <- order(sapply(Zc_list, mean))
+  Zc_list <- Zc_list[order_Zc]
   par(mar = c(4, 10, 1, 1))
-  boxplot(ZC_list, horizontal = TRUE, las = 1, xlab = cplab$ZC)
+  boxplot(Zc_list, horizontal = TRUE, las = 1, xlab = cplab$Zc)
 }
 ```
 
@@ -122,7 +122,7 @@ for(phylum in c("Euryarchaeota", "Proteobacteria")) {
 ## Stoichiometric hydration state (`r nH2O`)
 
 ```{r class_nH2O, fig.width = 10, fig.height = 5, fig.align = "center"}
-taxon_nH2O <- H2OAA(taxon_AA)
+taxon_nH2O <- nH2O(taxon_AA)
 get_nH2O <- function(genera) na.omit(taxon_nH2O[match(genera, taxon_AA$organism)])
 
 par(mfrow = c(1, 2))
@@ -141,11 +141,11 @@ for(phylum in c("Euryarchaeota", "Proteobacteria")) {
 
 ## Viruses and prokaryotes
 
-* Plot `r ZC` and `r nH2O` for viral and prokaryotic phyla with the most genus-level representatives.
+* Plot `r Zc` and `r nH2O` for viral and prokaryotic phyla with the most genus-level representatives.
 * Label Bacteria with the lowest `r nH2O`.
 ```{r viruses, fig.width = 7, fig.height = 5, fig.align = "center"}
 (top50_phyla <- head(sort(table(taxnames$phylum), TRUE), 50))
-ZC_mean <- sapply(sapply(sapply(names(top50_phyla), phylum_to_genus), get_ZC), mean)
+Zc_mean <- sapply(sapply(sapply(names(top50_phyla), phylum_to_genus), get_Zc), mean)
 nH2O_mean <- sapply(sapply(sapply(names(top50_phyla), phylum_to_genus), get_nH2O), mean)
 domain <- taxnames$superkingdom[match(names(top50_phyla), taxnames$phylum)]
 pchs <- c(24, 21, 23)
@@ -153,11 +153,11 @@ pch <- sapply(domain, switch, Archaea = pchs[1], Bacteria = pchs[2], Viruses = p
 bgs <- topo.colors(3, alpha = 0.5)
 bg <- sapply(domain, switch, Archaea = bgs[1], Bacteria = bgs[2], Viruses = bgs[3])
 par(mar = c(4, 4, 1, 1))
-plot(ZC_mean, nH2O_mean, xlab = cplab$ZC, ylab = cplab$nH2O, pch = pch, bg = bg)
+plot(Zc_mean, nH2O_mean, xlab = cplab$Zc, ylab = cplab$nH2O, pch = pch, bg = bg)
 ilow <- nH2O_mean < -0.77 & domain == "Bacteria"
 xadj <- c(-0.9, -0.8, 0.8, 1, -0.8)
 yadj <- c(0, 1, 1, -1, -1)
-text(ZC_mean[ilow] + 0.02 * xadj, nH2O_mean[ilow] + 0.005 * yadj, names(top50_phyla[ilow]), cex = 0.9)
+text(Zc_mean[ilow] + 0.02 * xadj, nH2O_mean[ilow] + 0.005 * yadj, names(top50_phyla[ilow]), cex = 0.9)
 legend("bottomleft", c("Archaea", "Bacteria", "Viruses"), pch = pchs, pt.bg = bgs)
 ```
 
@@ -165,7 +165,7 @@ legend("bottomleft", c("Archaea", "Bacteria", "Viruses"), pch = pchs, pt.bg = bg
 
 ## Take-home messages
 
-1. Methanococci and Epsilonproteobacteria (now known as Campylobacterota) are prokaryotic classes whose genera have proteins with the lowest mean `r ZC` in their respective phyla.
+1. Methanococci and Epsilonproteobacteria (now known as Campylobacterota) are prokaryotic classes whose genera have proteins with the lowest mean `r Zc` in their respective phyla.
    This may suggest adaptation to reducing environments such as submarine hot springs and anoxic zones of sediments.
 2. Proteins in Gammaproteobacteria have lower `r nH2O` than Alpha- and Betaproteobacteria.
    This may suggest adaptation to lower water availability in certain habitats.

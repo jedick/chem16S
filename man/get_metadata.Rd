@@ -46,10 +46,10 @@ mdat <- get_metadata(mdatfile, metrics)
 
 # Print sample names
 mdat$metadata$Sample # 1 2 3 4 5
-# Plot ZC of community reference proteomes at sites 1-5
+# Plot Zc of community reference proteomes at sites 1-5
 Site <- mdat$metadata$Sample
-ZC <- mdat$metrics$ZC
-plot(Site, ZC, ylab = "Carbon oxidation state", type = "b")
+Zc <- mdat$metrics$Zc
+plot(Site, Zc, ylab = "Carbon oxidation state", type = "b")
 
 # Find the columns of the RDP file for samples 1 to 5
 match(mdat$metadata$Run, colnames(RDP)) # 6 5 7 8 9

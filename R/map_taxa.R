@@ -54,7 +54,7 @@ map_taxa <- function(taxacounts = NULL, refdb = "RefSeq", quiet = TRUE) {
 
       # 20210530 Marcellus Shale [CHM+14]
       # https://lpsn.dsmz.de/family/arcobacteraceae
-      # Not used because this causes a large low-ZC deviation in Blue Hole 100m sample
+      # Not used because this causes a large low-Zc deviation in Blue Hole 100m sample
       #"family_Arcobacteraceae" = "family_Campylobacteraceae",
 
     NA_character_)

@@ -4,42 +4,42 @@
 plot_metrics <- function(mdat, identify = FALSE, title = TRUE, xlim = NULL, ylim = NULL,
   plot.it = TRUE, points = TRUE, lines = FALSE, cex = 1, pch1 = 1, pch2 = 21,
   return = "data", extracolumn = NULL, add = FALSE, plot.bg = TRUE, pt.open.col = 1,
-  xlab = canprot::cplab$ZC, ylab = canprot::cplab$nH2O) {
+  xlab = canprot::cplab$Zc, ylab = canprot::cplab$nH2O) {
 
   # Get pch and col
   pch <- mdat$metadata$pch
   col <- mdat$metadata$col
-  # Get nH2O and ZC
+  # Get nH2O and Zc
   nH2O <- mdat$metrics$nH2O
-  ZC <- mdat$metrics$ZC
+  Zc <- mdat$metrics$Zc
 
   if(plot.it) {
     # Get axis limits, excluding values of non-plotted points 20210820
     # Also exclude NA values 20210916
-    if(is.null(xlim)) xlim <- range(na.omit(ZC[!is.na(pch)]))
+    if(is.null(xlim)) xlim <- range(na.omit(Zc[!is.na(pch)]))
     if(is.null(ylim)) ylim <- range(na.omit(nH2O[!is.na(pch)]))
     # Start plot
     if(!add) plot(xlim, ylim, xlab = xlab, ylab = ylab, type = "n")
     if(points) {
-      # Add background nH2O-ZC correlation (from basis species)
+      # Add background nH2O-Zc correlation (from basis species)
       if(plot.bg) lmlines()
       # Determine which point symbols are filled (we use col for their bg)
       ifill <- pch > 20
       # Plot points
-      points(ZC[ifill], nH2O[ifill], pch = pch[ifill], col = pt.open.col, bg = col[ifill], cex = cex)
-      points(ZC[!ifill], nH2O[!ifill], pch = pch[!ifill], col = col[!ifill], cex = cex)
+      points(Zc[ifill], nH2O[ifill], pch = pch[ifill], col = pt.open.col, bg = col[ifill], cex = cex)
+      points(Zc[!ifill], nH2O[!ifill], pch = pch[!ifill], col = col[!ifill], cex = cex)
     }
-    if(lines) lines(ZC, nH2O, lty = 3)
+    if(lines) lines(Zc, nH2O, lty = 3)
     if(isTRUE(title)) {
       iname <- match("name", tolower(colnames(mdat$metadata)))
       title(na.omit(mdat$metadata[, iname])[1], font.main = 1)
     } else if(!isFALSE(title)) title(title, font.main = 1)
     # Identify points 20200903
     if(identify) {
-      identify(ZC, nH2O, mdat$metrics$sample)
+      identify(Zc, nH2O, mdat$metrics$sample)
       ## Label points with RDP counts 20200919
       #count <- round(colSums(RDP[, -(1:4)]))
-      #identify(ZC, nH2O, count)
+      #identify(Zc, nH2O, count)
     }
   }
 
@@ -48,14 +48,14 @@ plot_metrics <- function(mdat, identify = FALSE, title = TRUE, xlim = NULL, ylim
   means <- list()
   if(!is.null(pch2) & !is.null(pch1) & sum(i2) > 0 & sum(i1) > 0) {
     # Calculate mean of sample values 20201003
-    means <- list(ZC1 = mean(ZC[i1]), ZC2 = mean(ZC[i2]), nH2O1 = mean(nH2O[i1]), nH2O2 = mean(nH2O[i2]))
+    means <- list(Zc1 = mean(Zc[i1]), Zc2 = mean(Zc[i2]), nH2O1 = mean(nH2O[i1]), nH2O2 = mean(nH2O[i2]))
     if(plot.it) {
       col1 <- na.omit(col[pch == pch1])[1]
       col2 <- na.omit(col[pch == pch2])[1]
-      points(means$ZC1, means$nH2O1, pch = 8, cex = 2, lwd = 4, col = "white")
-      points(means$ZC1, means$nH2O1, pch = 8, cex = 2, lwd = 2, col = col1)
-      points(means$ZC2, means$nH2O2, pch = 8, cex = 2, lwd = 4, col = "white")
-      points(means$ZC2, means$nH2O2, pch = 8, cex = 2, lwd = 2, col = col2)
+      points(means$Zc1, means$nH2O1, pch = 8, cex = 2, lwd = 4, col = "white")
+      points(means$Zc1, means$nH2O1, pch = 8, cex = 2, lwd = 2, col = col1)
+      points(means$Zc2, means$nH2O2, pch = 8, cex = 2, lwd = 4, col = "white")
+      points(means$Zc2, means$nH2O2, pch = 8, cex = 2, lwd = 2, col = col2)
     }
   }
 
@@ -91,19 +91,19 @@ add_hull <- function(x, y, basecol, outline = FALSE, ...) {
 # Unexported function #
 #######################
 
-# Add nH2O-ZC guidelines parallel to regression for amino acids
+# Add nH2O-Zc guidelines parallel to regression for amino acids
 # Modified from JMDplots::gradH2O1() and JMDplots:::lmlines() 20200901
 lmlines <- function(step = 0.01) {
   if(FALSE) {
-    # Calculate ZC of the amino acids
+    # Calculate Zc of the amino acids
     aa <- aminoacids("")
-    ZC.aa <- ZC(info(aa, "aq"))
+    Zc.aa <- Zc(info(aa, "aq"))
     # Load amino acids with QCa or QEC basis 20200914
     basis(c("glutamine", "glutamic acid", "cysteine", "H2O", "O2"))
     #if(options("basis")$basis == "QCa") basis(c("glutamine", "cysteine", "acetic acid", "H2O", "O2"))
     species(aa)
     # Make linear regression
-    lm <- lm(species()$H2O ~ ZC.aa)
+    lm <- lm(species()$H2O ~ Zc.aa)
     coef <- coef(lm)
     # Clear species!
     reset()

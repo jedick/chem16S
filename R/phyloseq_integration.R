@@ -65,7 +65,7 @@ ps_taxacounts <- function(physeq, split = TRUE) {
 }
 
 # Calculate chemical metrics from phyloseq object
-ps_metrics <- function(physeq, split = TRUE, metrics = c("ZC", "nO2", "nH2O"), quiet = TRUE, ...) {
+ps_metrics <- function(physeq, split = TRUE, metrics = c("Zc", "nO2", "nH2O"), quiet = TRUE, ...) {
   # Obtain data frame with lowest-level (to genus) classifications for each OTU
   taxacounts <- ps_taxacounts(physeq, split = split)
   # Map names to NCBI taxonomy
@@ -84,7 +84,7 @@ ps_metrics <- function(physeq, split = TRUE, metrics = c("ZC", "nO2", "nH2O"), q
 
 # Plot individual chemical metrics 20230608
 plot_ps_metrics <- function(physeq, x = "samples", color = NULL, shape = NULL, title = NULL,
-  scales = "free_y", nrow = 1, metrics = c("ZC", "nO2", "nH2O"), sortby = NULL) { 
+  scales = "free_y", nrow = 1, metrics = c("Zc", "nO2", "nH2O"), sortby = NULL) { 
 
   # Calculate the chemical metrics
   pmDF <- ps_metrics(physeq, split = TRUE, metrics = metrics)
@@ -196,7 +196,7 @@ plot_ps_metrics <- function(physeq, x = "samples", color = NULL, shape = NULL, t
 }
 
 # Plot two chemical metrics against each other 20230617
-plot_ps_metrics2 <- function(physeq, x = "ZC", y = "nH2O", color = NULL, shape = NULL, title = NULL) { 
+plot_ps_metrics2 <- function(physeq, x = "Zc", y = "nH2O", color = NULL, shape = NULL, title = NULL) { 
 
   # Calculate the chemical metrics
   pmDF <- ps_metrics(physeq, split = TRUE, metrics = c(x, y))

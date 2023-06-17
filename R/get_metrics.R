@@ -44,29 +44,29 @@ get_metrics <- function(RDP = NULL, map = NULL, refdb = "RefSeq", taxon_AA = NUL
     stopifnot(all(AAcomp[, "chains"] == colSums(RDPmat)))
     # Set counts of specified amino acids to zero 20221018
     if(!is.null(zero_AA)) AAcomp[, zero_AA] <- 0
-    # Calculate ZC, nO2, and nH2O from amino acid composition
-    ZC <- ZCAA(AAcomp)
-    nO2 <- O2AA(AAcomp)
-    nH2O <- H2OAA(AAcomp)
+    # Calculate Zc, nO2, and nH2O from amino acid composition
+    Zc <- Zc(AAcomp)
+    nO2 <- nO2(AAcomp)
+    nH2O <- nH2O(AAcomp)
     # Create output data frame
-    out <- data.frame(Run = colnames(RDPmat), ZC = ZC, nO2 = nO2, nH2O = nH2O)
+    out <- data.frame(Run = colnames(RDPmat), Zc = Zc, nO2 = nO2, nH2O = nH2O)
     if(return_AA) out <- cbind(data.frame(Run = colnames(RDPmat)), AAcomp)
   } else {
     # Split data into sample groups and calculate metrics for each group 20210607
-    nH2O <- nO2 <- ZC <- numeric()
+    nH2O <- nO2 <- Zc <- numeric()
     for(i in 1:length(groups)) {
       # Use rowSums to combine all samples in each group into one meta-sample
       thisRDP <- rowSums(RDPmat[, groups[[i]], drop = FALSE])
       AAcomp <- t(thisRDP) %*% AAmat
       # Set counts of specified amino acids to zero 20221018
       if(!is.null(zero_AA)) AAcomp[, zero_AA] <- 0
-      ZC <- c(ZC, ZCAA(AAcomp))
-      nO2 <- c(nO2, O2AA(AAcomp))
-      nH2O <- c(nH2O, H2OAA(AAcomp))
+      Zc <- c(Zc, Zc(AAcomp))
+      nO2 <- c(nO2, nO2(AAcomp))
+      nH2O <- c(nH2O, nH2O(AAcomp))
     }
     group <- names(groups)
     if(is.null(group)) group <- 1:length(groups)
-    out <- data.frame(group = group, ZC = ZC, nO2 = nO2, nH2O = nH2O)
+    out <- data.frame(group = group, Zc = Zc, nO2 = nO2, nH2O = nH2O)
     if(return_AA) out <- cbind(data.frame(group = group), AAcomp)
   }
 

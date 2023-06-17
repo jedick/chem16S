@@ -4,7 +4,7 @@
 \title{Calculate chemical metrics of community reference proteomes}
 \description{
 Combines RDP classifications with RefSeq reference proteomes to get amino acid compositions of community reference proteomes.
-Amino acid compositions are used to calculate chemical metrics (\ZC, \nO2, and \nH2O).
+Amino acid compositions are used to calculate chemical metrics (\Zc, \nO2, and \nH2O).
 }
 
 \usage{
@@ -24,9 +24,9 @@ Amino acid compositions are used to calculate chemical metrics (\ZC, \nO2, and \
 
 \details{
 
-\code{get_metrics} calculates the carbon oxidation state (\ZC), stoichiometric oxidation state (\nO2), and stoichiometric hydration state (\nH2O) for the community reference proteome in each sample.
+\code{get_metrics} calculates the carbon oxidation state (\Zc), stoichiometric oxidation state (\nO2), and stoichiometric hydration state (\nH2O) for the community reference proteome in each sample.
 The community reference proteome is computed as the weighted mean of amino acid compositions of reference proteomes for taxa, where weights are the RDP classification counts.
-Then, \ZC, \nO2, and \nH2O are calculated from the amino acid composition of the community reference proteome with the \code{\link[canprot]{ZCAA}}, \code{\link[canprot]{O2AA}}, and \code{\link[canprot]{H2OAA}} functions.
+Then, \Zc, \nO2, and \nH2O are calculated from the amino acid composition of the community reference proteome with the \code{\link[canprot]{Zc}}, \code{\link[canprot]{nO2}}, and \code{\link[canprot]{nH2O}} functions.
 
 }
 
@@ -42,7 +42,7 @@ Then, \ZC, \nO2, and \nH2O are calculated from the amino acid composition of the
 RDPfile <- system.file("extdata/RDP/BGPF13.tab.xz", package = "chem16S")
 RDP <- read_RDP(RDPfile)
 map <- map_taxa(RDP)
-# This is a data frame with 14 rows and Run, ZC, nO2, and nH2O columns
+# This is a data frame with 14 rows and Run, Zc, nO2, and nH2O columns
 (metrics <- get_metrics(RDP, map))
 
 # Read the metadata file
@@ -51,7 +51,7 @@ mdatfile <- system.file("extdata/metadata/BGPF13.csv", package = "chem16S")
 mdat <- get_metadata(mdatfile, metrics)
 # Calculate metrics for aggregated samples of Archaea and Bacteria
 groups <- list(A = mdat$metadata$domain == "Archaea", B = mdat$metadata$domain == "Bacteria")
-# This is a data frame with 2 rows and group, ZC, nO2, and nH2O columns
+# This is a data frame with 2 rows and group, Zc, nO2, and nH2O columns
 get_metrics(RDP, map, groups = groups)
 
 ## Third example is for RDP Classifer with GTDB SSU training set
@@ -62,11 +62,11 @@ RDP.GTDB <- read_RDP(RDPfile.GTDB)
 map.GTDB <- map_taxa(RDP.GTDB)
 metrics.GTDB <- get_metrics(RDP.GTDB, map.GTDB)
 
-# Plot ZC from GTDB vs RefSeq
-xylim <- range(metrics$ZC, metrics.GTDB$ZC)
-plot(metrics$ZC, metrics.GTDB$ZC, xlim = xylim, ylim = xylim, type = "n")
+# Plot Zc from GTDB vs RefSeq
+xylim <- range(metrics$Zc, metrics.GTDB$Zc)
+plot(metrics$Zc, metrics.GTDB$Zc, xlim = xylim, ylim = xylim, type = "n")
 lines(xylim, xylim, lty = 2, col = 8)
-points(metrics$ZC, metrics.GTDB$ZC, pch = mdat$metadata$pch, bg = mdat$metadata$col)
+points(metrics$Zc, metrics.GTDB$Zc, pch = mdat$metadata$pch, bg = mdat$metadata$col)
 md.leg <- mdat$metadata[1:2, ]
 legend("bottomright", md.leg$domain, pch = md.leg$pch, pt.bg = md.leg$col)
 title(quote(italic(Z)[C]~"from GTDB vs RefSeq"))

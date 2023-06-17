@@ -12,7 +12,7 @@ export(
   "plot_ps_metrics2"
 )
 
-importFrom("canprot", "ZCAA", "O2AA", "H2OAA", "cplab")
+importFrom("canprot", "Zc", "nO2", "nH2O", "cplab")
 importFrom("stats", "aggregate", "na.omit")
 importFrom("utils", "read.csv", "read.table", "tail")
 importFrom("grDevices", "chull", "col2rgb", "rgb")

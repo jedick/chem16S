@@ -5,7 +5,7 @@
 
 # Calculate amino acid composition of taxonomic groups at genus and higher ranks --> taxon_AA.csv
 # taxon_AA()       
-# Calculate chemical metrics (nH2O, ZC) for each RefSeq group --> taxon_metrics.csv
+# Calculate chemical metrics (nH2O, Zc) for each RefSeq group --> taxon_metrics.csv
 # taxon_metrics()         
 
 # Calculate average amino acid composition of genus and higher ranks in RefSeq 20200911
@@ -111,10 +111,10 @@ taxon_metrics <- function() {
   # Read amino acid compositions of all groups
   AA <- read.csv("taxon_AA.csv", as.is = TRUE)
   # Build output data frame; rename columns for better readability
-  out <- data.frame(rank = AA$protein, group = AA$organism, ntaxa = AA$ref, parent = AA$abbrv, nH2O = NA, ZC = NA, nC = NA)
+  out <- data.frame(rank = AA$protein, group = AA$organism, ntaxa = AA$ref, parent = AA$abbrv, nH2O = NA, Zc = NA, nC = NA)
   # Calculate metrics
-  out$nH2O <- round(canprot::H2OAA(AA), 6)
-  out$ZC <- round(canprot::ZCAA(AA), 6)
+  out$nH2O <- round(canprot::nH2O(AA), 6)
+  out$Zc <- round(canprot::Zc(AA), 6)
   out$nC <- round(CAA(AA), 6)
   write.csv(out, "taxon_metrics.csv", row.names = FALSE, quote = FALSE)
 }
