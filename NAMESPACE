@@ -7,7 +7,9 @@ export(
   "plot_metrics",
   "add_hull",
   # Integration with phyloseq 20230608
-  "ps_taxacounts", "ps_metrics", "plot_ps_metrics"
+  "ps_taxacounts", "ps_metrics", "plot_ps_metrics",
+  # 20230617
+  "plot_ps_metrics2"
 )
 
 importFrom("canprot", "ZCAA", "O2AA", "H2OAA", "cplab")
@@ -19,7 +21,7 @@ importFrom("graphics", "box", "lines", "par", "polygon")
 # Integration with phyloseq 20230608
 importFrom("phyloseq", "tax_table", "taxa_sums", "otu_table", "taxa_are_rows", "sample_data", "sample_names")
 importFrom("plyr", "is.discrete")
-importFrom("ggplot2", "aes", "ggplot", "geom_point", "theme", "element_text", "ylab",
+importFrom("ggplot2", "aes", "ggplot", "geom_point", "theme", "element_text", "xlab", "ylab",
   "facet_wrap", "ggtitle", "labeller", "label_parsed")
 importFrom("rlang", ".data")
 importFrom("reshape2", "melt")

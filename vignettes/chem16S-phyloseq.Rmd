@@ -88,7 +88,7 @@ plot_bar(ps.top20, x = "Day", fill = "Family") + facet_wrap(~When, scales = "fre
 
 ## Lowest-level taxa
 
-The **chem16S** package contains the amino acid compositions of archaeal, bacterial, and viral taxa at levels from genus to phylum constructed from the RefSeq database; see the vignette entitled [Chemical metrics of reference proteomes for taxa](reference-proteomes.html) for more information.
+The **chem16S** package contains the amino acid compositions of archaeal, bacterial, and viral taxa at levels from genus to phylum constructed from the RefSeq database; see the vignette [**Chemical metrics of reference proteomes for taxa**](reference-proteomes.html) for more information.
 There are denoted as *reference proteomes* for taxa.
 Several functions are available to identify the lowest-level taxon for each classified read (or in this case, each ASV), combine the reference proteomes for all taxa to create *community reference proteomes*, and calculate chemical metrics from them.
 
@@ -191,15 +191,12 @@ plot_ps_metrics(ps.RDP, x = "Day", color = "When")
 
 Let's plot two chemical metrics against each other.
 
-```{r plot_metrics2.RDP, fig.width = 7, fig.height = 5, fig.align = "center"}
-#plot_ps_metrics2(ps.RDP, color = "When")
+```{r plot_metrics2.RDP, fig.width = 6, fig.height = 4, fig.align = "center"}
+plot_ps_metrics2(ps.RDP, color = "When")
 ```
 
-## Chemical analysis of genus-level assignments
-Let's analyze the `GlobalPatterns` dataset that is part of **phyloseq**.
-
-```{r GlobalPatterns}
-data(GlobalPatterns)
-```
+This plot suggests that gut communities in later stages of mouse growth are characterized by relatively oxidized and dehydrated reference proteomes.
+Visualizing the chemical metrics of communities can provide insight beyond conventional diversity metrics.
+See the next vignette [**It ain't ordination**](it-aint-ordination.html) for more examples.
 
 ## References

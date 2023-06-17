@@ -82,6 +82,7 @@ ps_metrics <- function(physeq, split = TRUE, metrics = c("ZC", "nO2", "nH2O"), q
   met
 }
 
+# Plot individual chemical metrics 20230608
 plot_ps_metrics <- function(physeq, x = "samples", color = NULL, shape = NULL, title = NULL,
   scales = "free_y", nrow = 1, metrics = c("ZC", "nO2", "nH2O"), sortby = NULL) { 
 
@@ -194,3 +195,44 @@ plot_ps_metrics <- function(physeq, x = "samples", color = NULL, shape = NULL, t
 
 }
 
+# Plot two chemical metrics against each other 20230617
+plot_ps_metrics2 <- function(physeq, x = "ZC", y = "nH2O", color = NULL, shape = NULL, title = NULL) { 
+
+  # Calculate the chemical metrics
+  pmDF <- ps_metrics(physeq, split = TRUE, metrics = c(x, y))
+
+  # Make the plotting data.frame.
+  if( !is.null(sample_data(physeq, errorIfNULL = FALSE)) ){
+    # Include the sample data, if it is there.
+    DF <- data.frame(pmDF, sample_data(physeq))
+  } else {
+    # If no sample data, leave it out.
+    DF <- data.frame(pmDF)
+  }
+
+  if( !"samples" %in% colnames(DF) ){
+    # If there is no "samples" variable in DF, add it
+    DF$samples <- sample_names(physeq)
+  }
+
+  # TODO: Find elegant way to handle NULL values ...
+  #       See https://stackoverflow.com/questions/57350795/r-rlang-handle-null-arguments
+  if(!is.null(color) & !is.null(shape)) {
+    metrics_map <- aes(.data[[x]], .data[[y]], colour = .data[[color]], shape = .data[[shape]])
+  } else if(!is.null(color)) {
+    metrics_map <- aes(.data[[x]], .data[[y]], colour = .data[[color]])
+  } else if(!is.null(shape)) {
+    metrics_map <- aes(.data[[x]], .data[[y]], shape = .data[[shape]])
+  } else {
+    metrics_map <- aes(.data[[x]], .data[[y]])
+  }
+
+  # Make the ggplot.
+  p <- ggplot(DF, metrics_map) + geom_point(na.rm = TRUE) + xlab(cplab[[x]]) + ylab (cplab[[y]])
+  # Optionally add a title to the plot
+  if( !is.null(title) ){
+    p <- p + ggtitle(title)
+  }
+  return(p)
+
+}
