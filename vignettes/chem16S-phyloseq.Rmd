@@ -14,22 +14,6 @@ bibliography: chem16S.bib
 csl: elementa.csl
 ---
 
-<script>
-function ToggleDiv(ID) {
-  var D = document.getElementById("D-" + ID);
-  var B = document.getElementById("B-" + ID);
-  if (D.style.display === "none") {
-    // open the div and change button text
-    D.style.display = "block";
-    B.innerText = "Hide code";
-  } else {
-    // close the div and change button text
-    D.style.display = "none";
-    B.innerText = "Show code";
-  }
-}
-</script>
-
 ```{r setup, include = FALSE}
 options(width = 80)
 ## Use pngquant to optimize PNG images

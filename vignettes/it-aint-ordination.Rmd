@@ -1,0 +1,79 @@
+---
+title: "It ain’t ordination: Plotting two chemical variables"
+author: "Jeffrey M. Dick"
+output:
+  html_document:
+    mathjax: null
+    toc: true
+    css: style.css
+vignette: >
+  %\VignetteIndexEntry{It ain’t ordination: Plotting two chemical variables}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+bibliography: chem16S.bib
+csl: elementa.csl
+---
+
+```{r setup, include = FALSE}
+options(width = 80)
+## Use pngquant to optimize PNG images
+library(knitr)
+knit_hooks$set(pngquant = hook_pngquant)
+pngquant <- "--speed=1 --quality=0-25"
+if (!nzchar(Sys.which("pngquant"))) pngquant <- NULL
+```
+
+```{r HTML, include = FALSE}
+Zc <- "<i>Z</i><sub>C</sub>"
+nH2O <- "<i>n</i><sub>H<sub>2</sub>O</sub>"
+```
+
+What's the difference between *chemical metrics* and *diversity metrics*?
+They can both be used to measure differences between communities, known as beta diversity.
+The visualization of beta diversity conventionally takes the form of ordinations, which are a type of dimensionality reduction that associates trends in the data with one or more synthetic variables.
+Ordinations have a major drawback: the synthetic variables obtained in one study cannot be compared with those of other studies.
+Instead of synthetic variable names like "PCoA1" or "NMDS1", chemical metrics have names like oxidation state and hydration state that reflect chemical variation between protein sequences in the genomes of different taxa.
+Because chemical metrics are defined independently of the data, they can be compared across studies and also be used to test hypotheses about environmental influences on chemical differences at the community level.
+
+In this vignette we'll analyze the GlobalPatterns dataset from phyloseq [derived from @CLW+11] to get a glimpse into chemical variation of community reference proteomes across environments.
+Then, we'll explore the hypothesis that chemical features of communities are shaped by the environmental chemistr by analyzing the OTU table and environmental measuremens including redox potential for Japanese hot springs reported by @OFY+19.
+
+## Load required packages
+
+```{r load_packages}
+library(chem16S)
+library(phyloseq)
+library(ggplot2)
+theme_set(theme_bw())
+```
+
+This vignette was compiled on `r Sys.Date()` with **chem16S** version `r sessionInfo()$otherPkgs$chem16S$Version` and **phyloseq** version `r sessionInfo()$otherPkgs$phyloseq$Version`.
+
+## Load GlobalPatterns data
+
+We will use the GlobalPatterns dataset 'as-is', without the preprocessing described in phyloseq's [Ordination Plots](https://joey711.github.io/phyloseq/plot_ordination-examples) tutorial.
+There, less-abundant OTUs and phyla were removed in order to show high-level trends and shorten computing time.
+One step we do borrow from that tutorial is the addition of a categorical variable that identifies whether the samples are human-associated:
+
+```{r load_GlobalPatterns}
+data(GlobalPatterns)
+human = get_variable(GlobalPatterns, "SampleType") %in% c("Feces", "Mock", "Skin", "Tongue")
+sample_data(GlobalPatterns)$human <- factor(human)
+```
+
+## Plot GlobalPatterns data
+
+```{r plot_metrics2.GlobalPatterns, fig.width = 6, fig.height = 4, fig.align = "center"}
+p2 <- plot_ps_metrics2(GlobalPatterns, color = "SampleType", shape = "human")
+p2 + geom_polygon(aes(fill = SampleType)) + geom_point(size = 4)
+```
+
+At the extremes of carbon oxidation state (`r Zc`), soil communities are the most oxidized and skin and tongue communities are the most reduced.
+At the extremes of stoichiometric hydration state (`r nH2O`), skin communities are the most hydrated and some fecal communities are the least hydrated.
+In more detail, there are environmental microbiomes that show similar ranges of chemical metrics (e.g., Freshwater (creek) and Sediment (estuary)) and others that are different.
+Freshwater (identified as "lake" in @CLW+11) has lower `r Zc` than Freshwater (creek), and some ocean samples have lower `r nH2O` than either freshwater group.
+To a geochemical biologist, these patterns might suggest an influence of greater oxygenation in flowing water compared to lakes, or dehydration in communities adapted to life in salty water compared to freshwater.
+
+## Take-home messages
+
+## References
