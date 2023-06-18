@@ -80,10 +80,10 @@ ps.silva
 To quickly visualize this data, let's reproduce the bar plot from the DADA2 tutorial:
 
 ```{r ps_dada2_barplot, fig.width = 8, fig.height = 5, fig.align = "center"}
-top20 <- names(sort(taxa_sums(ps.silva), decreasing = TRUE))[1:20]
-ps.top20 <- transform_sample_counts(ps.silva, function(OTU) OTU/sum(OTU))
-ps.top20 <- prune_taxa(top20, ps.top20)
-plot_bar(ps.top20, x = "Day", fill = "Family") + facet_wrap(~When, scales = "free_x")
+top20.silva <- names(sort(taxa_sums(ps.silva), decreasing = TRUE))[1:20]
+ps.silva.top20 <- transform_sample_counts(ps.silva, function(OTU) OTU/sum(OTU))
+ps.silva.top20 <- prune_taxa(top20.silva, ps.silva.top20)
+plot_bar(ps.silva.top20, x = "Day", fill = "Phylum") + facet_wrap(~When, scales = "free_x")
 ```
 
 ## Lowest-level taxa
@@ -195,8 +195,54 @@ Let's plot two chemical metrics against each other.
 plot_ps_metrics2(ps.RDP, color = "When")
 ```
 
-This plot suggests that gut communities in later stages of mouse growth are characterized by relatively oxidized and dehydrated reference proteomes.
-Visualizing the chemical metrics of communities can provide insight beyond conventional diversity metrics.
-See the next vignette [**It ain't ordination**](it-aint-ordination.html) for more examples.
+The community reference proteomes for Late samples tend to be more oxidized and less hydrated (i.e., they have higher `r Zc` and lower `r nH2O`) than Early samples, but there is some overlap between the groups.
+
+## Using GTDB for reference proteomes
+
+As noted above, mapping taxon names from Silva or RDP to RefSeq is not perfect.
+To overcome this limitation, the GTDB can be used for both taxonomic classification of 16S rRNA sequences and for reference proteomes of taxa.
+Here we load a phyloseq dataset prepared following the DADA2 Pipeline Tutorial with the substitution of the GTDB training set.
+Then, we plot chemical metrics calculated for reference proteomes derived from the same version of the GTDB.
+
+TODO: check that GTDB versions for 16S rRNA training set and reference proteomes are the same.
+
+```{r data.GTDB, collapse = TRUE, fig.width = 6, fig.height = 4, fig.align = "center"}
+data(ps.GTDB)
+plot_ps_metrics2(ps.GTDB, color = "When", refdb = "GTDB", quiet = FALSE)
+```
+
+Compared to using the RDP for classification of 16S rRNA sequences and RefSeq for reference proteomes, using the GTDB for both yields a clearer separation of Early and Late samples in chemical space.
+There is one Early sample with anomalously high `r Zc` and low `r nH2O`; let's identify it:
+
+```{r early.GTDB, collapse = TRUE, fig.width = 6, fig.height = 4, fig.align = "center"}
+metrics.GTDB <- ps_metrics(ps.GTDB, refdb = "GTDB")
+is.early <- sample_data(ps.GTDB)$When == "Early"
+iout <- which.min(metrics.GTDB[is.early, ]$nH2O)
+(day <- sample_data(ps.GTDB)[is.early, ]$Day[iout])
+```
+
+This is the sample from day `r day`.
+Let's look again at the taxonomic classifications, this time at the phylum level in the GTDB:
+
+```{r barplot.GTDB, fig.width = 8, fig.height = 5, fig.align = "center"}
+top20.GTDB <- names(sort(taxa_sums(ps.GTDB), decreasing = TRUE))[1:20]
+ps.GTDB.top20 <- transform_sample_counts(ps.GTDB, function(OTU) OTU/sum(OTU))
+ps.GTDB.top20 <- prune_taxa(top20.GTDB, ps.GTDB.top20)
+plot_bar(ps.GTDB.top20, x = "Day", fill = "Phylum") + facet_wrap(~When, scales = "free_x")
+```
+
+This plot suggests that a relatively high proportion of taxa in the Bacteroidota phylum makes the Day `r day` sample more similar to samples in the Late group.
+Bacteroidetes (the older name for this phylum) have some of the lowest `r nH2O` among major bacterial phyla [see @DT23]; this may help to explain the differences observed for the Day `r day` sample.
+
+## Take-home messages
+
+1. Taxonomic mapping from Silva to RefSeq or RDP to RefSeq is incomplete.
+   If you do this, it is advisable to at least report the percentage of mapped taxonomic classifications as well as the major unmapped groups,
+   which can be listed with the `quiet = FALSE` argument to `map_taxa()`, `ps_metrics()`, `plot_ps_metrics()`, and `plot_ps_metrics2()`.
+2. Consistent taxonomy can be achieved by using the GTDB for both reference proteomes and 16S rRNA classification.
+   For the dataset analyzed here, this leads to a clearer separation between sample groups in chemical space and helps to identify the taxonomic basis for outliers.
+2. A chemical analysis suggests that gut communities in later stages of mouse growth are characterized by relatively oxidized and dehydrated reference proteomes.
+   Visualizing the chemical metrics of communities can provide insight beyond conventional diversity metrics.
+   See the next vignette [**It ain't ordination**](it-aint-ordination.html) for more examples.
 
 ## References

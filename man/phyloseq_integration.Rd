@@ -11,16 +11,20 @@ Functions to process phyloseq objects for chemical metrics (\Zc, \nO2, and \nH2O
 
 \usage{
   ps_taxacounts(physeq, split = TRUE)
-  ps_metrics(physeq, split = TRUE, metrics = c("Zc", "nO2", "nH2O"), quiet = TRUE, ...)
+  ps_metrics(physeq, split = TRUE, metrics = c("Zc", "nO2", "nH2O"),
+    refdb = "RefSeq", quiet = TRUE, ...)
   plot_ps_metrics(physeq, x = "samples", color = NULL, shape = NULL, title = NULL,
-    scales = "free_y", nrow = 1, metrics = c("Zc", "nO2", "nH2O"), sortby = NULL)
-  plot_ps_metrics2(physeq, x = "Zc", y = "nH2O", color = NULL, shape = NULL, title = NULL)
+    scales = "free_y", nrow = 1, metrics = c("Zc", "nO2", "nH2O"), sortby = NULL,
+    refdb = "RefSeq", quiet = TRUE)
+  plot_ps_metrics2(physeq, x = "Zc", y = "nH2O", color = NULL, shape = NULL,
+    title = NULL, refdb = "RefSeq", quiet = TRUE)
 }
 
 \arguments{
   \item{physeq}{phyloseq-class, a phyloseq object containing an otu_table and tax_table}
   \item{split}{logical, calculate metrics for each sample (TRUE) or the entire set (FALSE)}
   \item{metrics}{character, names of metrics to calculate}
+  \item{refdb}{character, name of reference database (\samp{RefSeq} or \samp{GTDB}; passed to \code{\link{get_metrics}})}
   \item{quiet}{logical, suppress printed messages? (passed to \code{\link{map_taxa}})}
   \item{...}{additional arguments for \code{\link{get_metrics}}}
   \item{x}{map this variable to the horizontal axis}

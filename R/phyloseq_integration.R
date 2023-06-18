@@ -45,6 +45,9 @@ ps_taxacounts <- function(physeq, split = TRUE) {
     taxacounts$lineage[ichl] <- paste(taxacounts$lineage[ichl], names[ichl], sep = ";")
   }
 
+  # Exclude domain (kingdom)-level classifications 20230618
+  taxacounts <- taxacounts[taxacounts$rank != "kingdom", ]
+
   # Sum counts for each unique lineage 20230614
   idup <- duplicated(taxacounts$lineage)
   dedup <- taxacounts[!idup, ]
@@ -65,13 +68,14 @@ ps_taxacounts <- function(physeq, split = TRUE) {
 }
 
 # Calculate chemical metrics from phyloseq object
-ps_metrics <- function(physeq, split = TRUE, metrics = c("Zc", "nO2", "nH2O"), quiet = TRUE, ...) {
+ps_metrics <- function(physeq, split = TRUE, metrics = c("Zc", "nO2", "nH2O"), 
+  refdb = "RefSeq", quiet = TRUE, ...) {
   # Obtain data frame with lowest-level (to genus) classifications for each OTU
   taxacounts <- ps_taxacounts(physeq, split = split)
   # Map names to NCBI taxonomy
-  map <- map_taxa(taxacounts, quiet = quiet)
+  map <- map_taxa(taxacounts, refdb = refdb, quiet = quiet)
   # Calculate chemical metrics for community reference proteomes
-  met <- get_metrics(taxacounts, map, ...)
+  met <- get_metrics(taxacounts, map, refdb = refdb, ...)
   moreargs <- list(...)
   if(isTRUE(moreargs$return_AA)) return(met)
   # Put sample names in rownames (analogous to phyloseq::estimate_richness)
@@ -84,10 +88,11 @@ ps_metrics <- function(physeq, split = TRUE, metrics = c("Zc", "nO2", "nH2O"), q
 
 # Plot individual chemical metrics 20230608
 plot_ps_metrics <- function(physeq, x = "samples", color = NULL, shape = NULL, title = NULL,
-  scales = "free_y", nrow = 1, metrics = c("Zc", "nO2", "nH2O"), sortby = NULL) { 
+  scales = "free_y", nrow = 1, metrics = c("Zc", "nO2", "nH2O"), sortby = NULL,
+  refdb = "RefSeq", quiet = TRUE) { 
 
   # Calculate the chemical metrics
-  pmDF <- ps_metrics(physeq, split = TRUE, metrics = metrics)
+  pmDF <- ps_metrics(physeq, metrics = metrics, refdb = refdb, quiet = quiet)
 
   # Make the plotting data.frame.
   # This coerces to data.frame, required for reliable output from reshape2::melt()
@@ -196,10 +201,11 @@ plot_ps_metrics <- function(physeq, x = "samples", color = NULL, shape = NULL, t
 }
 
 # Plot two chemical metrics against each other 20230617
-plot_ps_metrics2 <- function(physeq, x = "Zc", y = "nH2O", color = NULL, shape = NULL, title = NULL) { 
+plot_ps_metrics2 <- function(physeq, x = "Zc", y = "nH2O", color = NULL, shape = NULL,
+  title = NULL, refdb = "RefSeq", quiet = TRUE) { 
 
   # Calculate the chemical metrics
-  pmDF <- ps_metrics(physeq, split = TRUE, metrics = c(x, y))
+  pmDF <- ps_metrics(physeq, metrics = c(x, y), refdb = refdb, quiet = quiet)
 
   # Make the plotting data.frame.
   if( !is.null(sample_data(physeq, errorIfNULL = FALSE)) ){
@@ -228,7 +234,7 @@ plot_ps_metrics2 <- function(physeq, x = "Zc", y = "nH2O", color = NULL, shape =
   }
 
   # Make the ggplot.
-  p <- ggplot(DF, metrics_map) + geom_point(na.rm = TRUE) + xlab(cplab[[x]]) + ylab (cplab[[y]])
+  p <- ggplot(DF, metrics_map) + geom_point(na.rm = TRUE) + xlab(cplab[[x]]) + ylab(cplab[[y]])
   # Optionally add a title to the plot
   if( !is.null(title) ){
     p <- p + ggtitle(title)
