@@ -5,7 +5,7 @@
 \alias{ps.GTDB}
 \title{phyloseq objects generated using the DADA2 Pipeline Tutorial}
 \description{
-  Objects in \code{\link{phyloseq-class}} format created by following the DADA2 Pipeline Tutorial (Callahan, 2020).
+  Objects in \code{\link[phyloseq]{phyloseq-class}} format created by following the DADA2 Pipeline Tutorial (Callahan, 2020).
 }
 \details{
   These files were made by using three different training sets to assign taxonomy to genus level:
