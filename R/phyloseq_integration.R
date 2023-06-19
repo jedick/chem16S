@@ -10,17 +10,21 @@
 # (genus to domain level - use column names similar to output from RDP Classifier)
 ps_taxacounts <- function(physeq, split = TRUE) {
 
+  if(!requireNamespace("phyloseq", quietly = TRUE)) {
+    stop("Pleast first install phyloseq from Bioconductor")
+  }
+  
   # Get taxonomy table
-  tax <- tax_table(physeq)
+  tax <- phyloseq::tax_table(physeq)
 
   # Get OTU table
   # NOTE: We want to keep taxa as rows (the opposite of estimate_richness())
   if(!split) {
     # Sum the taxonomic abundances
-    OTU <- as.data.frame(taxa_sums(physeq))
+    OTU <- as.data.frame(phyloseq::taxa_sums(physeq))
   } else {
-    OTU <- otu_table(physeq)
-    if(!taxa_are_rows(physeq)) OTU <- t(OTU)
+    OTU <- phyloseq::otu_table(physeq)
+    if(!phyloseq::taxa_are_rows(physeq)) OTU <- t(OTU)
   }
 
   # Convert OTU table to data frame
@@ -91,14 +95,18 @@ plot_ps_metrics <- function(physeq, x = "samples", color = NULL, shape = NULL, t
   scales = "free_y", nrow = 1, metrics = c("Zc", "nO2", "nH2O"), sortby = NULL,
   refdb = "RefSeq", quiet = TRUE) { 
 
+  if(!requireNamespace("phyloseq", quietly = TRUE)) {
+    stop("Pleast first install phyloseq from Bioconductor")
+  }
+  
   # Calculate the chemical metrics
   pmDF <- ps_metrics(physeq, metrics = metrics, refdb = refdb, quiet = quiet)
 
   # Make the plotting data.frame.
   # This coerces to data.frame, required for reliable output from reshape2::melt()
-  if( !is.null(sample_data(physeq, errorIfNULL = FALSE)) ){
+  if( !is.null(phyloseq::sample_data(physeq, errorIfNULL = FALSE)) ){
     # Include the sample data, if it is there.
-    DF <- data.frame(pmDF, sample_data(physeq))
+    DF <- data.frame(pmDF, phyloseq::sample_data(physeq))
   } else {
     # If no sample data, leave it out.
     DF <- data.frame(pmDF)
@@ -106,7 +114,7 @@ plot_ps_metrics <- function(physeq, x = "samples", color = NULL, shape = NULL, t
 
   if( !"samples" %in% colnames(DF) ){
     # If there is no "samples" variable in DF, add it
-    DF$samples <- sample_names(physeq)
+    DF$samples <- phyloseq::sample_names(physeq)
   }
   # sample_names used to be default, and should also work.
   # #backwardcompatibility
@@ -204,13 +212,17 @@ plot_ps_metrics <- function(physeq, x = "samples", color = NULL, shape = NULL, t
 plot_ps_metrics2 <- function(physeq, x = "Zc", y = "nH2O", color = NULL, shape = NULL,
   title = NULL, refdb = "RefSeq", quiet = TRUE) { 
 
+  if(!requireNamespace("phyloseq", quietly = TRUE)) {
+    stop("Pleast first install phyloseq from Bioconductor")
+  }
+  
   # Calculate the chemical metrics
   pmDF <- ps_metrics(physeq, metrics = c(x, y), refdb = refdb, quiet = quiet)
 
   # Make the plotting data.frame.
-  if( !is.null(sample_data(physeq, errorIfNULL = FALSE)) ){
+  if( !is.null(phyloseq::sample_data(physeq, errorIfNULL = FALSE)) ){
     # Include the sample data, if it is there.
-    DF <- data.frame(pmDF, sample_data(physeq))
+    DF <- data.frame(pmDF, phyloseq::sample_data(physeq))
   } else {
     # If no sample data, leave it out.
     DF <- data.frame(pmDF)
@@ -218,7 +230,7 @@ plot_ps_metrics2 <- function(physeq, x = "Zc", y = "nH2O", color = NULL, shape =
 
   if( !"samples" %in% colnames(DF) ){
     # If there is no "samples" variable in DF, add it
-    DF$samples <- sample_names(physeq)
+    DF$samples <- phyloseq::sample_names(physeq)
   }
 
   # TODO: Find elegant way to handle NULL values ...

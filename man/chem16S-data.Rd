@@ -17,10 +17,12 @@
   }
 }
 \examples{
+if(requireNamespace("phyloseq", quietly = TRUE)) {
 # Load one data set
 data(ps.silva)
 # Summarize the object (phyloseq format)
 ps.silva
+}
 }
 \references{
 Benjamin Callahan (2020). DADA2 Pipeline Tutorial (1.16). \url{https://benjjneb.github.io/dada2/tutorial.html}, accessed on 2023-06-14. Publication year taken from \url{https://code.bioconductor.org/browse/dada2/blob/RELEASE_3_11/DESCRIPTION}.

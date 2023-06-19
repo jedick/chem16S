@@ -63,6 +63,7 @@ The author of this Rd file and the \code{ps_taxacounts} and \code{ps_metrics} fu
 }
 
 \examples{
+if(requireNamespace("phyloseq", quietly = TRUE)) {
 # Load the GlobalPatterns dataset from phyloseq
 data(GlobalPatterns, package = "phyloseq")
 
@@ -82,4 +83,5 @@ ps_metrics(GlobalPatterns, quiet = FALSE)
 
 # Plot metrics grouped by sample type and sorted by mean Zc
 plot_ps_metrics(GlobalPatterns, x = "SampleType", sortby = "Zc")
+}
 }

@@ -14,21 +14,46 @@ bibliography: chem16S.bib
 csl: elementa.csl
 ---
 
-```{r setup, include = FALSE}
-options(width = 80)
-## Use pngquant to optimize PNG images
-library(knitr)
-knit_hooks$set(pngquant = hook_pngquant)
-pngquant <- "--speed=1 --quality=0-25"
-if (!nzchar(Sys.which("pngquant"))) pngquant <- NULL
-```
-
 ```{r HTML, include = FALSE}
 Zc <- "<i>Z</i><sub>C</sub>"
 nH2O <- "<i>n</i><sub>H<sub>2</sub>O</sub>"
 nO2 <- "<i>n</i>O<sub>2</sub>"
 H2O <- "<sub>H<sub>2</sub>O</sub>"
 O2 <- "O<sub>2</sub>"
+```
+
+```{r setup, echo = FALSE}
+options(width = 80)
+# Use pngquant to optimize PNG images
+library(knitr)
+knit_hooks$set(pngquant = hook_pngquant)
+pngquant <- "--speed=1 --quality=0-25"
+if (!nzchar(Sys.which("pngquant"))) pngquant <- NULL
+# To make warnings appear in text box 20230619
+# https://selbydavid.com/2017/06/18/rmarkdown-alerts/
+knitr::knit_hooks$set(
+   error = function(x, options) {
+     paste('\n\n<div class="alert alert-danger">',
+           gsub('##', '\n', gsub('^##\ Error', '**Error:**', x)),
+           '</div>', sep = '\n')
+   },
+   warning = function(x, options) {
+     paste('\n\n<div class="alert alert-warning">',
+           gsub('##', '\n', gsub('^##\ Warning:', '**Warning:**', x)),
+           '</div>', sep = '\n')
+   },
+   message = function(x, options) {
+     paste('\n\n<div class="alert alert-info">',
+           gsub('##', '\n', x),
+           '</div>', sep = '\n')
+   }
+)
+# Don't evaluate chunks if phyloseq is not available 20230619
+if(!requireNamespace("phyloseq", quietly = TRUE)) {
+  knitr::opts_chunk$set(eval = FALSE)
+  day <- imin <- AA.RDP <- map.RDP <- map.silva <- NULL
+  warning("The **phyloseq** package is not available, so this vignette shows only the code without the results.")
+}
 ```
 
 This vignette demonstrates the integration of **chem16S** with **phyloseq** to calculate chemical metrics of community reference proteomes.
@@ -145,7 +170,7 @@ imin <- which.min(lengths)
 text(lengths[imin], 1.5, AA.RDP$Run[imin], adj = 1)
 ```
 
-Sample `r AA.RDP$Run[imin]` (from Day `r strsplit(AA.RDP$Run[imin], "D")[[1]][2]`) has the lowest average protein length of the reference proteomes in the community and might even be an outlier.
+Sample `r AA.RDP$Run[imin]` (from Day `r if(!is.null(AA.RDP)) strsplit(AA.RDP$Run[imin], "D")[[1]][2]`) has the lowest average protein length of the reference proteomes in the community and might even be an outlier.
 
 ## From taxonomy to chemical metrics
 

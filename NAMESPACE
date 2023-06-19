@@ -19,7 +19,8 @@ importFrom("grDevices", "chull", "col2rgb", "rgb")
 importFrom("graphics", "box", "lines", "par", "polygon")
 
 # Integration with phyloseq 20230608
-importFrom("phyloseq", "tax_table", "taxa_sums", "otu_table", "taxa_are_rows", "sample_data", "sample_names")
+# Moved phyloseq to Suggests 20230619
+# importFrom("phyloseq", "tax_table", "taxa_sums", "otu_table", "taxa_are_rows", "sample_data", "sample_names")
 importFrom("plyr", "is.discrete")
 importFrom("ggplot2", "aes", "ggplot", "geom_point", "theme", "element_text", "xlab", "ylab",
   "facet_wrap", "ggtitle", "labeller", "label_parsed")

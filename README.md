@@ -26,9 +26,23 @@ The `taxon_AA.R` script generates the reference proteomes for each viral, archae
 
 ### Installation
 
-Install the **remotes** package from CRAN, then use that to install **chem16S** from GitHub.
+<!-- If you don't have it already, first install the **remotes** package from CRAN, then use that to install **chem16S** from GitHub. -->
+As of 2023-06-17, **chem16S** depends on the development version of **canprot** from GitHub (not the released version on CRAN).
 
 ```
+# Skip this if you already have 'remotes' installed
 install.packages("remotes")
+
+remotes::install_github("jedick/canprot")
 remotes::install_github("jedick/chem16S")
+```
+
+[**phyloseq**](https://doi.org/10.18129/B9.bioc.phyloseq) is an optional but recommended dependency that is needed to build some of the vignettes in **chem16S**.
+
+```
+# Skip this if you already have 'BiocManager' installed
+install.packages("BiocManager")
+
+BiocManager::install("phyloseq")
+remotes::install_github("jedick/chem16S", build_vignettes = TRUE)
 ```
