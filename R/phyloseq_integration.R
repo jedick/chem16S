@@ -15,7 +15,7 @@ ps_taxacounts <- function(physeq, split = TRUE) {
   }
   
   # Get taxonomy table
-  tax <- phyloseq::tax_table(physeq)
+  taxtable <- phyloseq::tax_table(physeq)
 
   # Get OTU table
   # NOTE: We want to keep taxa as rows (the opposite of estimate_richness())
@@ -35,14 +35,14 @@ ps_taxacounts <- function(physeq, split = TRUE) {
   # Loop over taxonomic ranks
   for(rank in c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus")) {
     # Get classifications at this rank
-    names <- as.vector(tax[, rank])
+    names <- as.vector(taxtable[, rank])
     # Insert non-NA classifications into data frame
     is.classified <- !is.na(names)
     taxacounts$name[is.classified] <- names[is.classified]
     taxacounts$rank[is.classified] <- tolower(rank)
     # Add name to lineage
+    # If lineage is NA, start with the first available classification (e.g. "Archaea")
     has.lineage <- !is.na(taxacounts$lineage)
-    # If lineage is NA, just use the first available classification (e.g. "Archaea")
     taxacounts$lineage[is.classified & !has.lineage] <- names[is.classified]
     # If lineage is not NA, append current classification to existing lineage
     ichl <- is.classified & has.lineage
@@ -51,6 +51,8 @@ ps_taxacounts <- function(physeq, split = TRUE) {
 
   # Exclude domain (kingdom)-level classifications 20230618
   taxacounts <- taxacounts[taxacounts$rank != "kingdom", ]
+  # Exclude NA classifications 20230625
+  taxacounts <- taxacounts[!is.na(taxacounts$lineage), ]
 
   # Sum counts for each unique lineage 20230614
   idup <- duplicated(taxacounts$lineage)

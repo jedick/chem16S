@@ -1,5 +1,6 @@
 \encoding{UTF-8}
 \name{physeq}
+\alias{physeq}
 \alias{ps_taxacounts}
 \alias{ps_metrics}
 \alias{plot_ps_metrics}
