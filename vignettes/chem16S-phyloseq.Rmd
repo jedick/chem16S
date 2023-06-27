@@ -88,7 +88,7 @@ ps.silva
 
 To quickly visualize this data, let's reproduce the bar plot from the DADA2 tutorial:
 
-```{r ps_dada2_barplot, fig.width = 8, fig.height = 5, fig.align = "center"}
+```{r ps_dada2_barplot, fig.width = 8, fig.height = 5, fig.align = "center", pngquant = pngquant}
 top20.silva <- names(sort(taxa_sums(ps.silva), decreasing = TRUE))[1:20]
 ps.silva.top20 <- transform_sample_counts(ps.silva, function(OTU) OTU/sum(OTU))
 ps.silva.top20 <- prune_taxa(top20.silva, ps.silva.top20)
@@ -163,7 +163,7 @@ head(AA.RDP)
 In this data frame, columns named `Run` and `chains` have the sample name and abundance-weighted number of reference proteomes (i.e., the total abundance of ASVs that have taxonomic classifications with mappings to the RefSeq taxonomy) used to construct the amino acid composition.
 We can use this to calculate the average protein length of the reference proteomes in each community and make a histogram:
 
-```{r AA.RDP_length, fig.width = 7, fig.height = 5, fig.align = "center"}
+```{r AA.RDP_length, fig.width = 7, fig.height = 5, fig.align = "center", pngquant = pngquant}
 lengths <- rowSums(AA.RDP[, -(1:2)]) / AA.RDP$chains
 hist(lengths)
 imin <- which.min(lengths)
@@ -194,13 +194,13 @@ cor(metrics.RDP$Zc, metrics.RDP$nH2O)
 
 Let's plot the chemical metrics, each one against the sampling day.
 
-```{r plot_metrics.RDP, fig.width = 7, fig.height = 5, fig.align = "center"}
+```{r plot_metrics.RDP, fig.width = 7, fig.height = 5, fig.align = "center", pngquant = pngquant}
 plot_ps_metrics(ps.RDP, x = "Day", color = "When")
 ```
 
 Let's plot two chemical metrics against each other.
 
-```{r plot_metrics2.RDP, fig.width = 6, fig.height = 4, fig.align = "center"}
+```{r plot_metrics2.RDP, fig.width = 6, fig.height = 4, fig.align = "center", pngquant = pngquant}
 plot_ps_metrics2(ps.RDP, color = "When")
 ```
 
@@ -215,7 +215,7 @@ Then, we plot chemical metrics calculated for reference proteomes derived from t
 
 TODO: check that GTDB versions for 16S rRNA training set and reference proteomes are the same.
 
-```{r data.GTDB, collapse = TRUE, fig.width = 6, fig.height = 4, fig.align = "center"}
+```{r data.GTDB, collapse = TRUE, fig.width = 6, fig.height = 4, fig.align = "center", pngquant = pngquant}
 data(ps.GTDB)
 plot_ps_metrics2(ps.GTDB, color = "When", refdb = "GTDB", quiet = FALSE)
 ```
@@ -223,7 +223,7 @@ plot_ps_metrics2(ps.GTDB, color = "When", refdb = "GTDB", quiet = FALSE)
 Compared to using the RDP for classification of 16S rRNA sequences and RefSeq for reference proteomes, using the GTDB for both yields a clearer separation of Early and Late samples in chemical space.
 There is one Early sample with anomalously high `r Zc` and low `r nH2O`; let's identify it:
 
-```{r early.GTDB, collapse = TRUE, fig.width = 6, fig.height = 4, fig.align = "center"}
+```{r early.GTDB, collapse = TRUE, fig.width = 6, fig.height = 4, fig.align = "center", pngquant = pngquant}
 metrics.GTDB <- ps_metrics(ps.GTDB, refdb = "GTDB")
 is.early <- sample_data(ps.GTDB)$When == "Early"
 iout <- which.min(metrics.GTDB[is.early, ]$nH2O)
@@ -233,7 +233,7 @@ iout <- which.min(metrics.GTDB[is.early, ]$nH2O)
 This is the sample from day `r day`.
 Let's look again at the taxonomic classifications, this time at the phylum level in the GTDB:
 
-```{r barplot.GTDB, fig.width = 8, fig.height = 5, fig.align = "center"}
+```{r barplot.GTDB, fig.width = 8, fig.height = 5, fig.align = "center", pngquant = pngquant}
 top20.GTDB <- names(sort(taxa_sums(ps.GTDB), decreasing = TRUE))[1:20]
 ps.GTDB.top20 <- transform_sample_counts(ps.GTDB, function(OTU) OTU/sum(OTU))
 ps.GTDB.top20 <- prune_taxa(top20.GTDB, ps.GTDB.top20)

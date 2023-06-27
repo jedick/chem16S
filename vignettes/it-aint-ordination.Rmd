@@ -110,7 +110,7 @@ human = get_variable(GlobalPatterns, "SampleType") %in% c("Feces", "Mock", "Skin
 sample_data(GlobalPatterns)$human <- factor(human)
 ```
 
-```{r plot_metrics2.GlobalPatterns, fig.width = 6, fig.height = 4, fig.align = "center"}
+```{r plot_metrics2.GlobalPatterns, fig.width = 6, fig.height = 4, fig.align = "center", pngquant = pngquant}
 p2 <- plot_ps_metrics2(GlobalPatterns, color = "SampleType", shape = "human")
 p2 + geom_polygon(aes(fill = SampleType)) + geom_point(size = 4)
 ```
@@ -136,7 +136,7 @@ ps <- prune_samples(sample_names(ps) != "SRR1346095", ps)
 ```
 
 Then, we plot `r Zc` and `r nH2O` for the community reference proteomes using different colors for sample locations.
-```{r plot_metrics2.Humboldt, fig.width = 6, fig.height = 4, fig.align = "center"}
+```{r plot_metrics2.Humboldt, fig.width = 6, fig.height = 4, fig.align = "center", pngquant = pngquant}
 plot_ps_metrics2(ps, color = "Location") +
   geom_polygon(aes(fill = Location)) + geom_point(size = 4)
 ```
@@ -156,7 +156,7 @@ if(!requireNamespace("patchwork", quietly = TRUE)) {
 }
 ```
 
-```{r plot_metrics2.Humboldt_redox_OM, fig.width = 6, fig.height = 5, fig.align = "center"}
+```{r plot_metrics2.Humboldt_redox_OM, fig.width = 6, fig.height = 5, fig.align = "center", pngquant = pngquant}
 p2 <- plot_ps_metrics2(ps, color = "Sediment_redox") + geom_point(size = 4)
 p3 <- plot_ps_metrics2(ps, color = "Organic_matter") + geom_point(size = 4)
 p2 / p3
@@ -206,7 +206,7 @@ sp4 <- scatter_plot(x = Organic_matter, y = nH2O)
 sp1 + sp2 + sp3 + sp4 + plot_layout(guides = "collect")
 ```
 </div>
-```{r scatter_plot, echo = FALSE, fig.width = 7, fig.height = 6, fig.align = "center"}
+```{r scatter_plot, echo = FALSE, fig.width = 7, fig.height = 6, fig.align = "center", pngquant = pngquant}
 ```
 
 We see find that carbon oxidation state is positively correlated with redox potential, and stoichiometric hydration state is negatively correlated with organic matter content.
@@ -222,6 +222,15 @@ This interaction among environmental variables provides a plausible explanation 
 Our initial hypotheses about influences of redox potential and organic matter taken alone could not explain that association, so this is a new hypothesis that integrates more physicochemical knowledge.
 To test this new hypothesis, future analysis should be done with datasets where either redox potential or OM content are controlled (i.e., exhibit no variation) in order to identify the effect of each variable alone.
 
+## Qinghai-Tibet Plateau (Hot Springs)
+
+@ZFZ+23 reported 16S rRNA data for mildly alkaline hot spring reservoirs in the Qinghai-Tibet Plateau.
+The dataset is deposited in BioProject PRJNA860942, but the SRA data are not publicly available at the time of writing.
+My predictions for this dataset:
+
+* Positive correlation between `r Zc` of community reference proteomes and ORP.
+* Because of input of reducing fluids, I expect to find lower `r Zc` than Humboldt Sulfuretum.
+* If these samples have relatively low salinity, I expect to find higher `r nH2O` than Humboldt Sulfuretum.
 
 ## Take-home messages
 

@@ -52,7 +52,7 @@ table(ranks)[unique(ranks)]
 
 * Calculate `r Zc`.
 * Make boxplots for the taxa at each rank.
-```{r Zc_boxplot, fig.width = 5, fig.height = 5, fig.align = "center"}
+```{r Zc_boxplot, fig.width = 5, fig.height = 5, fig.align = "center", pngquant = pngquant}
 taxon_Zc <- Zc(taxon_AA)
 Zc_list <- sapply( unique(ranks), function(rank) taxon_Zc[ranks == rank] )
 par(mar = c(4, 7, 1, 1))
@@ -81,7 +81,7 @@ sapply(sapply(sapply(c("Methanococci", "Halobacteria"), class_to_genus), get_Zc)
 ## Prokaryotic genera, aggregated to phylum
 
 Read full list of taxonomic names; remove viruses; prune to keep unique genera; count number of genera in each phylum; calculate `r Zc` for genera in 20 most highly represented phyla of Bacteria and Archaea; order according to mean `r Zc`; make boxplots:
-```{r phylum_Zc, fig.width = 7, fig.height = 6, fig.align = "center"}
+```{r phylum_Zc, fig.width = 7, fig.height = 6, fig.align = "center", pngquant = pngquant}
 taxnames2 <- taxnames[taxnames$superkingdom != "Viruses", ]
 taxnames3 <- taxnames2[!duplicated(taxnames2$genus), ]
 (top20_phyla <- head(sort(table(taxnames3$phylum), TRUE), 20))
@@ -104,7 +104,7 @@ Let's take a closer look at the classes within each phylum.
 * Calculate `r Zc` for genera in 10 most highly represented classes of Bacteria and Archaea.
 * Order according to mean `r Zc`.
 * Make boxplots.
-```{r class_Zc, fig.width = 10, fig.height = 5, fig.align = "center"}
+```{r class_Zc, fig.width = 10, fig.height = 5, fig.align = "center", pngquant = pngquant}
 par(mfrow = c(1, 2))
 for(phylum in c("Euryarchaeota", "Proteobacteria")) {
   taxnames4 <- taxnames3[taxnames3$phylum == phylum, ]
@@ -121,7 +121,7 @@ for(phylum in c("Euryarchaeota", "Proteobacteria")) {
 
 ## Stoichiometric hydration state (`r nH2O`)
 
-```{r class_nH2O, fig.width = 10, fig.height = 5, fig.align = "center"}
+```{r class_nH2O, fig.width = 10, fig.height = 5, fig.align = "center", pngquant = pngquant}
 taxon_nH2O <- nH2O(taxon_AA)
 get_nH2O <- function(genera) na.omit(taxon_nH2O[match(genera, taxon_AA$organism)])
 
@@ -143,7 +143,7 @@ for(phylum in c("Euryarchaeota", "Proteobacteria")) {
 
 * Plot `r Zc` and `r nH2O` for viral and prokaryotic phyla with the most genus-level representatives.
 * Label Bacteria with the lowest `r nH2O`.
-```{r viruses, fig.width = 7, fig.height = 5, fig.align = "center"}
+```{r viruses, fig.width = 7, fig.height = 5, fig.align = "center", pngquant = pngquant}
 (top50_phyla <- head(sort(table(taxnames$phylum), TRUE), 50))
 Zc_mean <- sapply(sapply(sapply(names(top50_phyla), phylum_to_genus), get_Zc), mean)
 nH2O_mean <- sapply(sapply(sapply(names(top50_phyla), phylum_to_genus), get_nH2O), mean)
