@@ -28,7 +28,7 @@ History:
     \item Work begun in 2021. The combination of RefSeq reference proteomes with taxonomic abundances to compute chemical metrics was first described by Dick and Tan (2023). \pkg{chem16S} originated as codebase within the \pkg{JMDplots} package (\url{https://github.com/jedick/JMDplots}).
     \item Development in 2022. Dick and Meng (2023) compared community \Zc with redox potential measurements from local to global scales. The term \dQuote{community reference proteomes} was coined in this paper and \pkg{chem16S} was split into a separate package.
     \item Late 2022. GTDB was added as a reference database.
-    \item June 2023. Integration with phyloseq and addition of vignettes: \emph{Chemical metrics of reference proteomes for taxa}, \emph{Chemical analysis of microbiomes with chem16S and phyloseq}, and \emph{It ain't ordination: Plotting two chemical variables}.
+    \item June 2023. Integration with phyloseq and addition of vignettes: \emph{Chemical metrics of reference proteomes for taxa}, \emph{Chemical analysis of microbiomes with chem16S and phyloseq}, and \emph{It isn't ordination: Plotting two chemical variables}.
   }
 
 }

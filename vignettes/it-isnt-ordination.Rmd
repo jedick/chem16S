@@ -1,5 +1,5 @@
 ---
-title: "It ain’t ordination: Plotting two chemical variables"
+title: "It isn’t ordination: Plotting two chemical variables"
 author: "Jeffrey M. Dick"
 output:
   html_document:
@@ -7,11 +7,12 @@ output:
     toc: true
     css: style.css
 vignette: >
-  %\VignetteIndexEntry{It ain’t ordination: Plotting two chemical variables}
+  %\VignetteIndexEntry{It isn’t ordination: Plotting two chemical variables}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 bibliography: chem16S.bib
 csl: elementa.csl
+link-citations: true
 ---
 
 <script>
@@ -79,7 +80,7 @@ Because chemical metrics are defined independently of the data, they can be comp
 Just as important, they can be used to explore hypotheses about environmental influences on elemental composition at the community level.
 
 In this vignette we'll analyze the GlobalPatterns dataset from phyloseq [derived from @CLW+11] to get a glimpse into chemical variation of community reference proteomes across environments.
-Then, we'll explore the hypothesis that chemical features of communities are shaped by the environmental chemistr by analyzing the OTU table and environmental measuremens including redox potential for Japanese hot springs reported by @OFY+19.
+Then, we'll explore the hypothesis that chemical features of communities are shaped by environmental chemistry by analyzing the OTU table and environmental measurements including redox potential for geothermal waters in the Qinghai-Tibet Plateau reported by @ZFZ+23.
 
 ## Load required packages
 
@@ -157,8 +158,10 @@ if(!requireNamespace("patchwork", quietly = TRUE)) {
 ```
 
 ```{r plot_metrics2.Humboldt_redox_OM, fig.width = 6, fig.height = 5, fig.align = "center", pngquant = pngquant}
-p2 <- plot_ps_metrics2(ps, color = "Sediment_redox") + geom_point(size = 4)
-p3 <- plot_ps_metrics2(ps, color = "Organic_matter") + geom_point(size = 4)
+p2 <- plot_ps_metrics2(ps, color = "Sediment_redox") +
+  geom_point(size = 4) + labs(color = "Sediment redox (Eh)")
+p3 <- plot_ps_metrics2(ps, color = "Organic_matter") +
+  geom_point(size = 4) + labs(color = "Organic matter (%)")
 p2 / p3
 ```
 
@@ -189,20 +192,20 @@ if(!requireNamespace("ggpmisc", quietly = TRUE)) {
 ```{r scatter_plot, eval = FALSE}
 # Defuse (enquo) and Inject (!!) from https://www.tidyverse.org/blog/2018/07/ggplot2-tidy-evaluation/
 # Regression line and equation from https://stackoverflow.com/questions/7549694/add-regression-line-equation-and-r2-on-graph
-scatter_plot <- function(data = sample.data.and.chemical.metrics.for.communities, x, y) {
+scatter_plot <- function(data = sample.data.and.chemical.metrics.for.communities, x, y, xlab, ylab) {
   x <- enquo(x)
   y <- enquo(y)
   ggplot(data, aes(x = !!x, y = !!y, color = .data[["Location"]])) +
+    geom_point() + xlab(xlab) + ylab(ylab) +
     # Override aes to plot one regression line for samples from all locations
     stat_poly_line(aes(x = !!x, y = !!y), inherit.aes = FALSE) +
-    stat_poly_eq(aes(x = !!x, y = !!y), inherit.aes = FALSE) +
-    geom_point()
+    stat_poly_eq(aes(x = !!x, y = !!y), inherit.aes = FALSE, label.x = "center")
 }
 
-sp1 <- scatter_plot(x = Sediment_redox, y = Zc)
-sp2 <- scatter_plot(x = Sediment_redox, y = nH2O)
-sp3 <- scatter_plot(x = Organic_matter, y = Zc)
-sp4 <- scatter_plot(x = Organic_matter, y = nH2O)
+sp1 <- scatter_plot(x = Sediment_redox, y = Zc, xlab = "Sediment redox (mV)", ylab = canprot::cplab$Zc)
+sp2 <- scatter_plot(x = Sediment_redox, y = nH2O, xlab = "Sediment redox (mV)", ylab = canprot::cplab$nH2O)
+sp3 <- scatter_plot(x = Organic_matter, y = Zc, xlab = "Organic matter (%)", ylab = canprot::cplab$Zc)
+sp4 <- scatter_plot(x = Organic_matter, y = nH2O, xlab = "Organic matter (%)", ylab = canprot::cplab$nH2O)
 sp1 + sp2 + sp3 + sp4 + plot_layout(guides = "collect")
 ```
 </div>

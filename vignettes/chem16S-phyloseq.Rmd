@@ -12,6 +12,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 bibliography: chem16S.bib
 csl: elementa.csl
+link-citations: true
 ---
 
 ```{r HTML, include = FALSE}
@@ -252,6 +253,6 @@ Bacteroidetes (the older name for this phylum) have some of the lowest `r nH2O` 
    For the dataset analyzed here, this leads to a clearer separation between sample groups in chemical space and helps to identify the taxonomic basis for outliers.
 2. A chemical analysis suggests that gut communities in later stages of mouse growth are characterized by relatively oxidized and dehydrated reference proteomes.
    Visualizing the chemical metrics of communities can provide insight beyond conventional diversity metrics.
-   See the next vignette [**It ain't ordination**](it-aint-ordination.html) for more examples.
+   See the next vignette ([*It isn't ordination*](it-isnt-ordination.html)) for more examples.
 
 ## References

@@ -1,6 +1,6 @@
-# dada2/FEN+22/pipeline.R
+# DADA2/FEN+22/pipeline.R
 # Pipeline for analyzing Fonseca et al. (2022) data with DADA2
-# 20230625 jmd
+# 20230625 Adapted by Jeffrey Dick from the DADA2 Pipeline Tutorial
 
 # -------- Prepare FASTQ files
 # Read SRA run info file from NCBI
@@ -28,7 +28,7 @@ for(run in sra$Run) {
 # --------
 
 # -------- Sequence processing
-# This is adapted from the DADA2 pipeline tutorial (version 1.16)
+# This is adapted from the DADA2 Pipeline Tutorial (version 1.16)
 # (https://benjjneb.github.io/dada2/tutorial.html)
 
 ###
@@ -83,7 +83,7 @@ head(out)
 ### Learn the Error Rates
 ###
 
-# Timing on 2018 Intel notebook
+# Timing on 2018 Intel i7-8550U notebook
 system.time(errF <- learnErrors(filtFs, multithread = TRUE))
 ##     user   system  elapsed
 ## 4406.295    6.821  694.335
@@ -218,7 +218,7 @@ dim(seqtab.nochim.B)
 ###
 
 # The GTDB r207 training set for DADA2 is available at https://zenodo.org/record/6655692
-system.time(taxa <- assignTaxonomy(seqtab.nochim.B, "/home/sequence/dada2/GTDB_bac120_arc53_ssu_r207_Genus.fa.gz", multithread = TRUE))
+system.time(taxa <- assignTaxonomy(seqtab.nochim.B, "/home/sequence/DADA2/GTDB_bac120_arc53_ssu_r207_Genus.fa.gz", multithread = TRUE))
 ##     user   system  elapsed
 ## 3873.874    6.198  541.574
 
@@ -299,6 +299,5 @@ ps.top20 <- transform_sample_counts(ps, function(OTU) OTU/sum(OTU))
 ps.top20 <- prune_taxa(top20, ps.top20)
 plot_bar(ps.top20, x = "Location", fill = "Class")
 savePlot("plot_bar.png")
-
 
 # -------- End of sequence processing pipeline

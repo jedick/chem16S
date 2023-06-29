@@ -93,6 +93,7 @@ ps_metrics <- function(physeq, split = TRUE, metrics = c("Zc", "nO2", "nH2O"),
 }
 
 # Plot individual chemical metrics 20230608
+# Adapted by Jeffrey Dick from phyloseq::plot_richness() by Paul J. McMurdie
 plot_ps_metrics <- function(physeq, x = "samples", color = NULL, shape = NULL, title = NULL,
   scales = "free_y", nrow = 1, metrics = c("Zc", "nO2", "nH2O"), sortby = NULL,
   refdb = "RefSeq", quiet = TRUE) { 
@@ -130,9 +131,6 @@ plot_ps_metrics <- function(physeq, x = "samples", color = NULL, shape = NULL, t
   }
   # melt to display different chemical metrics separately
   mdf = melt(DF, measure.vars = metrics)
-
-#  # Initialize the se column. Helpful even if not used.
-#  mdf$se <- NA_integer_
 
   ## Interpret metrics
   # If not provided (default), keep all 
@@ -184,11 +182,6 @@ plot_ps_metrics <- function(physeq, x = "samples", color = NULL, shape = NULL, t
   # Make the ggplot.
   p <- ggplot(mdf, metrics_map) + geom_point(na.rm = TRUE)
 
-#  # Add error bars if mdf$se is not all NA
-#  if( any(!is.na(mdf[, "se"])) ){
-#    p <- p + geom_errorbar(aes(ymax = value + se, ymin = value - se), width = 0.1) 
-#  }
-
   # Rotate horizontal axis labels, and adjust
   p <- p + theme(axis.text.x = element_text(angle = -90, vjust = 0.5, hjust = 0))
   # Add y-label 
@@ -211,6 +204,7 @@ plot_ps_metrics <- function(physeq, x = "samples", color = NULL, shape = NULL, t
 }
 
 # Plot two chemical metrics against each other 20230617
+# Parts of this function were adapted by Jeffrey Dick from phyloseq::plot_richness() by Paul J. McMurdie
 plot_ps_metrics2 <- function(physeq, x = "Zc", y = "nH2O", color = NULL, shape = NULL,
   title = NULL, refdb = "RefSeq", quiet = TRUE) { 
 
