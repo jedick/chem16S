@@ -75,7 +75,7 @@ ps_taxacounts <- function(physeq, split = TRUE) {
 
 # Calculate chemical metrics from phyloseq object
 ps_metrics <- function(physeq, split = TRUE, metrics = c("Zc", "nO2", "nH2O"), 
-  refdb = "RefSeq", quiet = TRUE, ...) {
+  refdb = "GTDB", quiet = FALSE, ...) {
   # Obtain data frame with lowest-level (to genus) classifications for each OTU
   taxacounts <- ps_taxacounts(physeq, split = split)
   # Map names to NCBI taxonomy
@@ -96,7 +96,7 @@ ps_metrics <- function(physeq, split = TRUE, metrics = c("Zc", "nO2", "nH2O"),
 # Adapted by Jeffrey Dick from phyloseq::plot_richness() by Paul J. McMurdie
 plot_ps_metrics <- function(physeq, x = "samples", color = NULL, shape = NULL, title = NULL,
   scales = "free_y", nrow = 1, metrics = c("Zc", "nO2", "nH2O"), sortby = NULL,
-  refdb = "RefSeq", quiet = TRUE) { 
+  refdb = "GTDB", quiet = FALSE) { 
 
   if(!requireNamespace("phyloseq", quietly = TRUE)) {
     stop("Pleast first install phyloseq from Bioconductor")
@@ -206,7 +206,7 @@ plot_ps_metrics <- function(physeq, x = "samples", color = NULL, shape = NULL, t
 # Plot two chemical metrics against each other 20230617
 # Parts of this function were adapted by Jeffrey Dick from phyloseq::plot_richness() by Paul J. McMurdie
 plot_ps_metrics2 <- function(physeq, x = "Zc", y = "nH2O", color = NULL, shape = NULL,
-  title = NULL, refdb = "RefSeq", quiet = TRUE) { 
+  title = NULL, refdb = "GTDB", quiet = FALSE) { 
 
   if(!requireNamespace("phyloseq", quietly = TRUE)) {
     stop("Pleast first install phyloseq from Bioconductor")

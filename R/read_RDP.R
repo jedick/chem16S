@@ -5,7 +5,7 @@
 # Moved to chem16S 20220505
 
 # Read and filter RDP results for all samples in a study 20200912
-read_RDP <- function(file, lineage = NULL, mincount = 200, lowest.level = NULL, cn = FALSE, quiet = TRUE) {
+read_RDP <- function(file, lineage = NULL, mincount = 200, lowest.level = NULL, cn = FALSE, quiet = FALSE) {
 
   # Read file
   dat <- read.table(file, sep = "\t", header = TRUE, check.names = FALSE)

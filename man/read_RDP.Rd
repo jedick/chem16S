@@ -8,7 +8,7 @@ Reads RDP Classifier output and optionally applies copy-number correction, extra
 
 \usage{
   read_RDP(file, lineage = NULL, mincount = 200,
-    lowest.level = NULL, cn = FALSE, quiet = TRUE)
+    lowest.level = NULL, cn = FALSE, quiet = FALSE)
 }
 
 \arguments{

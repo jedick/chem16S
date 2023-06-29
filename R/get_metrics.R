@@ -4,7 +4,7 @@
 # Add refdb argument 20221016
 # TODO: Put mapping checks into test file, not this function 20230615
 
-get_metrics <- function(RDP = NULL, map = NULL, refdb = "RefSeq", taxon_AA = NULL, groups = NULL, return_AA = FALSE, zero_AA = NULL) {
+get_metrics <- function(RDP = NULL, map = NULL, refdb = "GTDB", taxon_AA = NULL, groups = NULL, return_AA = FALSE, zero_AA = NULL) {
 
   # Exclude NA mappings
   RDP <- RDP[!is.na(map), ]

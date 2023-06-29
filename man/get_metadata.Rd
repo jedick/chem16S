@@ -38,8 +38,8 @@ In actual projects, customized getmdat_* functions can be used for more complex 
 # Get metrics for the Bison Pool dataset (Swingley et al., 2012)
 RDPfile <- system.file("extdata/RDP/SMS+12.tab.xz", package = "chem16S")
 RDP <- read_RDP(RDPfile)
-map <- map_taxa(RDP)
-metrics <- get_metrics(RDP, map)
+map <- map_taxa(RDP, refdb = "RefSeq")
+metrics <- get_metrics(RDP, map, refdb = "RefSeq")
 # Read the metadata file
 mdatfile <- system.file("extdata/metadata/SMS+12.csv", package = "chem16S")
 mdat <- get_metadata(mdatfile, metrics)

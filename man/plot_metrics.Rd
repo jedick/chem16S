@@ -69,8 +69,8 @@ Herlemann, D. P. R., Lundin, D., Andersson, A. F., Labrenz, M. and Jürgens, K. 
 # (data from Herlemann et al., 2016)
 RDPfile <- system.file("extdata/RDP/HLA+16.tab.xz", package = "chem16S")
 RDP <- read_RDP(RDPfile)
-map <- map_taxa(RDP)
-metrics <- get_metrics(RDP, map)
+map <- map_taxa(RDP, refdb = "RefSeq")
+metrics <- get_metrics(RDP, map, refdb = "RefSeq")
 mdatfile <- system.file("extdata/metadata/HLA+16.csv", package = "chem16S")
 mdat <- get_metadata(mdatfile, metrics)
 pm <- plot_metrics(mdat)
@@ -90,12 +90,12 @@ add_hull(pm$Zc[ihi], pm$nH2O[ihi], "blue")
 # mean values of high- and low-salinity samples
 plot_metrics(mdat, pch1 = 21, pch2 = 24)
 
-## Some samples (i.e. outliers) have an NA name in the metadata
-## to exclude them from further calculations.
-## Use dropNA = FALSE to show all samples.
-#plot_metrics("UKD+18.sediment", dropNA = FALSE)
-#
-## Make a plot for only Proteobacteria
-#plot_metrics("HLA+16", lineage = "Proteobacteria")
-
+# Make a plot for only Proteobacteria
+RDP <- read_RDP(RDPfile, lineage = "Proteobacteria")
+map <- map_taxa(RDP, refdb = "RefSeq")
+metrics <- get_metrics(RDP, map, refdb = "RefSeq")
+mdatfile <- system.file("extdata/metadata/HLA+16.csv", package = "chem16S")
+mdat <- get_metadata(mdatfile, metrics)
+mdat$metadata$name <- paste(mdat$metadata$name, "(Proteobacteria)")
+plot_metrics(mdat)
 }

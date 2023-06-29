@@ -2,7 +2,7 @@
 
 file <- system.file("extdata/RDP/SMS+12.tab.xz", package = "chem16S")
 RDP <- read_RDP(file)
-map <- map_taxa(RDP)
+map <- map_taxa(RDP, refdb = "RefSeq")
 
 info <- "NA mappings are listed in unmapped_groups attribute"
 expect_equal(sum(is.na(map)), length(attr(map, "unmapped_groups")))

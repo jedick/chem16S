@@ -7,12 +7,12 @@ Maps taxonomic names to NCBI or GTDB taxonomy by automatic matching of taxonomic
 }
 
 \usage{
-  map_taxa(taxacounts = NULL, refdb = "RefSeq", quiet = TRUE)
+  map_taxa(taxacounts = NULL, refdb = "GTDB", quiet = FALSE)
 }
 
 \arguments{
   \item{taxacounts}{data frame with taxonomic name and abundances}
-  \item{refdb}{character, name of reference database (\samp{RefSeq} or \samp{GTDB})}
+  \item{refdb}{character, name of reference database (\samp{GTDB} or \samp{RefSeq})}
   \item{quiet}{logical, suppress printed messages?}
 }
 
@@ -59,20 +59,17 @@ Change \code{quiet} to FALSE to enable printing of messages about manual mapping
 }
 
 \examples{
-# Mapping with default RDP training set
+# Mapping taxonomic classifications from RDP training set to RefSeq taxonomy
 file <- system.file("extdata/RDP/SMS+12.tab.xz", package = "chem16S")
-# Use quiet = FALSE to print messages
-RDP <- read_RDP(file, quiet = FALSE)
-map <- map_taxa(RDP, quiet = FALSE)
-
-# Mapping with GTDB SSU training set
-file <- system.file("extdata/RDP-GTDB/SMS+12.tab.xz", package = "chem16S")
-RDP.GTDB <- read_RDP(file, quiet = FALSE)
-map.GTDB <- map_taxa(RDP.GTDB, refdb = "GTDB", quiet = FALSE)
-
-# Mapping of RDP with default training set to RefSeq (NCBI) taxonomy
+RDP <- read_RDP(file)
+map <- map_taxa(RDP, refdb = "RefSeq")
+# About 24% of classifications are unmaped
 sum(attributes(map)$unmapped_percent)
-# Mapping of RDP with GTDB SSU training set to GTDB taxonomy
-# (This is much smaller than the preceding result)
+
+# Mapping from GTDB training set to GTDB taxonomy
+file <- system.file("extdata/RDP-GTDB/SMS+12.tab.xz", package = "chem16S")
+RDP.GTDB <- read_RDP(file)
+map.GTDB <- map_taxa(RDP.GTDB)
+# There is 100% mapping (zero unmapped classifications)
 sum(attributes(map.GTDB)$unmapped_percent)
 }

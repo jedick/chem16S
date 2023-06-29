@@ -8,14 +8,14 @@ Amino acid compositions are used to calculate chemical metrics (\Zc, \nO2, and \
 }
 
 \usage{
-  get_metrics(RDP, map, refdb = "RefSeq", taxon_AA = NULL, groups = NULL,
+  get_metrics(RDP, map, refdb = "GTDB", taxon_AA = NULL, groups = NULL,
     return_AA = FALSE, zero_AA = NULL)
 }
 
 \arguments{
   \item{RDP}{data frame, output from \code{\link{read_RDP}}}
   \item{map}{data frame, output from \code{\link{map_taxa}}}
-  \item{refdb}{character, name of reference database (\samp{RefSeq} or \samp{GTDB})}
+  \item{refdb}{character, name of reference database (\samp{GTDB} or \samp{RefSeq})}
   \item{taxon_AA}{data frame, content of \code{extdata/RefSeq/taxon_AA.csv.xz} or \code{extdata/GTDB/taxon_AA.csv.xz} (used for speed-up)}
   \item{groups}{list, indexing vectors to identify groups of samples whose taxonomic classifications are aggregated before calculating amino acid composition and chemical metrics}
   \item{return_AA}{logical, return the amino acid composition for each sample instead of the chemical metrics?}
@@ -41,9 +41,9 @@ Then, \Zc, \nO2, and \nH2O are calculated from the amino acid composition of the
 # Get chemical metrics for all samples in a dataset
 RDPfile <- system.file("extdata/RDP/BGPF13.tab.xz", package = "chem16S")
 RDP <- read_RDP(RDPfile)
-map <- map_taxa(RDP)
+map <- map_taxa(RDP, refdb = "RefSeq")
 # This is a data frame with 14 rows and Run, Zc, nO2, and nH2O columns
-(metrics <- get_metrics(RDP, map))
+(metrics <- get_metrics(RDP, map, refdb = "RefSeq"))
 
 # Read the metadata file
 mdatfile <- system.file("extdata/metadata/BGPF13.csv", package = "chem16S")
@@ -52,10 +52,11 @@ mdat <- get_metadata(mdatfile, metrics)
 # Calculate metrics for aggregated samples of Archaea and Bacteria
 groups <- list(A = mdat$metadata$domain == "Archaea", B = mdat$metadata$domain == "Bacteria")
 # This is a data frame with 2 rows and group, Zc, nO2, and nH2O columns
-get_metrics(RDP, map, groups = groups)
+get_metrics(RDP, map, refdb = "RefSeq", groups = groups)
 
-## Third example is for RDP Classifer with GTDB SSU training set
-## and mapping to GTDB taxonomy with GTDB reference proteomes
+## For the next example, classifications were made using the RDP Classifer
+## with the GTDB SSU training set, and we use reference proteomes based on the GTDB
+## (this uses the default setting of 'refdb').
 
 RDPfile.GTDB <- system.file("extdata/RDP-GTDB/BGPF13.tab.xz", package = "chem16S")
 RDP.GTDB <- read_RDP(RDPfile.GTDB)

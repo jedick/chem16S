@@ -4,7 +4,7 @@
 # Add refdb argument to use RefSeq or GTDB 20221016
 # TODO: warn when mapped percentage is below a certain value 20230615
 
-map_taxa <- function(taxacounts = NULL, refdb = "RefSeq", quiet = TRUE) {
+map_taxa <- function(taxacounts = NULL, refdb = "GTDB", quiet = FALSE) {
 
   # Make group names by combining rank and name
   INPUTgroups <- paste(taxacounts$rank, taxacounts$name, sep = "_")

@@ -33,6 +33,9 @@ Here we visualize chemical metrics for genera aggregated to higher levels, using
 > *Chemical metrics* are molecular properties computed from elemental compositions (derived from amino acid compositions) of proteins and include carbon oxidation state (`r Zc`) and stoichiometric hydration state (`r nH2O`), as described by @DYT20.
 **chem16S** uses the `Zc()` and `nH2O()` functions from the **canprot** package to calculate chemical metrics.
 
+This vignette uses the RefSeq reference database for reference proteomes.
+The GTDB reference database is also available in **chem16S** (and is the default for functions in the package), but doesn't have viral reference proteomes, which are visualized below.
+
 ## Required packages
 
 ```{r load_packages, message = FALSE}

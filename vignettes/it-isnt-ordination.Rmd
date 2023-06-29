@@ -122,6 +122,11 @@ In more detail, there are environmental microbiomes that show similar ranges of 
 Freshwater (identified as "lake" in @CLW+11) has lower `r Zc` than Freshwater (creek), and some ocean samples have lower `r nH2O` than either freshwater group.
 To a geochemical biologist, these patterns might suggest an influence of greater oxygenation in flowing water compared to lakes, or dehydration in communities adapted to life in salty water compared to freshwater.
 
+::: {.infobox .note}
+Changing the reference database to RefSeq (`refdb = "RefSeq"`) increases by a few percent the number of classifications in the GlobalPatterns dataset that can be mapped to the reference database, but does not alter the trends of chemical metrics described above.
+In the remainder of this vignette, we will use the GTDB reference database because the taxonomic classifications for the datasets analyzed below were made using the GTDB training set.
+:::
+
 ## Humboldt Sulfuretum (Ocean Sediment)
 
 @FEN+22 reported 16S rRNA sequences for sediment samples from the oxygen minimum zone of the Pacific Ocean along the coast of Chile, known as the Humboldt Sulfuretum.
@@ -234,6 +239,16 @@ My predictions for this dataset:
 * Positive correlation between `r Zc` of community reference proteomes and ORP.
 * Because of input of reducing fluids, I expect to find lower `r Zc` than Humboldt Sulfuretum.
 * If these samples have relatively low salinity, I expect to find higher `r nH2O` than Humboldt Sulfuretum.
+
+```{r plot_metrics2.QinghaiTibet_T_ORP, fig.width = 6, fig.height = 5, fig.align = "center", pngquant = pngquant}
+#psfile <- system.file("extdata/DADA2/ZFZ+23/ps_ZFZ+23.rds", package = "chem16S")
+#ps <- readRDS(psfile)
+#p2 <- plot_ps_metrics2(ps, color = "T") +
+#  geom_point(size = 4) + labs(color = "T (°C)")
+#p3 <- plot_ps_metrics2(ps, color = "ORP") +
+#  geom_point(size = 4) + labs(color = "ORP (mV)")
+#p2 / p3
+```
 
 ## Take-home messages
 
