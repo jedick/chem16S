@@ -1,5 +1,5 @@
 ---
-title: "It isn’t ordination: Plotting two chemical variables"
+title: "It isn’t ordination: Plotting two chemical metrics"
 author: "Jeffrey M. Dick"
 output:
   html_document:
@@ -7,7 +7,7 @@ output:
     toc: true
     css: style.css
 vignette: >
-  %\VignetteIndexEntry{It isn’t ordination: Plotting two chemical variables}
+  %\VignetteIndexEntry{It isn’t ordination: Plotting two chemical metrics}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 bibliography: chem16S.bib
@@ -127,7 +127,7 @@ Changing the reference database to RefSeq (`refdb = "RefSeq"`) increases by a fe
 In the remainder of this vignette, we will use the GTDB reference database because the taxonomic classifications for the datasets analyzed below were made using the GTDB training set.
 :::
 
-## Humboldt Sulfuretum (Ocean Sediment)
+## Humboldt Sulfuretum (Marine Sediment)
 
 @FEN+22 reported 16S rRNA sequences for sediment samples from the oxygen minimum zone of the Pacific Ocean along the coast of Chile, known as the Humboldt Sulfuretum.
 The sample data included dissolved oxygen, redox potential in sediment and overlying water, and organic matter (OM) content.
@@ -139,6 +139,7 @@ The taxonomic composition of this sample is highly different from the all the ot
 psfile <- system.file("extdata/DADA2/FEN+22/ps_FEN+22.rds", package = "chem16S")
 ps <- readRDS(psfile)
 ps <- prune_samples(sample_names(ps) != "SRR1346095", ps)
+ps
 ```
 
 Then, we plot `r Zc` and `r nH2O` for the community reference proteomes using different colors for sample locations.
@@ -233,29 +234,82 @@ To test this new hypothesis, future analysis should be done with datasets where 
 ## Qinghai-Tibet Plateau (Hot Springs)
 
 @ZFZ+23 reported 16S rRNA data for mildly alkaline hot spring reservoirs in the Qinghai-Tibet Plateau.
-The dataset is deposited in BioProject PRJNA860942, but the SRA data are not publicly available at the time of writing.
-My predictions for this dataset:
+For this dataset, I made the following predictions before downloading the sequence data from SRA:
 
-* Positive correlation between `r Zc` of community reference proteomes and ORP.
-* Because of input of reducing fluids, I expect to find lower `r Zc` than Humboldt Sulfuretum.
-* If these samples have relatively low salinity, I expect to find higher `r nH2O` than Humboldt Sulfuretum.
+* A positive correlation between `r Zc` of community reference proteomes and oxidation-reduction potential (ORP).
+* Because of input of reducing fluids, I expected to find lower `r Zc` than communities in marine sediments of the Humboldt Sulfuretum.
+* If these samples have relatively low salinity, I expected to find higher `r nH2O` than marine sediment communities.
 
-```{r plot_metrics2.QinghaiTibet_T_ORP, fig.width = 6, fig.height = 5, fig.align = "center", pngquant = pngquant}
-#psfile <- system.file("extdata/DADA2/ZFZ+23/ps_ZFZ+23.rds", package = "chem16S")
-#ps <- readRDS(psfile)
-#p2 <- plot_ps_metrics2(ps, color = "T") +
-#  geom_point(size = 4) + labs(color = "T (°C)")
-#p3 <- plot_ps_metrics2(ps, color = "ORP") +
-#  geom_point(size = 4) + labs(color = "ORP (mV)")
-#p2 / p3
+After loading the data, let's go right to the scatter plot between two environmental variables (ORP and temperature (T)) and two chemical metrics.
+
+```{r load_Qinghai.Tibet}
+psfile2 <- system.file("extdata/DADA2/ZFZ+23/ps_ZFZ+23.rds", package = "chem16S")
+ps2 <- readRDS(psfile2)
+data.and.metrics <- cbind(sample_data(ps2), ps_metrics(ps2))
+ps
 ```
+
+<button id="B-scatter_plot_2" onclick="ToggleDiv('scatter_plot')">Show code</button>
+<div id="D-scatter_plot_2" style="display: none">
+```{r scatter_plot_2, eval = FALSE}
+scatter_plot_2 <- function(data = data.and.metrics, x, y, xlab, ylab) {
+  x <- enquo(x)
+  y <- enquo(y)
+  ggplot(data, aes(x = !!x, y = !!y)) +
+    geom_point() + xlab(xlab) + ylab(ylab) +
+    # Override aes to plot one regression line for samples from all locations
+    stat_poly_line(aes(x = !!x, y = !!y), inherit.aes = FALSE) +
+    stat_poly_eq(aes(x = !!x, y = !!y), inherit.aes = FALSE, label.x = "center")
+}
+sp1 <- scatter_plot_2(x = ORP, y = Zc, xlab = "ORP (mV)", ylab = canprot::cplab$Zc)
+sp2 <- scatter_plot_2(x = ORP, y = nH2O, xlab = "ORP (mV)", ylab = canprot::cplab$nH2O)
+sp3 <- scatter_plot_2(x = T, y = Zc, xlab = "T (°C)", ylab = canprot::cplab$Zc)
+sp4 <- scatter_plot_2(x = T, y = nH2O, xlab = "T (°C)", ylab = canprot::cplab$nH2O)
+sp1 + sp2 + sp3 + sp4 + plot_layout(guides = "collect")
+```
+</div>
+```{r scatter_plot_2, echo = FALSE, fig.width = 7, fig.height = 6, fig.align = "center", pngquant = pngquant}
+```
+
+The correlation between ORP and `r Zc` isn't as strong as I had expected.
+Moreover, neither of the chemical metrics is strongly aligned with temperature.
+Therefore, this dataset provides an exception to the notion that elemental composition is shaped by the environment at a local scale.
+
+But let's not forget the predictions about differences at a global scale!
+How do communities in hot springs compare to those in ocean sediments?
+In order to make a plot, we can merge both datasets into a new phyloseq object.
+The sequence processing pipeline assigns the same taxon names to both datasets (`ASV1`, `ASV2`, etc.).
+Therefore, let's append a letter to one set of names so that distinct taxa are not mistakenly combined.
+
+```{r merge_datasets}
+taxa_names(ps2) <- paste0(taxa_names(ps2), "b")
+ps_merged <- merge_phyloseq(ps, ps2)
+ps_merged
+```
+
+Let's add a column to the sample data to indicate the type of environment for each dataset, then make a plot of `r Zc` and `r nH2O`.
+
+```{r plot_metrics2.merged, fig.width = 6, fig.height = 4, fig.align = "center", pngquant = pngquant}
+sample_data(ps_merged)$Environment <-
+  ifelse(is.na(sample_data(ps_merged)$Depth), "Hot spring", "Marine sediment")
+plot_ps_metrics2(ps_merged, color = "Environment")
+```
+
+The communities from hot springs in the Qinghai-Tibet Plateau have both lower `r Zc` and higher `r nH2O` compared to those in marine sediments of the Humboldt Sulfuretum.
+This outcome was predictable from consideration of relatively more reducing and less saline conditions of the hot springs.
+It is important to note that the positive association between `r Zc` and `r nH2O` observed for the sediment communities does not extend to the comparison between two datasets.
+This distinction suggests that the factors that influence elemental composition are different at local and global scales.
 
 ## Take-home messages
 
 * Unlike synthetic variables in ordination, chemical metrics are defined independently of the data and can be compared across datasets.
-* Trends between `r Zc` and `r nH2O` suggest the influence not of single environmental variables but of interactions between variables, such as lower redox potential associated with greater organic matter content in sediments.
-* Variation in `r nH2O` may reflect the influence of various factors such as salinity or organic matter content.
-  In the GlobalPatterns dataset, some fecal samples have extremely low `r nH2O`, which may be a signature of adaptation to dehydrating conditions.
-* Higher `r Zc` is associated with greater redox potential in the Humboldt Sulfuretum dataset.
+* Trends between `r Zc` and `r nH2O` suggest the influence not of single environmental variables but of interactions between variables.
+  For instance, if lower redox potential is associated with greater organic matter content in sediments, this could explain a positive association between `r Zc` and `r nH2O`.
+* Variation in `r nH2O` may reflect the influence of multiple factors such as salinity or organic matter content.
+  In the GlobalPatterns dataset, some fecal samples have extremely low `r nH2O`, which could be a signature of adaptation to dehydrating conditions.
+* The two datasets for marine sediments and hot springs show differing degrees of association between `r Zc` and redox potential at local scales.
+* Comparison of these two datasets with each other provides evidence for global-scale influences of redox potential and salinity on the elemental composition of protein sequences.
+
+Analysis of many more datasets is needed to comprehensively test the prediction of a positive association between `r Zc` and redox potential at both local and global scales [see @DM23].
 
 ## References
