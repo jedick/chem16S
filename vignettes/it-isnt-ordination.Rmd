@@ -107,12 +107,12 @@ One step we do borrow from that tutorial is the addition of a categorical variab
 
 ```{r load_GlobalPatterns}
 data(GlobalPatterns)
-human = get_variable(GlobalPatterns, "SampleType") %in% c("Feces", "Mock", "Skin", "Tongue")
-sample_data(GlobalPatterns)$human <- factor(human)
+Human = get_variable(GlobalPatterns, "SampleType") %in% c("Feces", "Mock", "Skin", "Tongue")
+sample_data(GlobalPatterns)$Human <- factor(Human)
 ```
 
 ```{r plot_metrics2.GlobalPatterns, fig.width = 6, fig.height = 4, fig.align = "center", pngquant = pngquant}
-p2 <- plot_ps_metrics2(GlobalPatterns, color = "SampleType", shape = "human")
+p2 <- plot_ps_metrics2(GlobalPatterns, color = "SampleType", shape = "Human")
 p2 + geom_polygon(aes(fill = SampleType)) + geom_point(size = 4)
 ```
 

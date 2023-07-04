@@ -83,18 +83,18 @@ This dataset is used in the [DADA2 Pipeline Tutorial](https://benjjneb.github.io
 Here, we load the phyloseq object that was created on 2023-06-14 using dada2 (version 1.28.0) following the steps in the DADA2 pipeline tutorial (version 1.16).
 Note that taxonomy was assigned to genus level using a newer version of the Silva training set ([`silva_nr99_v138.1_train_set.fa.gz`](https://zenodo.org/record/4587954)) than that indicated in the DADA2 tutorial on this date (`silva_nr_v132_train_set.fa.gz`).
 
-```{r load_ps.silva}
-data(ps.silva)
-ps.silva
+```{r load_mouse.silva}
+data(mouse.silva)
+mouse.silva
 ```
 
 To quickly visualize this data, let's reproduce the bar plot from the DADA2 tutorial:
 
 ```{r ps_dada2_barplot, fig.width = 8, fig.height = 5, fig.align = "center", pngquant = pngquant}
-top20.silva <- names(sort(taxa_sums(ps.silva), decreasing = TRUE))[1:20]
-ps.silva.top20 <- transform_sample_counts(ps.silva, function(OTU) OTU/sum(OTU))
-ps.silva.top20 <- prune_taxa(top20.silva, ps.silva.top20)
-plot_bar(ps.silva.top20, x = "Day", fill = "Phylum") + facet_wrap(~When, scales = "free_x")
+top20.silva <- names(sort(taxa_sums(mouse.silva), decreasing = TRUE))[1:20]
+mouse.silva.top20 <- transform_sample_counts(mouse.silva, function(OTU) OTU/sum(OTU))
+mouse.silva.top20 <- prune_taxa(top20.silva, mouse.silva.top20)
+plot_bar(mouse.silva.top20, x = "Day", fill = "Phylum") + facet_wrap(~When, scales = "free_x")
 ```
 
 ## Lowest-level taxa
@@ -107,8 +107,8 @@ First, let's make a table that lists the lowest-level taxon for each ASV and the
 Because **chem16S** was first developed to analyze the output from the RDP Classifier, this data frame has a similar format to the file created by using the `classify -h` command of the RDP Classifier followed by the `merge-count` command.
 That is, the data frame has columns named `taxid`, `rank`, `lineage`, and `name`, followed by columns for all samples.
 
-```{r ps.silva_taxacounts}
-tc.silva <- ps_taxacounts(ps.silva)
+```{r mouse.silva_taxacounts}
+tc.silva <- ps_taxacounts(mouse.silva)
 ```
 
 ASVs with identical lowest-level taxonomic assignments are merged, so this data frame has fewer rows than the number of ASVs.
@@ -116,7 +116,7 @@ The short names of the ASVs are stored in the `taxid` column, and the names of m
 The ASVs themselves (DNA sequences, not short names) are available in the phyloseq object as explained in the DADA2 tutorial, but are not used here.
 Now we can look at the number of unique lowest-level classifications at each taxonomic level:
 
-```{r ps.silva_levels, collapse = TRUE}
+```{r mouse.silva_levels, collapse = TRUE}
 table(tc.silva$rank)
 ```
 
@@ -139,8 +139,8 @@ The messages show that one group was manually mapped, and the total mapped (both
 We can increase the mapped percent by using classifications generated with the RDP training set, for which manual mappings to RefSeq were proposed by @DT23.
 
 ```{r map.RDP, collapse = TRUE}
-data(ps.RDP)
-tc.RDP <- ps_taxacounts(ps.RDP)
+data(mouse.RDP)
+tc.RDP <- ps_taxacounts(mouse.RDP)
 map.RDP <- map_taxa(tc.RDP, refdb = "RefSeq")
 ```
 
@@ -158,7 +158,7 @@ In order, these functions get the lowest-level taxa for each assignment, map tax
 To peek into this process, let's first request just the amino acid composition of the community reference proteomes.
 
 ```{r AA.RDP, collapse = TRUE}
-AA.RDP <- ps_metrics(ps.RDP, refdb = "RefSeq", quiet = TRUE, return_AA = TRUE)
+AA.RDP <- ps_metrics(mouse.RDP, refdb = "RefSeq", quiet = TRUE, return_AA = TRUE)
 head(AA.RDP)
 ```
 
@@ -179,7 +179,7 @@ Sample `r AA.RDP$Run[imin]` (from Day `r if(!is.null(AA.RDP)) strsplit(AA.RDP$Ru
 We're now ready to calculcate chemical metrics from the amino acid composition.
 
 ```{r metrics.RDP, collapse = TRUE}
-metrics.RDP <- ps_metrics(ps.RDP, refdb = "RefSeq", quiet = TRUE)
+metrics.RDP <- ps_metrics(mouse.RDP, refdb = "RefSeq", quiet = TRUE)
 head(metrics.RDP)
 ```
 
@@ -197,13 +197,13 @@ cor(metrics.RDP$Zc, metrics.RDP$nH2O)
 Let's plot the chemical metrics, each one against the sampling day.
 
 ```{r plot_metrics.RDP, fig.width = 7, fig.height = 5, fig.align = "center", pngquant = pngquant}
-plot_ps_metrics(ps.RDP, x = "Day", color = "When", refdb = "RefSeq", quiet = TRUE)
+plot_ps_metrics(mouse.RDP, x = "Day", color = "When", refdb = "RefSeq", quiet = TRUE)
 ```
 
 Let's plot two chemical metrics against each other.
 
 ```{r plot_metrics2.RDP, fig.width = 6, fig.height = 4, fig.align = "center", pngquant = pngquant}
-plot_ps_metrics2(ps.RDP, color = "When", refdb = "RefSeq", quiet = TRUE)
+plot_ps_metrics2(mouse.RDP, color = "When", refdb = "RefSeq", quiet = TRUE)
 ```
 
 The community reference proteomes for Late samples tend to be more oxidized and less hydrated (i.e., they have higher `r Zc` and lower `r nH2O`) than Early samples, but there is some overlap between the groups.
@@ -216,32 +216,32 @@ Here we load a phyloseq dataset prepared following the DADA2 Pipeline Tutorial w
 Then, we plot chemical metrics calculated for reference proteomes derived from the same version of the GTDB.
 
 ::: {.infobox .note}
-`refdb = "GTDB"` is the default option for functions in **chem16S**, so it is not shown here.
+`refdb = "GTDB"` is the default option for functions in **chem16S**, so the argument does not need to be explicitly given.
 :::
 
 ```{r data.GTDB, collapse = TRUE, fig.width = 6, fig.height = 4, fig.align = "center", pngquant = pngquant}
-data(ps.GTDB)
-plot_ps_metrics2(ps.GTDB, color = "When")
+data(mouse.GTDB)
+plot_ps_metrics2(mouse.GTDB, color = "When")
 ```
 
 Compared to using the RDP for classification of 16S rRNA sequences and RefSeq for reference proteomes, using the GTDB for both yields a clearer separation of Early and Late samples in chemical space.
 There is one Early sample with anomalously high `r Zc` and low `r nH2O`; let's identify it:
 
 ```{r early.GTDB, collapse = TRUE, fig.width = 6, fig.height = 4, fig.align = "center", pngquant = pngquant}
-metrics.GTDB <- ps_metrics(ps.GTDB)
-is.early <- sample_data(ps.GTDB)$When == "Early"
+metrics.GTDB <- ps_metrics(mouse.GTDB)
+is.early <- sample_data(mouse.GTDB)$When == "Early"
 iout <- which.min(metrics.GTDB[is.early, ]$nH2O)
-(day <- sample_data(ps.GTDB)[is.early, ]$Day[iout])
+(day <- sample_data(mouse.GTDB)[is.early, ]$Day[iout])
 ```
 
 This is the sample from day `r day`.
 Let's look again at the taxonomic classifications, this time at the phylum level in the GTDB:
 
 ```{r barplot.GTDB, fig.width = 8, fig.height = 5, fig.align = "center", pngquant = pngquant}
-top20.GTDB <- names(sort(taxa_sums(ps.GTDB), decreasing = TRUE))[1:20]
-ps.GTDB.top20 <- transform_sample_counts(ps.GTDB, function(OTU) OTU/sum(OTU))
-ps.GTDB.top20 <- prune_taxa(top20.GTDB, ps.GTDB.top20)
-plot_bar(ps.GTDB.top20, x = "Day", fill = "Phylum") + facet_wrap(~When, scales = "free_x")
+top20.GTDB <- names(sort(taxa_sums(mouse.GTDB), decreasing = TRUE))[1:20]
+mouse.GTDB.top20 <- transform_sample_counts(mouse.GTDB, function(OTU) OTU/sum(OTU))
+mouse.GTDB.top20 <- prune_taxa(top20.GTDB, mouse.GTDB.top20)
+plot_bar(mouse.GTDB.top20, x = "Day", fill = "Phylum") + facet_wrap(~When, scales = "free_x")
 ```
 
 This plot suggests that a relatively high proportion of taxa in the Bacteroidota phylum makes the Day `r day` sample more similar to samples in the Late group.
