@@ -26,7 +26,7 @@ Amino acid compositions are used to calculate chemical metrics (\Zc, \nO2, and \
 
 \code{get_metrics} calculates the carbon oxidation state (\Zc), stoichiometric oxidation state (\nO2), and stoichiometric hydration state (\nH2O) for the community reference proteome in each sample.
 The community reference proteome is computed as the weighted mean of amino acid compositions of reference proteomes for taxa, where weights are the RDP classification counts.
-Then, \Zc, \nO2, and \nH2O are calculated from the amino acid composition of the community reference proteome with the \code{\link[canprot]{Zc}}, \code{\link[canprot]{nO2}}, and \code{\link[canprot]{nH2O}} functions.
+Then, \Zc, \nO2, and \nH2O are calculated from the amino acid composition of the community reference proteome with \code{\link{calc_metrics}}.
 
 }
 

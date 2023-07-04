@@ -30,14 +30,12 @@ The `taxon_AA.R` script generates the reference proteomes for each viral, archae
 
 ### Installation
 
-<!-- If you don't have it already, first install the **remotes** package from CRAN, then use that to install **chem16S** from GitHub. -->
-As of 2023-06-17, **chem16S** depends on the development version of **canprot** from GitHub, not the released version on CRAN.
+If you don't have it already, first install the **remotes** package from CRAN, then use that to install **chem16S** from GitHub.
 
 ```
 # Skip this if you already have 'remotes' installed
 install.packages("remotes")
 
-remotes::install_github("jedick/canprot")
 remotes::install_github("jedick/chem16S")
 ```
 

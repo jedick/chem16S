@@ -189,7 +189,7 @@ plot_ps_metrics <- function(physeq, x = "samples", color = NULL, shape = NULL, t
   # Define function for facet labels 20230617
   # https://stackoverflow.com/questions/3472980/how-to-change-facet-labels [outdated]
   metrics_labels <- function(variable) {
-    cplab[variable]
+    lapply(variable, cplab)
   }
   # Facet wrap using user-options
   # Plot expressions with label_parsed
@@ -242,7 +242,7 @@ plot_ps_metrics2 <- function(physeq, x = "Zc", y = "nH2O", color = NULL, shape =
   }
 
   # Make the ggplot.
-  p <- ggplot(DF, metrics_map) + geom_point(na.rm = TRUE) + xlab(cplab[[x]]) + ylab(cplab[[y]])
+  p <- ggplot(DF, metrics_map) + geom_point(na.rm = TRUE) + xlab(cplab(x)) + ylab(cplab(y))
   # Optionally add a title to the plot
   if( !is.null(title) ){
     p <- p + ggtitle(title)

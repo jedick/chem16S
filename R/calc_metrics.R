@@ -133,17 +133,22 @@ calc_metrics <- function(AAcomp, metrics = c("Zc", "nO2", "nH2O")) {
       iAA <- match(colnames(AAcomp)[isAA], names(MW_AA))
       # Calculate total MW of residues in each protein
       MW <- rowSums(t(t(AAcomp[, isAA, drop = FALSE]) * MW_AA[iAA]))
-      # Add terminal H2O
-      MW <- MW + 18.01528
       # Divide by number of residues (length of protein)
       MW / rowSums(AAcomp[, isAA, drop = FALSE])
+    } else if(metric == "length") {
+      # Find columns with names for the amino acids
+      AA_names <- c("Ala", "Cys", "Asp", "Glu", "Phe", "Gly", "His", "Ile", "Lys",
+       "Leu", "Met", "Asn", "Pro", "Gln", "Arg", "Ser", "Thr", "Val", "Trp", "Tyr")
+      isAA <- colnames(AAcomp) %in% AA_names
+      # Protein length is just number of amino acid residues 20230704
+      rowSums(AAcomp[, isAA, drop = FALSE])
     } else stop(paste0("'", metric, "' is not an available metric"))
 
   })
 
   values <- do.call(cbind, values)
   colnames(values) <- metrics
-  values
+  as.data.frame(values)
 
 }
 

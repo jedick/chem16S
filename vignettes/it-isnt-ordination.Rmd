@@ -208,10 +208,10 @@ scatter_plot <- function(data = sample.data.and.chemical.metrics.for.communities
     stat_poly_eq(aes(x = !!x, y = !!y), inherit.aes = FALSE, label.x = "center")
 }
 
-sp1 <- scatter_plot(x = Sediment_redox, y = Zc, xlab = "Sediment redox (mV)", ylab = canprot::cplab$Zc)
-sp2 <- scatter_plot(x = Sediment_redox, y = nH2O, xlab = "Sediment redox (mV)", ylab = canprot::cplab$nH2O)
-sp3 <- scatter_plot(x = Organic_matter, y = Zc, xlab = "Organic matter (%)", ylab = canprot::cplab$Zc)
-sp4 <- scatter_plot(x = Organic_matter, y = nH2O, xlab = "Organic matter (%)", ylab = canprot::cplab$nH2O)
+sp1 <- scatter_plot(x = Sediment_redox, y = Zc, xlab = "Sediment redox (mV)", ylab = cplab("Zc"))
+sp2 <- scatter_plot(x = Sediment_redox, y = nH2O, xlab = "Sediment redox (mV)", ylab = cplab("nH2O"))
+sp3 <- scatter_plot(x = Organic_matter, y = Zc, xlab = "Organic matter (%)", ylab = cplab("Zc"))
+sp4 <- scatter_plot(x = Organic_matter, y = nH2O, xlab = "Organic matter (%)", ylab = cplab("nH2O"))
 sp1 + sp2 + sp3 + sp4 + plot_layout(guides = "collect")
 ```
 </div>
@@ -249,7 +249,7 @@ data.and.metrics <- cbind(sample_data(ps2), ps_metrics(ps2))
 ps
 ```
 
-<button id="B-scatter_plot_2" onclick="ToggleDiv('scatter_plot')">Show code</button>
+<button id="B-scatter_plot_2" onclick="ToggleDiv('scatter_plot_2')">Show code</button>
 <div id="D-scatter_plot_2" style="display: none">
 ```{r scatter_plot_2, eval = FALSE}
 scatter_plot_2 <- function(data = data.and.metrics, x, y, xlab, ylab) {
@@ -261,10 +261,10 @@ scatter_plot_2 <- function(data = data.and.metrics, x, y, xlab, ylab) {
     stat_poly_line(aes(x = !!x, y = !!y), inherit.aes = FALSE) +
     stat_poly_eq(aes(x = !!x, y = !!y), inherit.aes = FALSE, label.x = "center")
 }
-sp1 <- scatter_plot_2(x = ORP, y = Zc, xlab = "ORP (mV)", ylab = canprot::cplab$Zc)
-sp2 <- scatter_plot_2(x = ORP, y = nH2O, xlab = "ORP (mV)", ylab = canprot::cplab$nH2O)
-sp3 <- scatter_plot_2(x = T, y = Zc, xlab = "T (°C)", ylab = canprot::cplab$Zc)
-sp4 <- scatter_plot_2(x = T, y = nH2O, xlab = "T (°C)", ylab = canprot::cplab$nH2O)
+sp1 <- scatter_plot_2(x = ORP, y = Zc, xlab = "ORP (mV)", ylab = cplab("Zc"))
+sp2 <- scatter_plot_2(x = ORP, y = nH2O, xlab = "ORP (mV)", ylab = cplab("nH2O"))
+sp3 <- scatter_plot_2(x = T, y = Zc, xlab = "T (°C)", ylab = cplab("Zc"))
+sp4 <- scatter_plot_2(x = T, y = nH2O, xlab = "T (°C)", ylab = cplab("nH2O"))
 sp1 + sp2 + sp3 + sp4 + plot_layout(guides = "collect")
 ```
 </div>

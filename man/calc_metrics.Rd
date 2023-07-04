@@ -42,12 +42,20 @@ The following metrics are available:
     The \pK values for the terminal groups and sidechains are taken from Bjellqvist et al. (1993) and Bjellqvist et al. (1994); note that the calculation does not implement position-specific adjustments described in the latter paper.
     The number of N- and C-terminal groups is taken to be one, unless a column for \code{chains} (number of polypeptide chains) is given in \code{AAcomp}.
   }
+  \item{\code{MW}}{
+    Molecular weight.
+    This is the per-residue molecular weight and doesn't include the contribution of terminal groups.
+  }
+  \item{\code{length}}{
+    Protein length.
+    Number of amino acid residues.
+  }
 }
 
 }
 
 \seealso{
-\code{\link{plot_metrics}} for plotting chemical metrics.
+\code{\link{get_metrics}} uses this function to calculate chemical metrics for community reference proteomes.
 }
 
 \value{

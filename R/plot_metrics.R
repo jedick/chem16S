@@ -4,7 +4,7 @@
 plot_metrics <- function(mdat, identify = FALSE, title = TRUE, xlim = NULL, ylim = NULL,
   plot.it = TRUE, points = TRUE, lines = FALSE, cex = 1, pch1 = 1, pch2 = 21,
   return = "data", extracolumn = NULL, add = FALSE, pt.open.col = 1,
-  xlab = canprot::cplab$Zc, ylab = canprot::cplab$nH2O) {
+  xlab = cplab("Zc"), ylab = cplab("nH2O")) {
 
   # Get pch and col
   pch <- mdat$metadata$pch

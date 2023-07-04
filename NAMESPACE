@@ -11,10 +11,9 @@ export(
   # 20230617
   "plot_ps_metrics2",
   # 20230704
-  "calc_metrics"
+  "calc_metrics", "cplab"
 )
 
-importFrom("canprot", "cplab")
 importFrom("stats", "aggregate", "na.omit")
 importFrom("utils", "read.csv", "read.table", "tail")
 importFrom("grDevices", "chull", "col2rgb", "rgb")
