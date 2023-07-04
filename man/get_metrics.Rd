@@ -31,7 +31,7 @@ Then, \Zc, \nO2, and \nH2O are calculated from the amino acid composition of the
 }
 
 \seealso{
-\code{\link{plot_metrics}} for plotting chemical metrics.
+\code{\link{calc_metrics}} for details of the calculations and \code{\link{plot_metrics}} for plotting chemical metrics.
 }
 
 \examples{

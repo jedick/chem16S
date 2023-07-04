@@ -44,13 +44,15 @@ get_metrics <- function(RDP = NULL, map = NULL, refdb = "GTDB", taxon_AA = NULL,
     stopifnot(all(AAcomp[, "chains"] == colSums(RDPmat)))
     # Set counts of specified amino acids to zero 20221018
     if(!is.null(zero_AA)) AAcomp[, zero_AA] <- 0
-    # Calculate Zc, nO2, and nH2O from amino acid composition
-    Zc <- Zc(AAcomp)
-    nO2 <- nO2(AAcomp)
-    nH2O <- nH2O(AAcomp)
-    # Create output data frame
-    out <- data.frame(Run = colnames(RDPmat), Zc = Zc, nO2 = nO2, nH2O = nH2O)
-    if(return_AA) out <- cbind(data.frame(Run = colnames(RDPmat)), AAcomp)
+    if(return_AA) {
+      # Just return the amino acid composition
+      out <- cbind(data.frame(Run = colnames(RDPmat)), AAcomp)
+    } else {
+      # Calculate Zc, nO2, and nH2O from amino acid composition
+      metrics <- calc_metrics(AAcomp)
+      # Create output data frame
+      out <- cbind(data.frame(Run = colnames(RDPmat)), metrics)
+    }
   } else {
     # Split data into sample groups and calculate metrics for each group 20210607
     nH2O <- nO2 <- Zc <- numeric()
@@ -60,14 +62,14 @@ get_metrics <- function(RDP = NULL, map = NULL, refdb = "GTDB", taxon_AA = NULL,
       AAcomp <- t(thisRDP) %*% AAmat
       # Set counts of specified amino acids to zero 20221018
       if(!is.null(zero_AA)) AAcomp[, zero_AA] <- 0
-      Zc <- c(Zc, Zc(AAcomp))
-      nO2 <- c(nO2, nO2(AAcomp))
-      nH2O <- c(nH2O, nH2O(AAcomp))
+      Zc <- c(Zc, calc_metrics(AAcomp, "Zc")[, 1])
+      nO2 <- c(nO2, calc_metrics(AAcomp, "nO2")[, 1])
+      nH2O <- c(nH2O, calc_metrics(AAcomp, "nH2O")[, 1])
     }
     group <- names(groups)
     if(is.null(group)) group <- 1:length(groups)
     out <- data.frame(group = group, Zc = Zc, nO2 = nO2, nH2O = nH2O)
-    if(return_AA) out <- cbind(data.frame(group = group), AAcomp)
+    #if(return_AA) out <- cbind(data.frame(group = group), AAcomp)
   }
 
   rownames(out) <- 1:nrow(out)

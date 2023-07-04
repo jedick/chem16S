@@ -3,7 +3,7 @@
 
 plot_metrics <- function(mdat, identify = FALSE, title = TRUE, xlim = NULL, ylim = NULL,
   plot.it = TRUE, points = TRUE, lines = FALSE, cex = 1, pch1 = 1, pch2 = 21,
-  return = "data", extracolumn = NULL, add = FALSE, plot.bg = TRUE, pt.open.col = 1,
+  return = "data", extracolumn = NULL, add = FALSE, pt.open.col = 1,
   xlab = canprot::cplab$Zc, ylab = canprot::cplab$nH2O) {
 
   # Get pch and col
@@ -21,8 +21,6 @@ plot_metrics <- function(mdat, identify = FALSE, title = TRUE, xlim = NULL, ylim
     # Start plot
     if(!add) plot(xlim, ylim, xlab = xlab, ylab = ylab, type = "n")
     if(points) {
-      # Add background nH2O-Zc correlation (from basis species)
-      if(plot.bg) lmlines()
       # Determine which point symbols are filled (we use col for their bg)
       ifill <- pch > 20
       # Plot points
@@ -85,36 +83,4 @@ add_hull <- function(x, y, basecol, outline = FALSE, ...) {
     col <- rgb(r[1], r[2], r[3], 80, maxColorValue=255)
     polygon(x[i], y[i], col = col, border = NA, ...)
   }
-}
-
-#######################
-# Unexported function #
-#######################
-
-# Add nH2O-Zc guidelines parallel to regression for amino acids
-# Modified from JMDplots::gradH2O1() and JMDplots:::lmlines() 20200901
-lmlines <- function(step = 0.01) {
-  if(FALSE) {
-    # Calculate Zc of the amino acids
-    aa <- aminoacids("")
-    Zc.aa <- Zc(info(aa, "aq"))
-    # Load amino acids with QCa or QEC basis 20200914
-    basis(c("glutamine", "glutamic acid", "cysteine", "H2O", "O2"))
-    #if(options("basis")$basis == "QCa") basis(c("glutamine", "cysteine", "acetic acid", "H2O", "O2"))
-    species(aa)
-    # Make linear regression
-    lm <- lm(species()$H2O ~ Zc.aa)
-    coef <- coef(lm)
-    # Clear species!
-    reset()
-  } else {
-    # Use previously computed intercept and slope 20200920
-    coef <- c(-0.1242780, -0.3088251)
-    #if(options("basis")$basis == "QCa") coef <- c(-0.4830396, 0.1579203)
-  }
-  x <- par("usr")[1:2]
-  y <- coef[1] + coef[2] * x
-  for(dy in seq(-0.48, -1.20, -step)) lines(x, y + dy, col = "gray80")
-  # Add box so ends of lines don't cover plot edges 20201007
-  box()
 }

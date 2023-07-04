@@ -9,10 +9,12 @@ export(
   # Integration with phyloseq 20230608
   "ps_taxacounts", "ps_metrics", "plot_ps_metrics",
   # 20230617
-  "plot_ps_metrics2"
+  "plot_ps_metrics2",
+  # 20230704
+  "calc_metrics"
 )
 
-importFrom("canprot", "Zc", "nO2", "nH2O", "cplab")
+importFrom("canprot", "cplab")
 importFrom("stats", "aggregate", "na.omit")
 importFrom("utils", "read.csv", "read.table", "tail")
 importFrom("grDevices", "chull", "col2rgb", "rgb")
