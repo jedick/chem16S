@@ -36,9 +36,9 @@ structure(list(protein = c("O08452", "AMY", "AMYA", "BPT1", "CYC",
 metrics <- calc_metrics(AAcomp)
 
 # Perform the tests
-expect_equivalent(metrics$Zc, Zc.ref)
-expect_equivalent(metrics$nO2, nO2.ref)
-expect_equivalent(metrics$nH2O, nH2O.ref)
+expect_equivalent(metrics$Zc, Zc.ref, info = info)
+expect_equivalent(metrics$nO2, nO2.ref, info = info)
+expect_equivalent(metrics$nH2O, nH2O.ref, info = info)
 
 # Tests for GRAVY, pI, and MW adapted from canprot/man/metrics.Rd on 20230704
 
@@ -97,4 +97,4 @@ metrics <- calc_metrics(AAcomp, c("MW", "length"))
 MW.calc <- metrics$MW * metrics$length
 # Add molecular weight of terminal H- and -OH groups
 MW.calc <- MW.calc + 18.01528
-expect_equivalent(round(MW.calc[1:3], 2), MW.ref)
+expect_equivalent(round(MW.calc[1:3], 2), MW.ref, info = info)

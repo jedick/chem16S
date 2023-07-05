@@ -9,4 +9,4 @@ expect_equal(colnames(values), metrics, info = info)
 info <- "A single metric is still returned in a data frame"
 metrics <- "Zc"
 values <- ps_metrics(mouse.GTDB, metrics = metrics)
-expect_equal(colnames(values), metrics)
+expect_equal(colnames(values), metrics, info = info)

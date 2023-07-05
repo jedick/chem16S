@@ -9,6 +9,6 @@ metrics <- get_metrics(RDP, map, refdb = "RefSeq")
 # Get metadata for the Bison Pool dataset
 mdatfile <- system.file("extdata/metadata/SMS+12.csv", package = "chem16S")
 mdat <- get_metadata(mdatfile, metrics)
-expect_true(all(mdat$metadata$Run == mdat$metrics$Run))
+expect_true(all(mdat$metadata$Run == mdat$metrics$Run), info = info)
 # This isn't a trivial test, because MG-RAST IDs are not in the sample order
-expect_false(all(mdat$metadata$Run == metrics$Run))
+expect_false(all(mdat$metadata$Run == metrics$Run), info = info)
