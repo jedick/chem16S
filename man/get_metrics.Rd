@@ -9,24 +9,31 @@ Amino acid compositions are used to calculate chemical metrics (\Zc, \nO2, and \
 
 \usage{
   get_metrics(RDP, map, refdb = "GTDB", taxon_AA = NULL, groups = NULL,
-    return_AA = FALSE, zero_AA = NULL)
+    return_AA = FALSE, zero_AA = NULL, metrics = c("Zc", "nO2", "nH2O"))
 }
 
 \arguments{
-  \item{RDP}{data frame, output from \code{\link{read_RDP}}}
-  \item{map}{data frame, output from \code{\link{map_taxa}}}
+  \item{RDP}{data frame, taxonomic abundances produced by \code{\link{read_RDP}} or \code{\link{ps_taxacounts}}}
+  \item{map}{data frame, taxonomic mapping produced by \code{\link{map_taxa}}}
   \item{refdb}{character, name of reference database (\samp{GTDB} or \samp{RefSeq})}
-  \item{taxon_AA}{data frame, content of \code{extdata/RefSeq/taxon_AA.csv.xz} or \code{extdata/GTDB/taxon_AA.csv.xz} (used for speed-up)}
-  \item{groups}{list, indexing vectors to identify groups of samples whose taxonomic classifications are aggregated before calculating amino acid composition and chemical metrics}
+  \item{taxon_AA}{data frame, content of \code{extdata/RefSeq/taxon_AA.csv.xz} or \code{extdata/GTDB/taxon_AA.csv.xz} (optionally used for speed-up)}
+  \item{groups}{list of indexing vectors, samples to be aggregated into groups}
   \item{return_AA}{logical, return the amino acid composition for each sample instead of the chemical metrics?}
-  \item{zero_AA}{character, set counts of the specified amino acids to zero for calculating chemical metrics (uses three-letter abbreviations).}
+  \item{zero_AA}{character, three-letter abbreviation(s) of amino acid(s) to assign zero counts for calculating chemical metrics}
+  \item{metrics}{character, the chemical metrics to calculate}
 }
 
 \details{
 
-\code{get_metrics} calculates the carbon oxidation state (\Zc), stoichiometric oxidation state (\nO2), and stoichiometric hydration state (\nH2O) for the community reference proteome in each sample.
-The community reference proteome is computed as the weighted mean of amino acid compositions of reference proteomes for taxa, where weights are the RDP classification counts.
-Then, \Zc, \nO2, and \nH2O are calculated from the amino acid composition of the community reference proteome with \code{\link{calc_metrics}}.
+\code{get_metrics} calculates selected chemical metrics for the community reference proteome in each sample.
+The community reference proteome is computed from the amino acid compositions of reference proteomes for taxa (obtained from the reference database in \code{refdb}), multiplied by taxonomic abundances given in \code{RDP}.
+\code{RDP} may include results from the RDP Classifier (read using \code{\link{read_RDP}}) or derived from the OTU table of a phyloseq object (see \code{\link{ps_taxacounts}}).
+\code{map} defines the taxonomic mapping between \code{RDP} and \code{refdb}.
+Then, chemical metrics are calculated from the amino acid composition of the community reference proteome.
+The default chemical metrics are carbon oxidation state (\Zc), stoichiometric oxidation state (\nO2), and stoichiometric hydration state (\nH2O).
+See \code{\link{calc_metrics}} for other available metrics.
+
+\code{groups}, if given, is a list of one or more indexing vectors (with logical or numeric values) corresponding to samples whose taxonomic classifications are aggregated into groups before calculating amino acid composition and chemical metrics.
 
 }
 

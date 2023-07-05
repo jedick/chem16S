@@ -7,13 +7,12 @@
 \alias{plot_ps_metrics2}
 \title{Calculate and plot chemical metrics from phyloseq objects}
 \description{
-Functions to process phyloseq objects for chemical metrics (\Zc, \nO2, and \nH2O) of community reference proteomes.
+Calculate chemical metrics of community reference proteomes from taxonomic abundances in phyloseq objects and make plots of individual metrics or two metrics against each other.
 }
 
 \usage{
   ps_taxacounts(physeq, split = TRUE)
-  ps_metrics(physeq, split = TRUE, metrics = c("Zc", "nO2", "nH2O"),
-    refdb = "GTDB", quiet = FALSE, ...)
+  ps_metrics(physeq, split = TRUE, refdb = "GTDB", quiet = FALSE, ...)
   plot_ps_metrics(physeq, x = "samples", color = NULL, shape = NULL, title = NULL,
     scales = "free_y", nrow = 1, metrics = c("Zc", "nO2", "nH2O"), sortby = NULL,
     refdb = "GTDB", quiet = FALSE)
@@ -24,7 +23,6 @@ Functions to process phyloseq objects for chemical metrics (\Zc, \nO2, and \nH2O
 \arguments{
   \item{physeq}{phyloseq-class, a phyloseq object containing an otu_table and tax_table}
   \item{split}{logical, calculate metrics for each sample (TRUE) or the entire set (FALSE)}
-  \item{metrics}{character, names of metrics to calculate}
   \item{refdb}{character, name of reference database (\samp{GTDB} or \samp{RefSeq}; passed to \code{\link{get_metrics}})}
   \item{quiet}{logical, suppress printed messages? (passed to \code{\link{map_taxa}})}
   \item{...}{additional arguments for \code{\link{get_metrics}}}
@@ -34,6 +32,7 @@ Functions to process phyloseq objects for chemical metrics (\Zc, \nO2, and \nH2O
   \item{title}{main title for the plot}
   \item{scales}{\samp{free_y} or \samp{fixed} for different vertical scales or same scale in each panel}
   \item{nrow}{number of rows of panels (passed to \code{\link{facet_wrap}})}
+  \item{metrics}{character, chemical metrics to calculate}
   \item{sortby}{subset of \code{metrics} argument, sort x-index by the mean values of these metrics}
   \item{y}{map this variable to the vertical axis}
 }
@@ -41,7 +40,9 @@ Functions to process phyloseq objects for chemical metrics (\Zc, \nO2, and \nH2O
 \details{
 
 \code{ps_taxacounts} returns a data frame with lowest-level classifications (from genus to domain) and abundances for each OTU in the \code{physeq} object.
+
 \code{ps_metrics} calculates chemical metrics of community reference proteomes from the lowest-level classifications after mapping to the NCBI taxonomy with \code{\link{map_taxa}}.
+To choose the metrics to calculate, use the \code{metrics} argument, which is passed via \code{...} to \code{\link{get_metrics}}.
 
 \code{plot_ps_metrics} plots individual chemical metrics or multiple chemical metrics, each in their own panel.
 This function is modified from \code{\link[phyloseq]{plot_richness}}; see that help page for further details about graphics-related arguments.

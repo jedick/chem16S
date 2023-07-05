@@ -1,6 +1,6 @@
-Date: 2023-07-04
+Date: 2023-07-05
 Package: chem16S
-Version: 0.1.3-28
+Version: 0.1.3-29
 Title: Chemical Metrics of Community Reference Proteomes from Taxonomic Classifications
 Authors@R: c(
     person("Jeffrey", "Dick", , "jeff@chnosz.net", role = c("aut", "cre"),
@@ -10,7 +10,7 @@ Author: Jeffrey Dick [aut, cre] (0000-0002-0687-5890)
 Maintainer: Jeffrey Dick <jeff@chnosz.net>
 Depends: R (>= 3.5.0)
 Imports: plyr, ggplot2, rlang, reshape2
-Suggests: tinytest, knitr, phyloseq, patchwork, ggpmisc
+Suggests: tinytest, knitr, phyloseq, patchwork, ggpmisc, rmarkdown
 Description: Calculation of chemical metrics of reference proteomes for
   bacterial and archaeal communities. Amino acid compositions of reference
   proteomes of taxa were precomputed from the NCBI RefSeq database as described

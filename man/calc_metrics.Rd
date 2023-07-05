@@ -46,9 +46,9 @@ The following metrics are available:
     Molecular weight.
     This is the per-residue molecular weight and doesn't include the contribution of terminal groups.
   }
-  \item{\code{length}}{
+  \item{\code{length} or \code{Length}}{
     Protein length.
-    Number of amino acid residues.
+    This is the number of amino acid residues per protein.
   }
 }
 

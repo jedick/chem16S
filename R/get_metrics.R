@@ -4,7 +4,8 @@
 # Add refdb argument 20221016
 # TODO: Put mapping checks into test file, not this function 20230615
 
-get_metrics <- function(RDP = NULL, map = NULL, refdb = "GTDB", taxon_AA = NULL, groups = NULL, return_AA = FALSE, zero_AA = NULL) {
+get_metrics <- function(RDP = NULL, map = NULL, refdb = "GTDB", taxon_AA = NULL,
+  groups = NULL, return_AA = FALSE, zero_AA = NULL, metrics = c("Zc", "nO2", "nH2O")) {
 
   # Exclude NA mappings
   RDP <- RDP[!is.na(map), ]
@@ -34,42 +35,40 @@ get_metrics <- function(RDP = NULL, map = NULL, refdb = "GTDB", taxon_AA = NULL,
 
   # Get classification matrix (rows = taxa, columns = samples)
   RDPmat <- as.matrix(RDP[, -(1:4), drop = FALSE])
-  # Get amino acid matrix (rows = taxa, columns = amino acid)
+  # Get amino acid matrix (rows = taxa, columns = 'chains' (number of proteins) and one column for each amino acid)
   AAmat <- as.matrix(taxon_AA[, 5:25, drop = FALSE])
 
   if(is.null(groups)) {
     # Calculate amino acid composition for each sample (weighted by taxon abundances)
-    AAcomp <- t(RDPmat) %*% AAmat
+    AAcomp <- as.data.frame(t(RDPmat) %*% AAmat)
     # Check that the number of protein sequences is equal to the number of classifications
     stopifnot(all(AAcomp[, "chains"] == colSums(RDPmat)))
-    # Set counts of specified amino acids to zero 20221018
-    if(!is.null(zero_AA)) AAcomp[, zero_AA] <- 0
-    if(return_AA) {
-      # Just return the amino acid composition
-      out <- cbind(data.frame(Run = colnames(RDPmat)), AAcomp)
-    } else {
-      # Calculate Zc, nO2, and nH2O from amino acid composition
-      metrics <- calc_metrics(AAcomp)
-      # Create output data frame
-      out <- cbind(data.frame(Run = colnames(RDPmat)), metrics)
-    }
+    # Names of samples are sequencing run names
+    samplecols <- data.frame(Run = colnames(RDPmat))
   } else {
-    # Split data into sample groups and calculate metrics for each group 20210607
-    nH2O <- nO2 <- Zc <- numeric()
-    for(i in 1:length(groups)) {
+    # Aggregate samples to calculate metrics for each group 20210607
+    AAcomp <- lapply(groups, function(group) {
       # Use rowSums to combine all samples in each group into one meta-sample
-      thisRDP <- rowSums(RDPmat[, groups[[i]], drop = FALSE])
-      AAcomp <- t(thisRDP) %*% AAmat
-      # Set counts of specified amino acids to zero 20221018
-      if(!is.null(zero_AA)) AAcomp[, zero_AA] <- 0
-      Zc <- c(Zc, calc_metrics(AAcomp, "Zc")[, 1])
-      nO2 <- c(nO2, calc_metrics(AAcomp, "nO2")[, 1])
-      nH2O <- c(nH2O, calc_metrics(AAcomp, "nH2O")[, 1])
-    }
+      thisRDP <- rowSums(RDPmat[, group, drop = FALSE])
+      t(thisRDP) %*% AAmat
+    })
+    AAcomp <- as.data.frame(do.call(rbind, AAcomp))
+    # Names of samples are group names
     group <- names(groups)
     if(is.null(group)) group <- 1:length(groups)
-    out <- data.frame(group = group, Zc = Zc, nO2 = nO2, nH2O = nH2O)
-    #if(return_AA) out <- cbind(data.frame(group = group), AAcomp)
+    samplecols <- data.frame(group = group)
+  }
+
+  # Set counts of specified amino acids to zero 20221018
+  if(!is.null(zero_AA)) AAcomp[, zero_AA] <- 0
+  if(return_AA) {
+    # Just return the amino acid composition
+    out <- cbind(samplecols, AAcomp)
+  } else {
+    # Calculate chemical metrics from amino acid composition
+    metrics_values <- calc_metrics(AAcomp, metrics)
+    # Create output data frame
+    out <- cbind(samplecols, metrics_values)
   }
 
   rownames(out) <- 1:nrow(out)

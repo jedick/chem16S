@@ -11,7 +11,7 @@ export(
   # 20230617
   "plot_ps_metrics2",
   # 20230704
-  "calc_metrics", "cplab"
+  "calc_metrics", "chemlab"
 )
 
 importFrom("stats", "aggregate", "na.omit")

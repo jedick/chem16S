@@ -1,13 +1,13 @@
 \encoding{UTF-8}
-\name{cplab}
-\alias{cplab}
+\name{chemlab}
+\alias{chemlab}
 \title{Formatted labels for chemical metrics}
 \description{
   Formatted labels for indicating chemical metrics on plots.
 }
 
 \usage{
-  cplab(varname)
+  chemlab(varname)
 }
 
 \arguments{
@@ -24,5 +24,5 @@ This function is used in \code{\link{plot_metrics}}, \code{\link{plot_ps_metrics
 }
 
 \examples{
-cplab("Zc")
+chemlab("Zc")
 }

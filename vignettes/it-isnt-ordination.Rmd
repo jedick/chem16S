@@ -208,10 +208,10 @@ scatter_plot <- function(data = sample.data.and.chemical.metrics.for.communities
     stat_poly_eq(aes(x = !!x, y = !!y), inherit.aes = FALSE, label.x = "center")
 }
 
-sp1 <- scatter_plot(x = Sediment_redox, y = Zc, xlab = "Sediment redox (mV)", ylab = cplab("Zc"))
-sp2 <- scatter_plot(x = Sediment_redox, y = nH2O, xlab = "Sediment redox (mV)", ylab = cplab("nH2O"))
-sp3 <- scatter_plot(x = Organic_matter, y = Zc, xlab = "Organic matter (%)", ylab = cplab("Zc"))
-sp4 <- scatter_plot(x = Organic_matter, y = nH2O, xlab = "Organic matter (%)", ylab = cplab("nH2O"))
+sp1 <- scatter_plot(x = Sediment_redox, y = Zc, xlab = "Sediment redox (mV)", ylab = chemlab("Zc"))
+sp2 <- scatter_plot(x = Sediment_redox, y = nH2O, xlab = "Sediment redox (mV)", ylab = chemlab("nH2O"))
+sp3 <- scatter_plot(x = Organic_matter, y = Zc, xlab = "Organic matter (%)", ylab = chemlab("Zc"))
+sp4 <- scatter_plot(x = Organic_matter, y = nH2O, xlab = "Organic matter (%)", ylab = chemlab("nH2O"))
 sp1 + sp2 + sp3 + sp4 + plot_layout(guides = "collect")
 ```
 </div>
@@ -261,10 +261,10 @@ scatter_plot_2 <- function(data = data.and.metrics, x, y, xlab, ylab) {
     stat_poly_line(aes(x = !!x, y = !!y), inherit.aes = FALSE) +
     stat_poly_eq(aes(x = !!x, y = !!y), inherit.aes = FALSE, label.x = "center")
 }
-sp1 <- scatter_plot_2(x = ORP, y = Zc, xlab = "ORP (mV)", ylab = cplab("Zc"))
-sp2 <- scatter_plot_2(x = ORP, y = nH2O, xlab = "ORP (mV)", ylab = cplab("nH2O"))
-sp3 <- scatter_plot_2(x = T, y = Zc, xlab = "T (°C)", ylab = cplab("Zc"))
-sp4 <- scatter_plot_2(x = T, y = nH2O, xlab = "T (°C)", ylab = cplab("nH2O"))
+sp1 <- scatter_plot_2(x = ORP, y = Zc, xlab = "ORP (mV)", ylab = chemlab("Zc"))
+sp2 <- scatter_plot_2(x = ORP, y = nH2O, xlab = "ORP (mV)", ylab = chemlab("nH2O"))
+sp3 <- scatter_plot_2(x = T, y = Zc, xlab = "T (°C)", ylab = chemlab("Zc"))
+sp4 <- scatter_plot_2(x = T, y = nH2O, xlab = "T (°C)", ylab = chemlab("nH2O"))
 sp1 + sp2 + sp3 + sp4 + plot_layout(guides = "collect")
 ```
 </div>

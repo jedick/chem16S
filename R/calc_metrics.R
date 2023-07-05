@@ -8,6 +8,7 @@ calc_metrics <- function(AAcomp, metrics = c("Zc", "nO2", "nH2O")) {
   values <- lapply(metrics, function(metric) {
   
     if(metric == "Zc") {
+
       # Calculate carbon oxidation state for amino acid compositions 20180228
       # The number of carbons of the amino acids
       nC_AA <- c(Ala = 3, Cys = 3, Asp = 4, Glu = 5, Phe = 9, Gly = 2, His = 6, 
@@ -30,7 +31,9 @@ calc_metrics <- function(AAcomp, metrics = c("Zc", "nO2", "nH2O")) {
       Zctot <- rowSums(multZc)
       nCtot <- rowSums(multC)
       Zctot / nCtot
+
     } else if(metric == "nH2O") {
+
       # Calculate stoichiometric hydration state for proteins with given amino acid compositions 20181228
       basis <- "QEC"
       if(basis == "QEC") {
@@ -54,7 +57,9 @@ calc_metrics <- function(AAcomp, metrics = c("Zc", "nO2", "nH2O")) {
       #nH2O <- nH2O + terminal_H2O
       # Divide by number of residues (length of protein)
       nH2O / rowSums(AAcomp[, isAA, drop = FALSE])
+
     } else if(metric == "nO2") {
+
       # Calculate stoichiometric oxidation state for proteins with given amino acid compositions 20201016
       basis <- "QEC"
       if(basis == "QEC") {
@@ -75,7 +80,9 @@ calc_metrics <- function(AAcomp, metrics = c("Zc", "nO2", "nH2O")) {
       nO2 <- rowSums(t(t(AAcomp[, isAA, drop = FALSE]) * nO2_AA[iAA]))
       # Divide by number of residues (length of protein)
       nO2 <- nO2 / rowSums(AAcomp[, isAA, drop = FALSE])
+
     } else if(metric == "GRAVY") {
+
       # Calculate GRAVY for amino acid compositions 20191024
       # Values of the hydropathy index from Kyte and Doolittle, 1982
       # doi:10.1016/0022-2836(82)90515-0
@@ -90,7 +97,9 @@ calc_metrics <- function(AAcomp, metrics = c("Zc", "nO2", "nH2O")) {
       sumHind <- rowSums(t(t(AAcomp[, isAA, drop = FALSE]) * Hind[iAA]))
       # Divide by length of proteins to get grand average of hydropathy (GRAVY)
       sumHind / rowSums(AAcomp[, isAA, drop = FALSE])
+
     } else if(metric == "pI") {
+
       # Calculate isoelectric point for proteins 20191026
       # A function to calculate isoelectric point for a single amino acid composition
       onepI <- function(AA) {
@@ -117,9 +126,10 @@ calc_metrics <- function(AAcomp, metrics = c("Zc", "nO2", "nH2O")) {
       myAA <- AAcomp[, isnum, drop = FALSE]
       # Run the calculation for each composition
       apply(myAA, 1, onepI)
+
     } else if(metric == "MW") {
-      # Calculate average molecular weight per amino acid 20200501
-      # Mass per residue:
+
+      # Calculate average molecular weight per amino acid residue 20200501
       # MW_AA <- sapply(CHNOSZ::makeup(info(aminoacids(""))), mass) - mass("H2O")
       # names(MW_AA) <- aminoacids(3)
       MW_AA <- c(Ala = 71.0788, Cys = 103.1388, Asp = 115.0886, Glu = 129.11548, 
@@ -135,13 +145,19 @@ calc_metrics <- function(AAcomp, metrics = c("Zc", "nO2", "nH2O")) {
       MW <- rowSums(t(t(AAcomp[, isAA, drop = FALSE]) * MW_AA[iAA]))
       # Divide by number of residues (length of protein)
       MW / rowSums(AAcomp[, isAA, drop = FALSE])
-    } else if(metric == "length") {
+
+    } else if(tolower(metric) == "length") {
+
       # Find columns with names for the amino acids
       AA_names <- c("Ala", "Cys", "Asp", "Glu", "Phe", "Gly", "His", "Ile", "Lys",
        "Leu", "Met", "Asn", "Pro", "Gln", "Arg", "Ser", "Thr", "Val", "Trp", "Tyr")
       isAA <- colnames(AAcomp) %in% AA_names
-      # Protein length is just number of amino acid residues 20230704
-      rowSums(AAcomp[, isAA, drop = FALSE])
+      # Protein length is number of amino acid residues 20230704
+      length <- rowSums(AAcomp[, isAA, drop = FALSE])
+      # Divide by number of proteins (polypeptide chains) if available 20230705
+      if(!is.null(AAcomp$chains)) length <- length / AAcomp$chains
+      length
+
     } else stop(paste0("'", metric, "' is not an available metric"))
 
   })
@@ -180,4 +196,3 @@ Ztab <- local({
   # Add a column with the pH values
   cbind(pH = pH, Ztab)
 })
-

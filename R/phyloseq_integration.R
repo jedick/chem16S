@@ -74,8 +74,7 @@ ps_taxacounts <- function(physeq, split = TRUE) {
 }
 
 # Calculate chemical metrics from phyloseq object
-ps_metrics <- function(physeq, split = TRUE, metrics = c("Zc", "nO2", "nH2O"), 
-  refdb = "GTDB", quiet = FALSE, ...) {
+ps_metrics <- function(physeq, split = TRUE, refdb = "GTDB", quiet = FALSE, ...) {
   # Obtain data frame with lowest-level (to genus) classifications for each OTU
   taxacounts <- ps_taxacounts(physeq, split = split)
   # Map names to NCBI taxonomy
@@ -86,10 +85,7 @@ ps_metrics <- function(physeq, split = TRUE, metrics = c("Zc", "nO2", "nH2O"),
   if(isTRUE(moreargs$return_AA)) return(met)
   # Put sample names in rownames (analogous to phyloseq::estimate_richness)
   rownames(met) <- met$Run
-  met <- met[, -1]
-  # Keep only selected metrics
-  met <- met[, metrics, drop = FALSE]
-  met
+  met[, -1, drop = FALSE]
 }
 
 # Plot individual chemical metrics 20230608
@@ -189,7 +185,7 @@ plot_ps_metrics <- function(physeq, x = "samples", color = NULL, shape = NULL, t
   # Define function for facet labels 20230617
   # https://stackoverflow.com/questions/3472980/how-to-change-facet-labels [outdated]
   metrics_labels <- function(variable) {
-    lapply(variable, cplab)
+    lapply(variable, chemlab)
   }
   # Facet wrap using user-options
   # Plot expressions with label_parsed
@@ -242,7 +238,7 @@ plot_ps_metrics2 <- function(physeq, x = "Zc", y = "nH2O", color = NULL, shape =
   }
 
   # Make the ggplot.
-  p <- ggplot(DF, metrics_map) + geom_point(na.rm = TRUE) + xlab(cplab(x)) + ylab(cplab(y))
+  p <- ggplot(DF, metrics_map) + geom_point(na.rm = TRUE) + xlab(chemlab(x)) + ylab(chemlab(y))
   # Optionally add a title to the plot
   if( !is.null(title) ){
     p <- p + ggtitle(title)

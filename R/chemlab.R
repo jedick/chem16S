@@ -1,8 +1,8 @@
-# chem16S/cplab.R
+# chem16S/chemlab.R
 # Function to format figure labels
 # Adapted from canprot's cplab.R on 20230704
 
-cplab <- function(varname) {
+chemlab <- function(varname) {
   switch(varname,
     nH2O = quote(italic(n)[H[2]*O]),
     DnH2O = quote(Delta*italic(n)[H[2]*O]),

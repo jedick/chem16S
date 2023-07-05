@@ -59,7 +59,7 @@ table(ranks)[unique(ranks)]
 taxon_Zc <- calc_metrics(taxon_AA, "Zc")[, 1]
 Zc_list <- sapply( unique(ranks), function(rank) taxon_Zc[ranks == rank] )
 par(mar = c(4, 7, 1, 1))
-boxplot(Zc_list, horizontal = TRUE, las = 1, xlab = cplab("Zc"))
+boxplot(Zc_list, horizontal = TRUE, las = 1, xlab = chemlab("Zc"))
 ```
 
 ## `r Zc` for genera in selected phyla and classes
@@ -92,7 +92,7 @@ Zc_list <- sapply(sapply(names(top20_phyla), phylum_to_genus), get_Zc)
 order_Zc <- order(sapply(Zc_list, mean))
 Zc_list <- Zc_list[order_Zc]
 par(mar = c(4, 13, 1, 1))
-boxplot(Zc_list, horizontal = TRUE, las = 1, xlab = cplab("Zc"))
+boxplot(Zc_list, horizontal = TRUE, las = 1, xlab = chemlab("Zc"))
 ```
 
 ## Prokaryotic genera, aggregated to class
@@ -116,7 +116,7 @@ for(phylum in c("Euryarchaeota", "Proteobacteria")) {
   order_Zc <- order(sapply(Zc_list, mean))
   Zc_list <- Zc_list[order_Zc]
   par(mar = c(4, 10, 1, 1))
-  boxplot(Zc_list, horizontal = TRUE, las = 1, xlab = cplab("Zc"))
+  boxplot(Zc_list, horizontal = TRUE, las = 1, xlab = chemlab("Zc"))
 }
 ```
 
@@ -136,7 +136,7 @@ for(phylum in c("Euryarchaeota", "Proteobacteria")) {
   order_nH2O <- order(sapply(nH2O_list, mean))
   nH2O_list <- nH2O_list[order_nH2O]
   par(mar = c(4, 10, 1, 1))
-  boxplot(nH2O_list, horizontal = TRUE, las = 1, xlab = cplab("nH2O"))
+  boxplot(nH2O_list, horizontal = TRUE, las = 1, xlab = chemlab("nH2O"))
 }
 ```
 
@@ -156,7 +156,7 @@ pch <- sapply(domain, switch, Archaea = pchs[1], Bacteria = pchs[2], Viruses = p
 bgs <- topo.colors(3, alpha = 0.5)
 bg <- sapply(domain, switch, Archaea = bgs[1], Bacteria = bgs[2], Viruses = bgs[3])
 par(mar = c(4, 4, 1, 1))
-plot(Zc_mean, nH2O_mean, xlab = cplab("Zc"), ylab = cplab("nH2O"), pch = pch, bg = bg)
+plot(Zc_mean, nH2O_mean, xlab = chemlab("Zc"), ylab = chemlab("nH2O"), pch = pch, bg = bg)
 ilow <- nH2O_mean < -0.77 & domain == "Bacteria"
 xadj <- c(-0.9, -0.8, 0.8, 1, -0.8)
 yadj <- c(0, 1, 1, -1, -1)
