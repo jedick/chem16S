@@ -2,8 +2,8 @@
 info <- "Calculated Zc increases along Bison Pool outflow channel"
 # Get metrics for the Bison Pool dataset
 RDPfile <- system.file("extdata/RDP/SMS+12.tab.xz", package = "chem16S")
-RDP <- read_RDP(RDPfile)
-map <- map_taxa(RDP, refdb = "RefSeq")
+RDP <- read_RDP(RDPfile, quiet = TRUE)
+map <- map_taxa(RDP, refdb = "RefSeq", quiet = TRUE)
 metrics <- get_metrics(RDP, map, refdb = "RefSeq")
 # Read the metadata file to put metrics in sample order
 mdatfile <- system.file("extdata/metadata/SMS+12.csv", package = "chem16S")
@@ -14,8 +14,8 @@ expect_true(all(diff(mdat$metrics$Zc) > 0), info = info)
 info <- "Grouping samples puts names into output"
 # Get chemical metrics for all samples in a dataset
 RDPfile <- system.file("extdata/RDP/BGPF13.tab.xz", package = "chem16S")
-RDP <- read_RDP(RDPfile)
-map <- map_taxa(RDP, refdb = "RefSeq")
+RDP <- read_RDP(RDPfile, quiet = TRUE)
+map <- map_taxa(RDP, refdb = "RefSeq", quiet = TRUE)
 metrics <- get_metrics(RDP, map, refdb = "RefSeq")
 # Read the metadata file
 mdatfile <- system.file("extdata/metadata/BGPF13.csv", package = "chem16S")

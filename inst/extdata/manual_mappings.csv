@@ -1,0 +1,17 @@
+RDP.rank,RDP.name,NCBI.rank,NCBI.name,notes
+genus,Escherichia/Shigella,genus,Escherichia,20200920
+phylum,Cyanobacteria/Chloroplast,phylum,Cyanobacteria,
+class,Cyanobacteria,phylum,Cyanobacteria,"20200929 Unclassified Cyanobacteria are just Cyanobacteria"
+genus,Spartobacteria_genera_incertae_sedis,class,Spartobacteria,
+class,Planctomycetacia,class,Planctomycetia,"20210502 Processing Guerrero Negro"
+class,Actinobacteria,phylum,Actinobacteria,"20210526 NCBI taxonomy no longer has an Actinobacteria class"
+order,Rhizobiales,order,Hyphomicrobiales,
+genus,Gp1,genus,Acidobacterium,"20210530 Acidobacteria"
+genus,Gp6,genus,Luteitalea,"20210530 Acidobacteria"
+genus,GpI,genus,Nostoc,"20210530 Cyanobacteria"
+genus,GpIIa,genus,Synechococcus,"20210530 Cyanobacteria"
+genus,GpVI,genus,Pseudanabaena,"20210530 Cyanobacteria"
+family,"Family II",family,Synechococcaceae,"20210530 Cyanobacteria"
+genus,Subdivision3_genera_incertae_sedis,family,"Verrucomicrobia subdivision 3","20210609 Verrucomicrobia"
+order,Clostridiales,order,Eubacteriales,"20211215 Clostridiales is a synonym for Eubacteriales (https://lpsn.dsmz.de/order/eubacteriales)"
+family,Ruminococcaceae,family,Oscillospiraceae,"20211215 Ruminococcaceae is a synonym for Oscillospiraceae (https://lpsn.dsmz.de/family/oscillospiraceae)"

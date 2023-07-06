@@ -18,54 +18,19 @@ map_taxa <- function(taxacounts = NULL, refdb = "GTDB", quiet = FALSE) {
   # Manual mappings for RefSeq (NCBI) taxonomy but not for GTDB 20221016
   if(refdb == "RefSeq") {
 
-    NCBIgroups <- vapply(INPUTgroups, switch, "",
-      # 20200920 Lots of Escherichia in urine [WZZ+18]
-      "genus_Escherichia/Shigella" = "genus_Escherichia",
-      "phylum_Cyanobacteria/Chloroplast" = "phylum_Cyanobacteria",
-      # 20200929 Unclassified Cyanobacteria are just Cyanobacteria
-      "class_Cyanobacteria" = "phylum_Cyanobacteria",
-      "genus_Spartobacteria_genera_incertae_sedis" = "class_Spartobacteria",
-      # 20210502 Processing Guerrero Negro
-      "class_Planctomycetacia" = "class_Planctomycetia",
-      # 20210526 NCBI taxonomy no longer has an Actinobacteria "class"
-      "class_Actinobacteria" = "phylum_Actinobacteria",
-      "order_Rhizobiales" = "order_Hyphomicrobiales",
-      # 20210530 Acidobacteria
-      "genus_Gp1" = "genus_Acidobacterium",
-      "genus_Gp6" = "genus_Luteitalea",
-      # 20210530 Cyanobacteria
-      "genus_GpI" = "genus_Nostoc",
-      "genus_GpIIa" = "genus_Synechococcus",
-      "genus_GpVI" = "genus_Pseudanabaena",
-      "family_Family II" = "family_Synechococcaceae",
-      # 20210609 Verrucomicrobia
-      "genus_Subdivision3_genera_incertae_sedis" = "family_Verrucomicrobia subdivision 3",
-      # 20211215 Clostridia
-      # Clostridiales is a synonym for Eubacteriales (https://lpsn.dsmz.de/order/eubacteriales)
-      "order_Clostridiales" = "order_Eubacteriales",
-      # Ruminococcaceae is a synonym for Oscillospiraceae (https://lpsn.dsmz.de/family/oscillospiraceae)
-      "family_Ruminococcaceae" = "family_Oscillospiraceae",
+    mapping <- getOption("manual_mappings")
+    INPUT <- paste(mapping$RDP.rank, mapping$RDP.name, sep = "_")
+    NCBI <- paste(mapping$NCBI.rank, mapping$NCBI.name, sep = "_")
+    iswitch <- INPUTgroups %in% INPUT
 
-      ## NOT USED
-
-      # 20200929 Yellowstone [BGPF13]
-      # Not used because there's not much information about this group
-      #"genus_Armatimonadetes_gp7" = "phylum_Armatimonadetes",
-
-      # 20210530 Marcellus Shale [CHM+14]
-      # https://lpsn.dsmz.de/family/arcobacteraceae
-      # Not used because this causes a large low-Zc deviation in Blue Hole 100m sample
-      #"family_Arcobacteraceae" = "family_Campylobacteraceae",
-
-    NA_character_)
-    iswitch <- !is.na(NCBIgroups)
     if(any(iswitch)) {
       # Make the switch
-      INPUTgroups[iswitch] <- NCBIgroups[iswitch]
+      imap <- match(INPUTgroups[iswitch], INPUT)
+      INPUTgroups[iswitch] <- NCBI[imap]
       if(!quiet) {
         # Print message(s) about switched names and abundance
-        from <- names(NCBIgroups)[iswitch]
-        to <- NCBIgroups[iswitch]
+        from <- INPUT[imap]
+        to <- NCBI[imap]
         switchcounts <- groupcounts[iswitch]
         switchpercent <- round(switchcounts / sum(groupcounts) * 100, 1)
         # Only print message for mappings of groups at least 0.1% abundant 20200927

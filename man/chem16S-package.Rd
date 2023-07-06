@@ -33,6 +33,28 @@ History:
 
 }
 
+\section{Options set in package chem16S}{
+
+  \pkg{chem16S} sets an option using the global \code{\link{options}} mechanism in R.
+
+  This option will be set when package \pkg{chem16S} (or its namespace) is
+  loaded if not already set.
+
+  \describe{
+
+    \item{\code{manual_mappings}:}{
+
+      A data frame of mappings between RDP and NCBI (RefSeq) taxonomies, which is read from \file{extdata/manual_mappings.csv}.
+      The columns include \code{RDP.rank}, \code{RDP.name}, \code{NCBI.rank}, \code{NCBI.name}, and \code{notes} (optional notes for each mapping).
+      This option is made available so the user can modify the manual mappings used by \code{\link{map_taxa}} at runtime.
+
+    }
+
+  }
+
+}
+
+
 \section{Files in extdata/RefSeq}{
 
   This directory contains two sets of files:

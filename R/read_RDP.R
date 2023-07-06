@@ -119,7 +119,7 @@ read_RDP <- function(file, lineage = NULL, mincount = 200, lowest.level = NULL, 
     if(length(totalcounts) == 0) {
       print(paste0("read_RDP", basetxt, ": no samples contain at least ", mincount, " counts"))
     } else {
-      print(paste0("read_RDP", basetxt, ": count range is", paste(round(range(totalcounts)), collapse = " "), ""))
+      print(paste0("read_RDP", basetxt, ": range of counts is ", paste(round(range(totalcounts)), collapse = " to "), ""))
     }
   }
 

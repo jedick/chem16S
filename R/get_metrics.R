@@ -1,8 +1,7 @@
 # chem16S/get_metrics.R
-# Get chemical metrics from RDP classifications and RefSeq reference proteomes 20200927
+# Get chemical metrics from taxonomic classifications and RefSeq reference proteomes 20200927
 # Moved to chem16S 20220505
 # Add refdb argument 20221016
-# TODO: Put mapping checks into test file, not this function 20230615
 
 get_metrics <- function(RDP = NULL, map = NULL, refdb = "GTDB", taxon_AA = NULL,
   groups = NULL, return_AA = FALSE, zero_AA = NULL, metrics = c("Zc", "nO2", "nH2O")) {
@@ -21,17 +20,6 @@ get_metrics <- function(RDP = NULL, map = NULL, refdb = "GTDB", taxon_AA = NULL,
   
   # Apply the mapping
   taxon_AA <- taxon_AA[map, ]
-  # Check that the before and after ranks are equal
-  equalrank <- RDP$rank == taxon_AA$protein
-  # Don't test particular RDP-NCBI mappings that cross ranks
-  iclassCyano <- RDP$rank == "class" & RDP$name == "Cyanobacteria"
-  igenusSparto <- RDP$rank == "genus" & RDP$name == "Spartobacteria_genera_incertae_sedis"
-  iclassActino <- RDP$rank == "class" & RDP$name == "Actinobacteria"
-  igenusVerruco <- RDP$rank == "genus" & RDP$name == "Subdivision3_genera_incertae_sedis"
-  igenusGpI <- RDP$rank == "genus" & RDP$name == "GpI"
-  igenusGpIIa <- RDP$rank == "genus" & RDP$name == "GpIIa"
-  equalrank <- equalrank[!(iclassCyano | igenusSparto | iclassActino | igenusVerruco | igenusGpI | igenusGpIIa)]
-  stopifnot(all(equalrank))
 
   # Get classification matrix (rows = taxa, columns = samples)
   RDPmat <- as.matrix(RDP[, -(1:4), drop = FALSE])
