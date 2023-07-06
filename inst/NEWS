@@ -1,4 +1,4 @@
-CHANGES IN chem16S 0.1.3-24 (2023-06-29)
+CHANGES IN chem16S 0.1.3-32 (2023-07-06)
 ----------------------------------------
 
 - Rename readRDP() to read_RDP(), getmetrics() to get_metrics(), plotmet() to
@@ -9,9 +9,8 @@ CHANGES IN chem16S 0.1.3-24 (2023-06-29)
 - Add functions for integration with phyloseq: ps_taxacounts(), ps_metrics(),
   plot_ps_metrics(), and plot_ps_metrics2().
 
-- Add vignettes: *Chemical metrics of reference proteomes for taxa*, *Chemical
-  analysis of microbiomes with chem16S and phyloseq*, and *It isn't ordination:
-  Plotting two chemical variables*.
+- Add vignettes: *Chemical metrics of reference proteomes*, *Integration of
+  chem16S with phyloseq*, and *Plotting two chemical metrics*.
 
 - Change default reference database from RefSeq to GTDB.
 

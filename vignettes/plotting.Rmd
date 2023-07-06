@@ -1,5 +1,5 @@
 ---
-title: "It isn’t ordination: Plotting two chemical metrics"
+title: "Plotting two chemical metrics"
 author: "Jeffrey M. Dick"
 output:
   html_document:
@@ -7,7 +7,7 @@ output:
     toc: true
     css: style.css
 vignette: >
-  %\VignetteIndexEntry{It isn’t ordination: Plotting two chemical metrics}
+  %\VignetteIndexEntry{Plotting two chemical metrics}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 bibliography: chem16S.bib
@@ -229,7 +229,7 @@ It is notable that samples with higher OM content have lower redox potential, an
 This makes sense if greater availability of organic compounds drives respiration and ensuing depletion of oxygen.
 This interaction among environmental variables provides a plausible explanation for the positive association between `r Zc` and `r nH2O` (see first plot above).
 Our initial hypotheses about influences of redox potential and organic matter taken alone could not explain that association, so this is a new hypothesis that integrates more physicochemical knowledge.
-To test this new hypothesis, future analysis should be done with datasets where either redox potential or OM content are controlled (i.e., exhibit no variation) in order to identify the effect of each variable alone.
+To test this new hypothesis, analyses of datasets where either redox potential or OM content are controlled (or do not vary) should be done in order to identify the effect of each variable alone.
 
 ## Qinghai-Tibet Plateau (Hot Springs)
 
