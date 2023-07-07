@@ -178,19 +178,26 @@ plot_ps_metrics <- function(physeq, x = "samples", color = NULL, shape = NULL, t
   # Make the ggplot.
   p <- ggplot(mdf, metrics_map) + geom_point(na.rm = TRUE)
 
-  # Rotate horizontal axis labels, and adjust
-  p <- p + theme(axis.text.x = element_text(angle = -90, vjust = 0.5, hjust = 0))
-  # Add y-label 
-  p <- p + ylab("Chemical Metric") 
-  # Define function for facet labels 20230617
-  # https://stackoverflow.com/questions/3472980/how-to-change-facet-labels [outdated]
-  metrics_labels <- function(variable) {
-    lapply(variable, chemlab)
+  if(length(metrics) == 1) {
+    # Don't use facets for a single metric 20230707
+    # Label the y-axis with the formatted label
+    p <- p + ylab(chemlab(metrics))
+  } else {
+    ## Rotate horizontal axis labels, and adjust
+    #p <- p + theme(axis.text.x = element_text(angle = -90, vjust = 0.5, hjust = 0))
+    # Add y-label 
+    p <- p + ylab("Chemical Metric") 
+    # Define function for facet labels 20230617
+    # https://stackoverflow.com/questions/3472980/how-to-change-facet-labels [outdated]
+    metrics_labels <- function(variable) {
+      lapply(variable, chemlab)
+    }
+    # Facet wrap using user-options
+    # Plot expressions with label_parsed
+    # https://stackoverflow.com/questions/37089052/r-ggplot2-facet-grid-how-include-math-expressions-in-few-not-all-labels
+    p <- p + facet_wrap(. ~ variable, nrow = nrow, scales = scales, labeller = labeller(.default = label_parsed, variable = metrics_labels))
   }
-  # Facet wrap using user-options
-  # Plot expressions with label_parsed
-  # https://stackoverflow.com/questions/37089052/r-ggplot2-facet-grid-how-include-math-expressions-in-few-not-all-labels
-  p <- p + facet_wrap(. ~ variable, nrow = nrow, scales = scales, labeller = labeller(.default = label_parsed, variable = metrics_labels))
+
   # Optionally add a title to the plot
   if( !is.null(title) ){
     p <- p + ggtitle(title)

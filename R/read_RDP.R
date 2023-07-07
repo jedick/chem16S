@@ -82,14 +82,16 @@ read_RDP <- function(file, lineage = NULL, mincount = 200, lowest.level = NULL, 
     print(paste0("read_RDP", basetxt, ": ", genuspercent, "% of classifications at genus level"))
   }
 
-  # Remove classifications at root and domain level (Bacteria and Archaea),
-  # and Chlorophyta, Chloroplast and Bacillariophyta 20200922
-  # and Eukaryota 20211012
   RDPgroups <- paste(out$rank, out$name, sep = "_")
   RDPgroups[grepl("Eukaryota", out$lineage)] <- "Eukaryota"
-  rmgroups <- c("rootrank_Root", "domain_Bacteria", "domain_Archaea", "Eukaryota",
-    # Cyanobacteria/Chloroplast
-    "class_Chloroplast", "family_Chloroplast", "genus_Chlorophyta", "genus_Bacillariophyta")
+  rmgroups <- c(
+    # Remove classifications at root and domain level (Bacteria and Archaea) 20200922
+    "rootrank_Root", "domain_Bacteria", "domain_Archaea",
+    # Chloroplast 20200922
+    "class_Chloroplast", "family_Chloroplast", "genus_Chlorophyta", "genus_Bacillariophyta",
+    # Eukaryota 20211012
+    "Eukaryota"
+  )
   isrm <- RDPgroups %in% rmgroups
   if(any(isrm)) {
     irm <- which(isrm)

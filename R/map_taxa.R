@@ -35,7 +35,7 @@ map_taxa <- function(taxacounts = NULL, refdb = "GTDB", quiet = FALSE) {
         switchpercent <- round(switchcounts / sum(groupcounts) * 100, 1)
         # Only print message for mappings of groups at least 0.1% abundant 20200927
         if(any(switchpercent >= 0.1)) {
-          print(paste0("map_taxa", basetxt, ": using the following manual mapping(s) to NCBI RefSeq:"))
+          print(paste0("map_taxa", basetxt, ": using these manual mapping(s) to NCBI RefSeq:"))
           for(i in seq_along(from)) {
             if(switchpercent[i] >= 0.1) message(paste0(from[i], " --> ", to[i], " (", switchpercent[i], "%)"))
           }
@@ -74,7 +74,7 @@ map_taxa <- function(taxacounts = NULL, refdb = "GTDB", quiet = FALSE) {
     if(sum(naAA) > 0) print(namsg)
     # Print message about total mapped percent 20200927
     mappedpercent <- formatC(100 - sum(napercent), 1, format = "f")
-    print(paste0("map_taxa", basetxt, ": mapped ", mappedpercent, "% of classifications to ", refdb, " taxonomy"))
+    print(paste0("map_taxa", basetxt, ": mapping rate to ", refdb, " taxonomy is ", mappedpercent, "%"))
   }
   # Set attributes to indicate unmapped groups 20211007
   attr(iAA, "unmapped_groups") <- nagroups
