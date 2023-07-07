@@ -28,6 +28,14 @@ chemlab <- function(varname) {
     DpI = quote(Delta*"pI"),
     MW = quote("MW"),
     DMW = quote(Delta * "MW"),
+    H_C = "H/C",
+    HC = "H/C",
+    N_C = "N/C",
+    NC = "N/C",
+    O_C = "O/C",
+    OC = "O/C",
+    S_C = "S/C",
+    SC = "S/C",
     varname
   )
 }

@@ -1,4 +1,4 @@
-# Tests for Zc, nO2, and nH2O adapted from canprot/tests/test-metrics.R on 20230704
+## Tests for Zc, nO2, and nH2O adapted from canprot/tests/test-metrics.R on 20230704
 
 info <- "Results are as expected for Zc, nO2, and nH2O"
 
@@ -40,7 +40,7 @@ expect_equivalent(metrics$Zc, Zc.ref, info = info)
 expect_equivalent(metrics$nO2, nO2.ref, info = info)
 expect_equivalent(metrics$nH2O, nH2O.ref, info = info)
 
-# Tests for GRAVY, pI, and MW adapted from canprot/man/metrics.Rd on 20230704
+## Tests for GRAVY, pI, and MW adapted from canprot/man/metrics.Rd on 20230704
 
 info <- "Results are as expected for GRAVY"
 
@@ -98,3 +98,25 @@ MW.calc <- metrics$MW * metrics$length
 # Add molecular weight of terminal H- and -OH groups
 MW.calc <- MW.calc + 18.01528
 expect_equivalent(round(MW.calc[1:3], 2), MW.ref, info = info)
+
+## Tests for H/C, N/C, O/C, and S/C added on 20230707
+
+# library(CHNOSZ)
+# pf <- as.data.frame(protein.formula(AAcomp))
+# pf$H <- pf$H - 2  # Remove terminal H-OH 
+# pf$O <- pf$O - 1  # Remove terminal H-OH 
+# HCref <- pf$H / pf$C
+# OCref <- pf$O / pf$C
+# NCref <- pf$N / pf$C
+# SCref <- pf$S / pf$C
+
+HC.ref <- c(1.56117455138662, 1.57739130434783, 1.50964265456608, 1.53856636685745)
+OC.ref <- c(0.300163132137031, 0.333913043478261, 0.276517300056721, 0.405287544289997)
+NC.ref <- c(0.314845024469821, 0.297391304347826, 0.250992626205332, 0.264649768329245)
+SC.ref <- c(0.0163132137030995, 0.0208695652173913, 0.00397050482132728, 0)
+
+metrics <- calc_metrics(AAcomp, c("HC", "OC", "NC", "SC"))
+expect_equivalent(metrics$HC, HC.ref)
+expect_equivalent(metrics$NC, NC.ref)
+expect_equivalent(metrics$OC, OC.ref)
+expect_equivalent(metrics$SC, SC.ref)
