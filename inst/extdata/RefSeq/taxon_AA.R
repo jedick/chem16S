@@ -3,6 +3,12 @@
 # Functions to generate amino acid compositions and chemical metrics of
 # higher-level taxa from RefSeq species-level reference proteomes (protein_refseq.R)
 
+# Notes moved from README.md on 20230708
+#* Only taxids classified at the species level are used, and archaeal and bacterial species with less than 500 reference protein sequences are excluded;
+#* For each species-level taxid, the total amino acid composition is converted to per-protein mean amino acid composition (this is done so that species with different proteome sizes contribute equally to the reference proteomes of higher-level taxa);
+#* For each genus, the mean amino acid compositions of all species-level taxids in that genus are summed and divided by the number of taxids to get the amino acid composition of the reference proteome;
+#* Analogously, the mean amino acid compositions of all species-level taxids in each family, order, class, and phylum are used to get the reference proteomes for taxa at those levels.
+
 # Calculate amino acid composition of taxonomic groups at genus and higher ranks --> taxon_AA.csv
 # taxon_AA()       
 # Calculate chemical metrics (nH2O, Zc) for each RefSeq group --> taxon_metrics.csv
