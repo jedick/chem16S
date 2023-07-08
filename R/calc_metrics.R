@@ -146,7 +146,7 @@ calc_metrics <- function(AAcomp, metrics = c("Zc", "nO2", "nH2O")) {
       if(!is.null(AAcomp$chains)) length <- length / AAcomp$chains
       length
 
-    } else if(metric %in% c("H_C", "HC")) {
+    } else if(metric %in% c("H/C", "H_C", "HC")) {
 
       # Calculate H/C 20230707
       # The number of H in each amino acid residue; calculated in CHNOSZ:
@@ -165,7 +165,7 @@ calc_metrics <- function(AAcomp, metrics = c("Zc", "nO2", "nH2O")) {
       Ctot <- rowSums(numC)
       Htot / Ctot
 
-    } else if(metric %in% c("N_C", "NC")) {
+    } else if(metric %in% c("N/C", "N_C", "NC")) {
 
       # Calculate N/C 20230707
       # The number of N in each amino acid residue; calculated in CHNOSZ:
@@ -183,7 +183,7 @@ calc_metrics <- function(AAcomp, metrics = c("Zc", "nO2", "nH2O")) {
       Ctot <- rowSums(numC)
       Ntot / Ctot
 
-    } else if(metric %in% c("O_C", "OC")) {
+    } else if(metric %in% c("O/C", "O_C", "OC")) {
 
       # Calculate O/C 20230707
       # The number of O in each amino acid residue; calculated in CHNOSZ:
@@ -202,7 +202,7 @@ calc_metrics <- function(AAcomp, metrics = c("Zc", "nO2", "nH2O")) {
       Ctot <- rowSums(numC)
       Otot / Ctot
 
-    } else if(metric %in% c("S_C", "SC")) {
+    } else if(metric %in% c("S/C", "S_C", "SC")) {
 
       # Calculate S/C 20230707
       # The number of S in each amino acid residue; calculated in CHNOSZ:

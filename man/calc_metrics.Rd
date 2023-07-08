@@ -50,16 +50,16 @@ The following metrics are available:
     Protein length.
     This is the number of amino acid residues per protein.
   }
-  \item{\code{H/C} or \code{HC}}{
-    H/C ratio (not counting terminal groups).
+  \item{\code{H/C}, code{H_C}, or \code{HC}}{
+    H/C ratio (not counting terminal H-OH groups of the protein backbone).
   }
-  \item{\code{N/C} or \code{NC}}{
+  \item{\code{N/C}, code{N_C}, or \code{NC}}{
     N/C ratio.
   }
-  \item{\code{O/C} or \code{OC}}{
-    O/C ratio (not counting terminal groups).
+  \item{\code{O/C}, code{O_C}, or \code{OC}}{
+    O/C ratio (not counting terminal H-OH groups of the protein backbone).
   }
-  \item{\code{S/C} or \code{SC}}{
+  \item{\code{S/C}, code{S_C}, or \code{SC}}{
     S/C ratio.
   }
 }

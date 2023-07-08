@@ -21,14 +21,14 @@ ps_taxacounts <- function(physeq, split = TRUE) {
   # NOTE: We want to keep taxa as rows (the opposite of estimate_richness())
   if(!split) {
     # Sum the taxonomic abundances
-    OTU <- as.data.frame(phyloseq::taxa_sums(physeq))
+    OTU <- phyloseq::taxa_sums(physeq)
   } else {
     OTU <- phyloseq::otu_table(physeq)
     if(!phyloseq::taxa_are_rows(physeq)) OTU <- t(OTU)
   }
 
   # Convert OTU table to data frame
-  taxacounts <- as.data.frame(OTU)
+  taxacounts <- as.data.frame(OTU, check.names = FALSE)
   # Initialize taxid (OTU name), lineage, name, and rank columns
   taxid <- rownames(taxacounts)
   taxacounts <- cbind(taxid, lineage = NA, name = NA, rank = NA, taxacounts)
@@ -105,10 +105,10 @@ plot_ps_metrics <- function(physeq, x = "samples", color = NULL, shape = NULL, t
   # This coerces to data.frame, required for reliable output from reshape2::melt()
   if( !is.null(phyloseq::sample_data(physeq, errorIfNULL = FALSE)) ){
     # Include the sample data, if it is there.
-    DF <- data.frame(pmDF, phyloseq::sample_data(physeq))
+    DF <- data.frame(pmDF, phyloseq::sample_data(physeq), check.names = FALSE)
   } else {
     # If no sample data, leave it out.
-    DF <- data.frame(pmDF)
+    DF <- data.frame(pmDF, check.names = FALSE)
   }
 
   if( !"samples" %in% colnames(DF) ){
@@ -221,10 +221,10 @@ plot_ps_metrics2 <- function(physeq, x = "Zc", y = "nH2O", color = NULL, shape =
   # Make the plotting data.frame.
   if( !is.null(phyloseq::sample_data(physeq, errorIfNULL = FALSE)) ){
     # Include the sample data, if it is there.
-    DF <- data.frame(pmDF, phyloseq::sample_data(physeq))
+    DF <- data.frame(pmDF, phyloseq::sample_data(physeq), check.names = FALSE)
   } else {
     # If no sample data, leave it out.
-    DF <- data.frame(pmDF)
+    DF <- data.frame(pmDF, check.names = FALSE)
   }
 
   if( !"samples" %in% colnames(DF) ){

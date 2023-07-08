@@ -1,6 +1,6 @@
-Date: 2023-07-07
+Date: 2023-07-08
 Package: chem16S
-Version: 0.1.3-34
+Version: 0.1.3-35
 Title: Chemical Metrics of Community Reference Proteomes from Taxonomic Classifications
 Authors@R: c(
     person("Jeffrey", "Dick", , "jeff@chnosz.net", role = c("aut", "cre"),
