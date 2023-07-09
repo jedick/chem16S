@@ -14,6 +14,22 @@ csl: elementa.csl
 link-citations: true
 ---
 
+<script>
+function ToggleDiv(ID) {
+  var D = document.getElementById("D-" + ID);
+  var B = document.getElementById("B-" + ID);
+  if (D.style.display === "none") {
+    // open the div and change button text
+    D.style.display = "block";
+    B.innerText = "Hide code";
+  } else {
+    // close the div and change button text
+    D.style.display = "none";
+    B.innerText = "Show code";
+  }
+}
+</script>
+
 ```{r setup, include = FALSE}
 options(width = 80)
 ## Use pngquant to optimize PNG images
@@ -146,8 +162,15 @@ for(phylum in c("Euryarchaeota", "Proteobacteria")) {
 
 * Plot `r Zc` and `r nH2O` for viral and prokaryotic phyla with the most genus-level representatives.
 * Label Bacteria with the lowest `r nH2O`.
-```{r viruses, fig.width = 7, fig.height = 5, fig.align = "center", pngquant = pngquant}
+
+<button id="B-viruses_top50" onclick="ToggleDiv('viruses_top50')">Show code</button>
+<div id="D-viruses_top50" style="display: none">
+```{r viruses_top50}
 (top50_phyla <- head(sort(table(taxnames$phylum), TRUE), 50))
+```
+</div>
+
+```{r viruses_plot, fig.width = 7, fig.height = 5, fig.align = "center", pngquant = pngquant}
 Zc_mean <- sapply(sapply(sapply(names(top50_phyla), phylum_to_genus), get_Zc), mean)
 nH2O_mean <- sapply(sapply(sapply(names(top50_phyla), phylum_to_genus), get_nH2O), mean)
 domain <- taxnames$superkingdom[match(names(top50_phyla), taxnames$phylum)]
@@ -166,6 +189,23 @@ legend("bottomleft", c("Archaea", "Bacteria", "Viruses"), pch = pchs, pt.bg = bg
 
 *See take-home message #3.*
 
+## Other metrics
+
+Besides `r Zc` and `r nH2O`, chem16S can calculate elemental ratios (H/C, N/C, O/C, and S/C), grand average of hydropathicity (GRAVY), isoelectric point (pI), average molecular weight of amino acid residues, and protein length.
+
+```{r other_metrics, fig.width = 8, fig.height = 5, fig.align = "center", pngquant = pngquant}
+AAcomp <- taxon_AA[match(names(top10_classes), taxon_AA$organism), ]
+metrics <- calc_metrics(AAcomp, c("H_C", "O_C", "N_C", "S_C", "GRAVY", "pI", "MW", "Length"))
+layout(rbind(c(1, 2, 5), c(3, 4, 5)), widths = c(2, 2, 1.5))
+par(mar = c(4.5, 4, 1, 1), cex = 1)
+plot(metrics$O_C, metrics$H_C, col = 1:10, pch = 1:10, xlab = "O/C", ylab = "H/C")
+plot(metrics$N_C, metrics$S_C, col = 1:10, pch = 1:10, xlab = "N/C", ylab = "S/C")
+plot(metrics$pI, metrics$GRAVY, col = 1:10, pch = 1:10, xlab = "pI", ylab = "GRAVY")
+plot(metrics$Length, metrics$MW, col = 1:10, pch = 1:10, xlab = "Length", ylab = "MW")
+plot.new()
+legend("right", names(top10_classes), col = 1:10, pch = 1:10, bty = "n", xpd = NA)
+```
+
 ## Take-home messages
 
 1. Methanococci and Epsilonproteobacteria (now known as Campylobacterota) are prokaryotic classes whose genera have proteins with the lowest mean `r Zc` in their respective phyla.
@@ -176,7 +216,7 @@ legend("bottomleft", c("Archaea", "Bacteria", "Viruses"), pch = pchs, pt.bg = bg
    This may suggest adaptation to lower water availability in the molecular environment of viruses.
    Notably, viruses without an envelope have lower water content than bacterial cells [@Mat75].
 
-In summary, chemical metrics can reveal new insights into environmental factors that shape elemental composition of protein sequences.
-This is a new method in comparative genomics that can help to understand geochemical effects on genome evolution, or "geochemical biology".
+In summary, chemical metrics provide insight into how environmental factors may shape the amino acid and elemental composition of proteins.
+This is a new method in geochemical biology that can help to understand geochemical effects on genome evolution.
 
 ## References
