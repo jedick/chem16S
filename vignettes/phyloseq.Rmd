@@ -196,13 +196,15 @@ cor(metrics.RDP$Zc, metrics.RDP$nH2O)
 Let's plot the chemical metrics, each one against the sampling day.
 
 ```{r plot_metrics.RDP, fig.width = 7, fig.height = 5, fig.align = "center", pngquant = pngquant}
-plot_ps_metrics(mouse.RDP, x = "Day", color = "When", refdb = "RefSeq", quiet = TRUE)
+plot_ps_metrics(mouse.RDP, x = "Day", color = "When", shape = "When", refdb = "RefSeq", quiet = TRUE) +
+  geom_point(size = 3)
 ```
 
 Let's plot two chemical metrics against each other.
 
 ```{r plot_metrics2.RDP, fig.width = 6, fig.height = 4, fig.align = "center", pngquant = pngquant}
-plot_ps_metrics2(mouse.RDP, color = "When", refdb = "RefSeq", quiet = TRUE)
+plot_ps_metrics2(mouse.RDP, color = "When", shape = "When", refdb = "RefSeq", quiet = TRUE) +
+  geom_point(size = 3)
 ```
 
 The community reference proteomes for Late samples tend to be more oxidized and less hydrated (i.e., they have higher `r Zc` and lower `r nH2O`) than Early samples, but there is some overlap between the groups.
@@ -220,7 +222,7 @@ Then, we plot chemical metrics calculated for reference proteomes derived from t
 
 ```{r data.GTDB, collapse = TRUE, fig.width = 6, fig.height = 4, fig.align = "center", pngquant = pngquant}
 data(mouse.GTDB)
-plot_ps_metrics2(mouse.GTDB, color = "When")
+plot_ps_metrics2(mouse.GTDB, color = "When", shape = "When") + geom_point(size = 3)
 ```
 
 Compared to using the RDP for classification of 16S rRNA sequences and RefSeq for reference proteomes, using the GTDB for both yields a clearer separation of Early and Late samples in chemical space.

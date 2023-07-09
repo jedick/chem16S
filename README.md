@@ -7,7 +7,7 @@
 
 ### Chemical metrics of 16S rRNA-based community reference proteomes
 
-This R package combines **taxonomic classifications** with **reference proteomes** of archaea and bacteria to generate the amino acid compositions of **community reference proteomes**. Taxonomic classifications can be read from output files of the [RDP Classifier](https://sourceforge.net/projects/rdp-classifier/) or from `phyloseq-class` objects created using the Bioconductor package [**phyloseq**](https://doi.org/doi:10.18129/B9.bioc.phyloseq).
+This R package combines **taxonomic classifications** of high-throughput 16S rRNA gene sequences with **reference proteomes** of archaea and bacteria to generate the amino acid compositions of **community reference proteomes**. Taxonomic classifications can be read from the output of the [RDP Classifier](https://sourceforge.net/projects/rdp-classifier/) or from `phyloseq-class` objects created using the Bioconductor package [**phyloseq**](https://doi.org/doi:10.18129/B9.bioc.phyloseq).
 
 The amino acid compositions of community reference proteomes are used to calculate chemical metrics such as **carbon oxidation state** (*Z*<sub>C</sub>) and **stoichiometric hydration state** (*n*<sub>H<sub>2</sub>O</sub>).
 Lower *n*<sub>H<sub>2</sub>O</sub> is associated with increasing salinity in samples from the Baltic Sea:
@@ -17,7 +17,7 @@ Lower *n*<sub>H<sub>2</sub>O</sub> is associated with increasing salinity in sam
 -->
 <img src="inst/images/plot_metrics.png" alt="chem16S::plot_metrics example: Baltic Sea nH2O-Zc plot" width="500" />
 
-The code to make this plot is from the help page for the [`plot_metrics`](man/plot_metrics.Rd) function and uses sequence data reported by [Herlemann et al. (2016)](https://doi.org/10.3389/fmicb.2016.01883).
+The code to make this plot is from the [help page for the `plot_metrics` function](man/plot_metrics.Rd) and uses sequence data reported by [Herlemann et al. (2016)](https://doi.org/10.3389/fmicb.2016.01883).
 
 ### Reference proteomes for taxa
 

@@ -5,6 +5,7 @@
 #library(phyloseq)
 #library(reshape2)
 #library(ggplot2)
+#library(plyr)
 
 # Returns data frame with lowest-level classifications for each OTU 20230607
 # (genus to domain level - use column names similar to output from RDP Classifier)
@@ -160,20 +161,14 @@ plot_ps_metrics <- function(physeq, x = "samples", color = NULL, shape = NULL, t
   }
 
   # Define variable mapping
-  #metrics_map <- aes_string(x = x, y = "value", colour = color, shape = shape)
+  #metrics_map <- aes_string(x = x, y = "value", color = color, shape = shape)
 
   # aes_string is deprecated - use tidy evaluation instead 20230608 jmd
-  # TODO: Find elegant way to handle NULL values ...
-  #       See https://stackoverflow.com/questions/57350795/r-rlang-handle-null-arguments
-  if(!is.null(color) & !is.null(shape)) {
-    metrics_map <- aes(.data[[x]], .data[["value"]], colour = .data[[color]], shape = .data[[shape]])
-  } else if(!is.null(color)) {
-    metrics_map <- aes(.data[[x]], .data[["value"]], colour = .data[[color]])
-  } else if(!is.null(shape)) {
-    metrics_map <- aes(.data[[x]], .data[["value"]], shape = .data[[shape]])
-  } else {
-    metrics_map <- aes(.data[[x]], .data[["value"]])
-  }
+  # Start with just x and y in case color and/or shape are NULL 20230709
+  metrics_map <- aes(.data[[x]], .data[["value"]])
+  # https://stackoverflow.com/questions/20084104/combine-merge-two-ggplot-aesthetics
+  if(!is.null(color)) metrics_map <- modifyList(metrics_map, aes(color = .data[[color]]))
+  if(!is.null(shape)) metrics_map <- modifyList(metrics_map, aes(shape = .data[[shape]]))
 
   # Make the ggplot.
   p <- ggplot(mdf, metrics_map) + geom_point(na.rm = TRUE)
@@ -232,17 +227,11 @@ plot_ps_metrics2 <- function(physeq, x = "Zc", y = "nH2O", color = NULL, shape =
     DF$samples <- phyloseq::sample_names(physeq)
   }
 
-  # TODO: Find elegant way to handle NULL values ...
-  #       See https://stackoverflow.com/questions/57350795/r-rlang-handle-null-arguments
-  if(!is.null(color) & !is.null(shape)) {
-    metrics_map <- aes(.data[[x]], .data[[y]], colour = .data[[color]], shape = .data[[shape]])
-  } else if(!is.null(color)) {
-    metrics_map <- aes(.data[[x]], .data[[y]], colour = .data[[color]])
-  } else if(!is.null(shape)) {
-    metrics_map <- aes(.data[[x]], .data[[y]], shape = .data[[shape]])
-  } else {
-    metrics_map <- aes(.data[[x]], .data[[y]])
-  }
+  # Start with just x and y in case color and/or shape are NULL 20230709
+  metrics_map <- aes(.data[[x]], .data[[y]])
+  # https://stackoverflow.com/questions/20084104/combine-merge-two-ggplot-aesthetics
+  if(!is.null(color)) metrics_map <- modifyList(metrics_map, aes(color = .data[[color]]))
+  if(!is.null(shape)) metrics_map <- modifyList(metrics_map, aes(shape = .data[[shape]]))
 
   # Make the ggplot.
   p <- ggplot(DF, metrics_map) + geom_point(na.rm = TRUE) + xlab(chemlab(x)) + ylab(chemlab(y))

@@ -113,7 +113,7 @@ sample_data(GlobalPatterns)$Human <- factor(Human)
 
 ```{r plot_metrics2.GlobalPatterns, fig.width = 6, fig.height = 4, fig.align = "center", pngquant = pngquant}
 p2 <- plot_ps_metrics2(GlobalPatterns, color = "SampleType", shape = "Human")
-p2 + geom_polygon(aes(fill = SampleType)) + geom_point(size = 4)
+p2 + geom_polygon(aes(fill = SampleType), alpha = 0.5) + geom_point(size = 3)
 ```
 
 At the extremes of carbon oxidation state (`r Zc`), soil communities are the most oxidized and skin and tongue communities are the most reduced.
@@ -145,7 +145,7 @@ ps
 Then, we plot `r Zc` and `r nH2O` for the community reference proteomes using different colors for sample locations.
 ```{r plot_metrics2.Humboldt, fig.width = 6, fig.height = 4, fig.align = "center", pngquant = pngquant}
 plot_ps_metrics2(ps, color = "Location") +
-  geom_polygon(aes(fill = Location)) + geom_point(size = 4)
+  geom_polygon(aes(fill = Location), alpha = 0.5) + geom_point(size = 3)
 ```
 
 It appears that community reference proteomes for Iquique are, for the most part, more reduced (i.e., have lower `r Zc`) than those for Concepcion and Valparaiso.
@@ -246,7 +246,7 @@ After loading the data, let's go right to the scatter plot between two environme
 psfile2 <- system.file("extdata/DADA2/ZFZ+23/ps_ZFZ+23.rds", package = "chem16S")
 ps2 <- readRDS(psfile2)
 data.and.metrics <- cbind(sample_data(ps2), ps_metrics(ps2))
-ps
+ps2
 ```
 
 <button id="B-scatter_plot_2" onclick="ToggleDiv('scatter_plot_2')">Show code</button>
@@ -292,7 +292,7 @@ Let's add a column to the sample data to indicate the type of environment for ea
 ```{r plot_metrics2.merged, fig.width = 6, fig.height = 4, fig.align = "center", pngquant = pngquant}
 sample_data(ps_merged)$Environment <-
   ifelse(is.na(sample_data(ps_merged)$Depth), "Hot spring", "Marine sediment")
-plot_ps_metrics2(ps_merged, color = "Environment")
+plot_ps_metrics2(ps_merged, color = "Environment", shape = "Environment") + geom_point(size = 3)
 ```
 
 The communities from hot springs in the Qinghai-Tibet Plateau have both lower `r Zc` and higher `r nH2O` compared to those in marine sediments of the Humboldt Sulfuretum.

@@ -15,7 +15,7 @@ export(
 )
 
 importFrom("stats", "aggregate", "na.omit")
-importFrom("utils", "read.csv", "read.table", "tail")
+importFrom("utils", "read.csv", "read.table", "tail", "modifyList")
 importFrom("grDevices", "chull", "col2rgb", "rgb")
 importFrom("graphics", "box", "lines", "par", "polygon")
 
