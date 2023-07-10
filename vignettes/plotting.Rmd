@@ -71,16 +71,16 @@ if(!requireNamespace("phyloseq", quietly = TRUE)) {
 ```
 
 What's the difference between *chemical metrics* and *diversity metrics*?
-The visualization of diversity metrics for communities conventionally takes the form of ordinations, which are a type of dimensionality reduction that associates trends in the data with one or more synthetic variables.
+The visualization of diversity metrics for communities often takes the form of ordinations, which are a type of dimensionality reduction that associates trends in the data with one or more synthetic variables.
 Ordinations have a major limitation: the synthetic variables obtained in one study cannot be compared with those of other studies.
 
-Chemical metrics quantify the elemental variation between communities by using reference protein sequences for entire genomes of sequenced organisms, multiplied by taxonomic abundances from 16R rRNA data.
+Chemical metrics quantify the elemental variation between communities by using reference proteomes derived from sequenced genomes, multiplied by taxonomic abundances inferred from high-throughput 16R rRNA gene sequences.
 Instead of synthetic variable names like "PCoA1" or "NMDS1", chemical metrics have names like "oxidation state" and "hydration state".
 Because chemical metrics are defined independently of the data, they can be compared across studies.
-Just as important, they can be used to explore hypotheses about environmental influences on elemental composition at the community level.
+Furthermore, they are basic tools for exploring hypotheses about molecular adaptation to environments.
 
-In this vignette we'll analyze the GlobalPatterns dataset from phyloseq [derived from @CLW+11] to get a glimpse into chemical variation of community reference proteomes across environments.
-Then, we'll explore the hypothesis that chemical features of communities are shaped by environmental chemistry by analyzing the OTU table and environmental measurements including redox potential for geothermal waters in the Qinghai-Tibet Plateau reported by @ZFZ+23.
+In this vignette we'll analyze **phyloseq**'s `GlobalPatterns` dataset [based on data from @CLW+11] to visualize chemical variation of community reference proteomes across environments.
+Then, we'll explore specific hypothesis about the effects of redox conditions and salinity on genomic adaptation by analyzing datasets for microbial communities in marine sediment [@FEN+22] and geothermal waters [@ZFZ+23].
 
 ## Load required packages
 
@@ -101,9 +101,9 @@ This vignette was compiled on `r Sys.Date()` with **chem16S** version `r session
 
 ## GlobalPatterns
 
-We will use the GlobalPatterns dataset 'as-is', without the preprocessing described in phyloseq's [Ordination Plots](https://joey711.github.io/phyloseq/plot_ordination-examples) tutorial.
+We will use the `GlobalPatterns` dataset 'as-is', without the preprocessing described in **phyloseq**'s [Ordination Plots](https://joey711.github.io/phyloseq/plot_ordination-examples) tutorial.
 There, less-abundant OTUs and phyla were removed in order to show high-level trends and shorten computing time.
-One step we do borrow from that tutorial is the addition of a categorical variable that identifies whether the samples are human-associated:
+One step we do take from that tutorial is the addition of a categorical variable that identifies whether the samples are human-associated:
 
 ```{r load_GlobalPatterns}
 data(GlobalPatterns)
@@ -111,28 +111,35 @@ Human = get_variable(GlobalPatterns, "SampleType") %in% c("Feces", "Mock", "Skin
 sample_data(GlobalPatterns)$Human <- factor(Human)
 ```
 
-```{r plot_metrics2.GlobalPatterns, fig.width = 6, fig.height = 4, fig.align = "center", pngquant = pngquant}
-p2 <- plot_ps_metrics2(GlobalPatterns, color = "SampleType", shape = "Human")
-p2 + geom_polygon(aes(fill = SampleType), alpha = 0.5) + geom_point(size = 3)
+Taxonomic assignments were made using the RDP Classifier without any additional training set specified [@CLW+11], so we use the `refdb = "RefSeq"` argument to apply the manual mappings between RDP and RefSeq described by @DT23.
+
+```{r plot_metrics2.GlobalPatterns, collapse = TRUE}
+p2 <- plot_ps_metrics2(GlobalPatterns, color = "SampleType", shape = "Human", refdb = "RefSeq")
+```
+
+```{r plot_metrics2.GlobalPatterns_geom, fig.width = 6, fig.height = 4, fig.align = "center", pngquant = pngquant}
+p2 + geom_polygon(aes(fill = SampleType), alpha = 0.5) + geom_point(size = 3) +
+  guides(colour = guide_legend(override.aes = list(shape = c(17, 19, 19, 17, 19, 19, 17, 19, 17))))
 ```
 
 At the extremes of carbon oxidation state (`r Zc`), soil communities are the most oxidized and skin and tongue communities are the most reduced.
 At the extremes of stoichiometric hydration state (`r nH2O`), skin communities are the most hydrated and some fecal communities are the least hydrated.
 In more detail, there are environmental microbiomes that show similar ranges of chemical metrics (e.g., Freshwater (creek) and Sediment (estuary)) and others that are different.
-Freshwater (identified as "lake" in @CLW+11) has lower `r Zc` than Freshwater (creek), and some ocean samples have lower `r nH2O` than either freshwater group.
-To a geochemical biologist, these patterns might suggest an influence of greater oxygenation in flowing water compared to lakes, or dehydration in communities adapted to life in salty water compared to freshwater.
-
-::: {.infobox .note}
-Changing the reference database to RefSeq (`refdb = "RefSeq"`) increases by a few percent the number of classifications in the GlobalPatterns dataset that can be mapped to the reference database, but does not alter the trends of chemical metrics described above.
-In the remainder of this vignette, we will use the GTDB reference database because the taxonomic classifications for the datasets analyzed below were made using the GTDB training set.
-:::
+Freshwater -- described as "lake" by @CLW+11 -- has lower `r Zc` than Freshwater (creek), and some ocean samples have lower `r nH2O` than either freshwater group.
+These patterns could suggest an influence of greater oxygenation in flowing water compared to lakes (this is a distinction between lotic and lentic systems), and dehydration in communities adapted to life in salty water compared to freshwater.
 
 ## Humboldt Sulfuretum (Marine Sediment)
 
-@FEN+22 reported 16S rRNA sequences for sediment samples from the oxygen minimum zone of the Pacific Ocean along the coast of Chile, known as the Humboldt Sulfuretum.
-The sample data included dissolved oxygen, redox potential in sediment and overlying water, and organic matter (OM) content.
+::: {.infobox .note}
+In the remainder of this vignette, we will use the GTDB reference database (which is the default in **chem16S**) because the taxonomic classifications for the datasets analyzed below were made using the GTDB training set provided by @Ali22.
+:::
+
+
+@FEN+22 reported 16S rRNA gene sequences for sediment samples from the oxygen minimum zone of the Pacific Ocean along the coast of Chile, known as the Humboldt Sulfuretum.
+The sample data include dissolved oxygen, redox potential in sediment and overlying water, and organic matter (OM) content.
 This is a useful dataset for exploring the hypothesis that `r Zc` of proteins is shaped by redox conditions.
-Here we read the phyloseq object created by using DADA2 to identify amplicon sequence variants (ASVs) in this dataset and classify them using the GTDB training set.
+
+Here we read the `phyloseq-class` object created by using DADA2 [@CMR+16] to identify amplicon sequence variants (ASVs) in this dataset and to classify them using the GTDB training set.
 A sample taken from 50 m depth at the Valparaiso location on 2012-05-12 is available in the Sequence Read Archive (SRA) but was not included in the analysis described by @FEN+22.
 The taxonomic composition of this sample is highly different from the all the others (see the ordination plots in the `extdata` directory where the `ps_FEN+22.rds` file is located), so we exclude it to avoid anomalous results.
 ```{r read_Humboldt}
@@ -142,17 +149,17 @@ ps <- prune_samples(sample_names(ps) != "SRR1346095", ps)
 ps
 ```
 
-Then, we plot `r Zc` and `r nH2O` for the community reference proteomes using different colors for sample locations.
+Then, we plot `r Zc` and `r nH2O` for the community reference proteomes using different colors for sample groups.
 ```{r plot_metrics2.Humboldt, fig.width = 6, fig.height = 4, fig.align = "center", pngquant = pngquant}
 plot_ps_metrics2(ps, color = "Location") +
   geom_polygon(aes(fill = Location), alpha = 0.5) + geom_point(size = 3)
 ```
 
-It appears that community reference proteomes for Iquique are, for the most part, more reduced (i.e., have lower `r Zc`) than those for Concepcion and Valparaiso.
-Communities at Valparaiso are also characterized by higher `r nH2O`, suggesting the influence of a hydrating factor.
+Among the areas with more than one sample, the community reference proteomes for Iquique are more reduced (i.e., have lower `r Zc`) than those for Concepcion and Valparaiso.
+Two of the communities at Valparaiso are also characterized by higher `r nH2O`, suggesting the influence of a hydrating factor.
 
-We are now equipped to explore hypotheses about physicochemical controls on elemental composition of community reference proteomes.
-The next two plots show how sediment redox potential and concentration of organic matter vary among samples.
+Let's take a step toward more quantitative tests of these hypotheses about genomic adaptation to environments.
+The color scales in the next two plots reflect sediment redox potential and concentration of organic matter.
 The rationale for choosing these environmental measurements is described below.
 
 ```{r check_patchwork, echo = FALSE}
@@ -171,19 +178,19 @@ p3 <- plot_ps_metrics2(ps, color = "Organic_matter") +
 p2 / p3
 ```
 
-Thermodynamic considerations predict a positive correlation between redox and `r Zc` [@DM23].
-We could also predict that salinity may have a dehydrating effect that lowers `r nH2O` [@DYT20].
-However, these samples have no documented salinity gradient; the only available salinity measurements for two samples indicate little difference from overlying seawater.
-Previous observations that protein expression is shifted toward lower `r nH2O` under hyperglycemic (high-glucose) conditions [@DYT20] suggests another hypothesis: a higher content of organic matter may be a proxy for dehydrating conditions.
+Thermodynamic considerations predict a positive correlation between redox potential and `r Zc` [@DM23].
+It has also been predicted that salinity has a dehydrating effect that favors proteins with `r nH2O` [@DYT20].
+However, these samples have no documented salinity gradient.
+Previous observations that protein expression in cells is shifted toward lower `r nH2O` under hyperglycemic (high-glucose) conditions [@DYT20] suggest another hypothesis: a higher content of organic matter may be a proxy for dehydrating conditions.
 
 We can use correlations between two environmental variables (redox potential or OM) and two chemical metrics for communities (`r Zc` or `r nH2O`) in order to test these hypotheses.
-To easily make the plots, let's make a data frame with the sample data and chemical metrics.
+To make the plots, let's construct a single data frame containing the sample data and chemical metrics.
 ```{r sample.data.and.chemical.metrics.for.communities}
 sample.data.and.chemical.metrics.for.communities <- cbind(sample_data(ps), ps_metrics(ps))
 ```
 
-Now we write a function to create a scatter plot for two variables and add a regression line.
-We use this function to make a plot for each combination of environmental variables and chemical metrics.
+Now let's write a function to create a scatter plot for two variables and add a regression line.
+We use this function to make a plot for each combination of environmental variable and chemical metric.
 
 ```{r check_ggpmisc, echo = FALSE}
 # Don't evaluate remaining chunks if ggpmisc is not available 20230627
@@ -218,29 +225,25 @@ sp1 + sp2 + sp3 + sp4 + plot_layout(guides = "collect")
 ```{r scatter_plot, echo = FALSE, fig.width = 7, fig.height = 6, fig.align = "center", pngquant = pngquant}
 ```
 
-We see find that carbon oxidation state is positively correlated with redox potential, and stoichiometric hydration state is negatively correlated with organic matter content.
+We find that carbon oxidation state is positively correlated with redox potential, and stoichiometric hydration state is negatively correlated with organic matter content.
 Taken alone, each of these correlations supports our initial hypotheses.
-However, `r Zc` is also negatively correlated with OM content, and `r nH2O` is positively correlated with redox potential.
-The reason is that the environmental variables strongly covary; this is a common feature of environmental data.
+However, in part because of strong covariation of the environmental variables, `r Zc` is also negatively correlated with OM content, and `r nH2O` is positively correlated with redox potential.
 
 The covariation of environmental variables makes it difficult to identify primary factors that drive the observed differences between communities.
-However, recognizing the chemical nature of these variables provides new insight into processes that may shape the adaptation of microbial genomes.
-It is notable that samples with higher OM content have lower redox potential, and vice versa.
-This makes sense if greater availability of organic compounds drives respiration and ensuing depletion of oxygen.
-This interaction among environmental variables provides a plausible explanation for the positive association between `r Zc` and `r nH2O` (see first plot above).
-Our initial hypotheses about influences of redox potential and organic matter taken alone could not explain that association, so this is a new hypothesis that integrates more physicochemical knowledge.
-To test this new hypothesis, analyses of datasets where either redox potential or OM content are controlled (or do not vary) should be done in order to identify the effect of each variable alone.
+However, the chemical nature of these variables provides additional clues.
+The covariation of environmental variables (higher OM content with lower redox potential) makes sense if greater availability of organic compounds drives respiration and ensuing depletion of oxygen.
+This interaction among environmental variables yields a mechanistic hypothesis for the positive association between `r Zc` and `r nH2O` (see first plot above), which could not be explained by our initial hypotheses about the effects of single variables.
 
 ## Qinghai-Tibet Plateau (Hot Springs)
 
-@ZFZ+23 reported 16S rRNA data for mildly alkaline hot spring reservoirs in the Qinghai-Tibet Plateau.
-For this dataset, I made the following predictions before downloading the sequence data from SRA:
+@ZFZ+23 reported 16S rRNA gene sequences for mildly alkaline hot spring reservoirs in the Qinghai-Tibet Plateau.
+I made the following predictions before downloading the sequence data from SRA:
 
-* A positive correlation between `r Zc` of community reference proteomes and oxidation-reduction potential (ORP).
+* I expected to find a positive correlation between `r Zc` of community reference proteomes and oxidation-reduction potential (ORP).
 * Because of input of reducing fluids, I expected to find lower `r Zc` than communities in marine sediments of the Humboldt Sulfuretum.
-* If these samples have relatively low salinity, I expected to find higher `r nH2O` than marine sediment communities.
+* Assuming that these samples have relatively low salinity, I expected to find higher `r nH2O` than marine sediment communities.
 
-After loading the data, let's go right to the scatter plot between two environmental variables (ORP and temperature (T)) and two chemical metrics.
+The following commands load the data and plot two environmental variables (ORP and temperature (T)) against two chemical metrics.
 
 ```{r load_Qinghai.Tibet}
 psfile2 <- system.file("extdata/DADA2/ZFZ+23/ps_ZFZ+23.rds", package = "chem16S")
@@ -257,28 +260,27 @@ scatter_plot_2 <- function(data = data.and.metrics, x, y, xlab, ylab) {
   y <- enquo(y)
   ggplot(data, aes(x = !!x, y = !!y)) +
     geom_point() + xlab(xlab) + ylab(ylab) +
-    # Override aes to plot one regression line for samples from all locations
-    stat_poly_line(aes(x = !!x, y = !!y), inherit.aes = FALSE) +
-    stat_poly_eq(aes(x = !!x, y = !!y), inherit.aes = FALSE, label.x = "center")
+    stat_poly_line() +
+    stat_poly_eq(label.x = "center")
 }
 sp1 <- scatter_plot_2(x = ORP, y = Zc, xlab = "ORP (mV)", ylab = chemlab("Zc"))
 sp2 <- scatter_plot_2(x = ORP, y = nH2O, xlab = "ORP (mV)", ylab = chemlab("nH2O"))
 sp3 <- scatter_plot_2(x = T, y = Zc, xlab = "T (°C)", ylab = chemlab("Zc"))
 sp4 <- scatter_plot_2(x = T, y = nH2O, xlab = "T (°C)", ylab = chemlab("nH2O"))
-sp1 + sp2 + sp3 + sp4 + plot_layout(guides = "collect")
+sp1 + sp2 + sp3 + sp4
 ```
 </div>
 ```{r scatter_plot_2, echo = FALSE, fig.width = 7, fig.height = 6, fig.align = "center", pngquant = pngquant}
 ```
 
 The correlation between ORP and `r Zc` isn't as strong as I had expected.
-Moreover, neither of the chemical metrics is strongly aligned with temperature.
-Therefore, this dataset provides an exception to the notion that elemental composition is shaped by the environment at a local scale.
+Moreover, neither of the chemical metrics is strongly associated with temperature.
+Therefore, this dataset seems to be an exception to the notion that particular chemical metrics of community reference proteomes are shaped by the environment at a local scale.
 
-But let's not forget the predictions about differences at a global scale!
+But let's not forget about the global-scale predictions!
 How do communities in hot springs compare to those in ocean sediments?
-In order to make a plot, we can merge both datasets into a new phyloseq object.
-The sequence processing pipeline assigns the same taxon names to both datasets (`ASV1`, `ASV2`, etc.).
+In order to make a plot, we can merge both datasets into a new `phyloseq-class` object.
+The sequence processing pipeline assigned the same taxon names to both datasets (`ASV1`, `ASV2`, etc.).
 Therefore, let's append a letter to one set of names so that distinct taxa are not mistakenly combined.
 
 ```{r merge_datasets}
@@ -287,7 +289,7 @@ ps_merged <- merge_phyloseq(ps, ps2)
 ps_merged
 ```
 
-Let's add a column to the sample data to indicate the type of environment for each dataset, then make a plot of `r Zc` and `r nH2O`.
+Let's add a column to the sample data to indicate the type of environment for each dataset, then plot `r nH2O` against `r Zc`.
 
 ```{r plot_metrics2.merged, fig.width = 6, fig.height = 4, fig.align = "center", pngquant = pngquant}
 sample_data(ps_merged)$Environment <-
@@ -295,21 +297,20 @@ sample_data(ps_merged)$Environment <-
 plot_ps_metrics2(ps_merged, color = "Environment", shape = "Environment") + geom_point(size = 3)
 ```
 
-The communities from hot springs in the Qinghai-Tibet Plateau have both lower `r Zc` and higher `r nH2O` compared to those in marine sediments of the Humboldt Sulfuretum.
-This outcome was predictable from consideration of relatively more reducing and less saline conditions of the hot springs.
-It is important to note that the positive association between `r Zc` and `r nH2O` observed for the sediment communities does not extend to the comparison between two datasets.
-This distinction suggests that the factors that influence elemental composition are different at local and global scales.
+In most cases, the communities from hot springs in the Qinghai-Tibet Plateau have lower `r Zc` and higher `r nH2O` compared to those in marine sediments of the Humboldt Sulfuretum.
+This outcome is consistent with predictions about genomic adaptation to relatively more reducing and less saline conditions of the hot springs.
+
+It is also notable that the positive association between `r Zc` and `r nH2O` observed for the sediment communities does not extend to the comparison between two datasets.
+This distinction suggests that the factors that influence elemental composition of community reference proteomes are different at local and global scales.
 
 ## Take-home messages
 
 * Unlike synthetic variables in ordination, chemical metrics are defined independently of the data and can be compared across datasets.
-* Trends between `r Zc` and `r nH2O` suggest the influence not of single environmental variables but of interactions between variables.
-  For instance, if lower redox potential is associated with greater organic matter content in sediments, this could explain a positive association between `r Zc` and `r nH2O`.
-* Variation in `r nH2O` may reflect the influence of multiple factors such as salinity or organic matter content.
-  In the GlobalPatterns dataset, some fecal samples have extremely low `r nH2O`, which could be a signature of adaptation to dehydrating conditions.
-* The two datasets for marine sediments and hot springs show differing degrees of association between `r Zc` and redox potential at local scales.
-* Comparison of these two datasets with each other provides evidence for global-scale influences of redox potential and salinity on the elemental composition of protein sequences.
-
-Analysis of many more datasets is needed to comprehensively test the prediction of a positive association between `r Zc` and redox potential at both local and global scales [see @DM23].
+* In some cases, covariation between `r Zc` and `r nH2O` suggests interactions between environmental variables.
+  For instance, if lower redox potential is associated with greater organic matter content in sediments, this could drive a positive association between `r Zc` and `r nH2O`.
+* Variation of `r nH2O` may reflect the influence of diverse factors including salinity, organic matter content, and others.
+  An open question is: What explains the very low `r nH2O` for communities in some fecal samples?
+* Multiple datasets can be used to examine global-scale influences of redox potential and salinity on genomic adaptation at the community level.
+  More comprehensive tests of the prediction of a positive correlation between `r Zc` and redox potential at local and global scales have been reported by @DM23.
 
 ## References

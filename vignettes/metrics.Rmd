@@ -44,9 +44,9 @@ Zc <- "<i>Z</i><sub>C</sub>"
 nH2O <- "<i>n</i><sub>H<sub>2</sub>O</sub>"
 ```
 
-Here we visualize chemical metrics for genera aggregated to higher levels, using precomputed reference proteomes for taxa in the **chem16S** package.
+Here we visualize chemical metrics for archaeal and bacterial taxa and viruses using precomputed reference proteomes in the **chem16S** package.
 
-> *Chemical metrics* are molecular properties computed from elemental compositions (derived from amino acid compositions) of proteins and include carbon oxidation state (`r Zc`) and stoichiometric hydration state (`r nH2O`), as described by @DYT20.
+> *Chemical metrics* are molecular properties computed from elemental compositions -- inferred from amino acid compositions of proteins -- and include carbon oxidation state (`r Zc`) and stoichiometric hydration state (`r nH2O`), as described by @DYT20.
 
 This vignette uses the RefSeq reference database for reference proteomes.
 The GTDB reference database is also available in **chem16S** (and is the default for functions in the package), but doesn't have viral reference proteomes, which are visualized below.
@@ -103,7 +103,7 @@ Read full list of taxonomic names; remove viruses; prune to keep unique genera; 
 ```{r phylum_Zc, fig.width = 7, fig.height = 6, fig.align = "center", pngquant = pngquant}
 taxnames2 <- taxnames[taxnames$superkingdom != "Viruses", ]
 taxnames3 <- taxnames2[!duplicated(taxnames2$genus), ]
-(top20_phyla <- head(sort(table(taxnames3$phylum), TRUE), 20))
+(top20_phyla <- head(sort(table(taxnames3$phylum), decreasing = TRUE), 20))
 Zc_list <- sapply(sapply(names(top20_phyla), phylum_to_genus), get_Zc)
 order_Zc <- order(sapply(Zc_list, mean))
 Zc_list <- Zc_list[order_Zc]
@@ -116,19 +116,17 @@ boxplot(Zc_list, horizontal = TRUE, las = 1, xlab = chemlab("Zc"))
 Notice the large range for Euryarchaota and Protobacteria.
 Let's take a closer look at the classes within each phylum.
 
-* Read full list of taxonomic names.
-* Remove viruses.
-* Prune to keep unique genera.
-* Count number of genera in each class.
-* Calculate `r Zc` for genera in 10 most highly represented classes of Bacteria and Archaea.
-* Order according to mean `r Zc`.
-* Make boxplots.
+* Loop over phyla (Euryarchaeota and Proteobacteria).
+  * Get name of all classes within the phylum.
+  * Calculate `r Zc` for genera in each class.
+  * Order according to mean `r Zc`.
+  * Make boxplots.
 ```{r class_Zc, fig.width = 10, fig.height = 5, fig.align = "center", pngquant = pngquant}
 par(mfrow = c(1, 2))
 for(phylum in c("Euryarchaeota", "Proteobacteria")) {
   taxnames4 <- taxnames3[taxnames3$phylum == phylum, ]
-  (top10_classes <- head(sort(table(taxnames4$class), TRUE), 10))
-  Zc_list <- sapply(sapply(names(top10_classes), class_to_genus), get_Zc)
+  classes <- na.omit(unique(taxnames4$class))
+  Zc_list <- sapply(sapply(classes, class_to_genus), get_Zc)
   order_Zc <- order(sapply(Zc_list, mean))
   Zc_list <- Zc_list[order_Zc]
   par(mar = c(4, 10, 1, 1))
@@ -140,6 +138,8 @@ for(phylum in c("Euryarchaeota", "Proteobacteria")) {
 
 ## Stoichiometric hydration state (`r nH2O`)
 
+As above, but calculate `r nH2O` instead of `r Zc`.
+
 ```{r class_nH2O, fig.width = 10, fig.height = 5, fig.align = "center", pngquant = pngquant}
 taxon_nH2O <- calc_metrics(taxon_AA, "nH2O")[, 1]
 get_nH2O <- function(genera) na.omit(taxon_nH2O[match(genera, taxon_AA$organism)])
@@ -147,8 +147,8 @@ get_nH2O <- function(genera) na.omit(taxon_nH2O[match(genera, taxon_AA$organism)
 par(mfrow = c(1, 2))
 for(phylum in c("Euryarchaeota", "Proteobacteria")) {
   taxnames4 <- taxnames3[taxnames3$phylum == phylum, ]
-  (top10_classes <- head(sort(table(taxnames4$class), TRUE), 10))
-  nH2O_list <- sapply(sapply(names(top10_classes), class_to_genus), get_nH2O)
+  classes <- na.omit(unique(taxnames4$class))
+  nH2O_list <- sapply(sapply(classes, class_to_genus), get_nH2O)
   order_nH2O <- order(sapply(nH2O_list, mean))
   nH2O_list <- nH2O_list[order_nH2O]
   par(mar = c(4, 10, 1, 1))
@@ -166,7 +166,7 @@ for(phylum in c("Euryarchaeota", "Proteobacteria")) {
 <button id="B-viruses_top50" onclick="ToggleDiv('viruses_top50')">Show code</button>
 <div id="D-viruses_top50" style="display: none">
 ```{r viruses_top50}
-(top50_phyla <- head(sort(table(taxnames$phylum), TRUE), 50))
+(top50_phyla <- head(sort(table(taxnames$phylum), decreasing = TRUE), 50))
 ```
 </div>
 
@@ -191,10 +191,10 @@ legend("bottomleft", c("Archaea", "Bacteria", "Viruses"), pch = pchs, pt.bg = bg
 
 ## Other metrics
 
-Besides `r Zc` and `r nH2O`, chem16S can calculate elemental ratios (H/C, N/C, O/C, and S/C), grand average of hydropathicity (GRAVY), isoelectric point (pI), average molecular weight of amino acid residues, and protein length.
+Besides `r Zc` and `r nH2O`, **chem16S** can calculate elemental ratios (H/C, N/C, O/C, and S/C), grand average of hydropathicity (GRAVY), isoelectric point (pI), average molecular weight of amino acid residues (MW), and protein length.
 
 ```{r other_metrics, fig.width = 8, fig.height = 5, fig.align = "center", pngquant = pngquant}
-AAcomp <- taxon_AA[match(names(top10_classes), taxon_AA$organism), ]
+AAcomp <- taxon_AA[match(classes, taxon_AA$organism), ]
 metrics <- calc_metrics(AAcomp, c("H_C", "O_C", "N_C", "S_C", "GRAVY", "pI", "MW", "Length"))
 layout(rbind(c(1, 2, 5), c(3, 4, 5)), widths = c(2, 2, 1.5))
 par(mar = c(4.5, 4, 1, 1), cex = 1)
@@ -203,20 +203,19 @@ plot(metrics$N_C, metrics$S_C, col = 1:10, pch = 1:10, xlab = "N/C", ylab = "S/C
 plot(metrics$pI, metrics$GRAVY, col = 1:10, pch = 1:10, xlab = "pI", ylab = "GRAVY")
 plot(metrics$Length, metrics$MW, col = 1:10, pch = 1:10, xlab = "Length", ylab = "MW")
 plot.new()
-legend("right", names(top10_classes), col = 1:10, pch = 1:10, bty = "n", xpd = NA)
+legend("right", classes, col = 1:10, pch = 1:10, bty = "n", xpd = NA)
 ```
 
 ## Take-home messages
 
-1. Methanococci and Epsilonproteobacteria (now known as Campylobacterota) are prokaryotic classes whose genera have proteins with the lowest mean `r Zc` in their respective phyla.
-   This may suggest adaptation to reducing environments such as submarine hot springs and anoxic zones of sediments.
-2. Proteins in Gammaproteobacteria have lower `r nH2O` than Alpha- and Betaproteobacteria.
-   This may suggest adaptation to lower water availability in certain habitats.
+1. Methanococci and Epsilonproteobacteria are prokaryotic classes whose genera have proteins with the lowest mean `r Zc` in their respective phyla.
+2. Proteins in Gammaproteobacteria tend to have lower `r nH2O` than Alpha- and Betaproteobacteria.
 3. Viral proteins have lower `r nH2O` than most Bacteria and Archaea.
-   This may suggest adaptation to lower water availability in the molecular environment of viruses.
-   Notably, viruses without an envelope have lower water content than bacterial cells [@Mat75].
 
-In summary, chemical metrics provide insight into how environmental factors may shape the amino acid and elemental composition of proteins.
-This is a new method in geochemical biology that can help to understand geochemical effects on genome evolution.
+Respectively, these findings suggest genomic adaptation by Methanococci and Epsilonproteobacteria -- now known as Campylobacterota -- to reducing environments (which may be found in submarine hot springs and anoxic zones of sediments), by Gammaproteobacteria to lower water availability in certain habitats, and by viruses to lower water availability in their environment.
+A notable observation in this regard is that viruses without an envelope have lower water content than bacterial cells [@Mat75].
+
+In summary, chemical metrics provide insight into how environmental factors shape the amino acid and elemental composition of proteins.
+The study of genomic variation using geochemical methods is part of a new field called geochemical biology.
 
 ## References
