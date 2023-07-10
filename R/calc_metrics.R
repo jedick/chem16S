@@ -1,11 +1,11 @@
 # chem16S/calc_metrics.R
 # Calculate chemical metrics from amino acid compositions of proteins
-# 20191027 initial version for canprot/metrics.R
+# 20191027 initial version as canprot/metrics.R
 # 20230704 adapted for chem16S
 
 calc_metrics <- function(AAcomp, metrics = c("Zc", "nO2", "nH2O")) {
 
-  ## Define values used in multiple calculations
+  ## Define objects used in various calculations
   # The number of C in each amino acid residue; calculated in CHNOSZ:
   # nC_AA <- sapply(makeup(info(info(aminoacids("")))$formula), "[", "C")
   # nC_AA <- nC_AA
@@ -29,7 +29,7 @@ calc_metrics <- function(AAcomp, metrics = c("Zc", "nO2", "nH2O")) {
         Arg = 2, Ser = 2, Thr = 0, Val = -4, Trp = -2, Tyr = -2)
       # Count the number of C in all residues
       numC <- t(t(AAcomp[, isAA, drop = FALSE]) * nC_AA[iAA])
-      # Zount the number of Z in all residues
+      # Count the number of Z in all residues
       numZ <- t(t(AAcomp[, isAA, drop = FALSE]) * nZ_AA[iAA])
       # Calculate the total number of Z and C, then the overall Zc
       Ztot <- rowSums(numZ)
@@ -44,18 +44,14 @@ calc_metrics <- function(AAcomp, metrics = c("Zc", "nO2", "nH2O")) {
         # How to get the number of H2O in reactions to form amino acid residues from the "QEC" basis:
         ## library(CHNOSZ)
         ## basis("QEC")
-        ## nH2O_AA <- species(aminoacids(""))$H2O
+        ## nH2O_AA <- species(aminoacids(""))$H2O - 1  # Subtract 1 to get amino acid residues in proteins
         ## names(nH2O_AA) <- aminoacids(3)
-        nH2O_AA <- c( Ala =  0.6, Cys =    0, Asp = -0.2, Glu =    0, Phe = -2.2, Gly =  0.4, His = -1.8,
-          Ile =  1.2, Lys =  1.2, Leu =  1.2, Met =  0.4, Asn = -0.2, Pro =    0, Gln =    0,
-          Arg =  0.2, Ser =  0.6, Thr =  0.8, Val =    1, Trp = -3.8, Tyr = -2.2) - 1
-        # Note: subtract 1 to get amino acid residues in proteins
+        nH2O_AA <- c( Ala = -0.4, Cys =   -1, Asp = -1.2, Glu =   -1, Phe = -3.2, Gly = -0.6, His = -2.8,
+          Ile =  0.2, Lys =  0.2, Leu =  0.2, Met = -0.6, Asn = -1.2, Pro =   -1, Gln =   -1,
+          Arg = -0.8, Ser = -0.4, Thr = -0.2, Val =    0, Trp = -4.8, Tyr = -3.2)
       }
       # Calculate total number of H2O in reactions to form proteins
       nH2O <- rowSums(t(t(AAcomp[, isAA, drop = FALSE]) * nH2O_AA[iAA]))
-      ## Add one H2O for each pair of terminal groups (i.e., number of polypeptide chains)
-      #terminal_H2O <- 0
-      #nH2O <- nH2O + terminal_H2O
       # Divide by number of residues (length of protein)
       nH2O / rowSums(AAcomp[, isAA, drop = FALSE])
 
@@ -90,7 +86,7 @@ calc_metrics <- function(AAcomp, metrics = c("Zc", "nO2", "nH2O")) {
                 Ser = -0.8, Thr = -0.7, Val =  4.2, Trp = -0.9, Tyr = -1.3)
       # Calculate total of hydropathy values for each protein
       sumHind <- rowSums(t(t(AAcomp[, isAA, drop = FALSE]) * Hind[iAA]))
-      # Divide by length of proteins to get grand average of hydropathy (GRAVY)
+      # Divide by length of proteins to get grand average of hydropathicity (GRAVY)
       sumHind / rowSums(AAcomp[, isAA, drop = FALSE])
 
     } else if(metric == "pI") {
@@ -106,7 +102,7 @@ calc_metrics <- function(AAcomp, metrics = c("Zc", "nO2", "nH2O")) {
         if(is.numeric(AA)) Ztot <- Ztab[, iZ] %*% AA[isZ]
         else Ztot <- Ztab[, iZ] %*% as.matrix(t(AA[, isZ]))
         # Find pH where charge is closest to zero
-        # (absolute charge is minimized)
+        # (i.e., absolute value of charge is minimized)
         ipH <- which.min(abs(Ztot))
         Ztab[ipH, 1]
       }

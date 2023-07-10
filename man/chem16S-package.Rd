@@ -3,7 +3,7 @@
 \alias{chem16S-package}
 \alias{chem16S}
 \docType{package}
-\title{Chemical metrics of 16S rRNA-based community reference proteomes}
+\title{Chemical metrics of community reference proteomes}
 
 \description{
 

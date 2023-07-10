@@ -19,7 +19,7 @@ ps_taxacounts <- function(physeq, split = TRUE) {
   taxtable <- phyloseq::tax_table(physeq)
 
   # Get OTU table
-  # NOTE: We want to keep taxa as rows (the opposite of estimate_richness())
+  # NOTE: Here we put taxa in rows (the opposite of phyloseq::estimate_richness())
   if(!split) {
     # Sum the taxonomic abundances
     OTU <- phyloseq::taxa_sums(physeq)
@@ -84,7 +84,7 @@ ps_metrics <- function(physeq, split = TRUE, refdb = "GTDB", quiet = FALSE, ...)
   met <- get_metrics(taxacounts, map, refdb = refdb, ...)
   moreargs <- list(...)
   if(isTRUE(moreargs$return_AA)) return(met)
-  # Put sample names in rownames (analogous to phyloseq::estimate_richness)
+  # Put samples in rows (analogous to phyloseq::estimate_richness())
   rownames(met) <- met$Run
   met[, -1, drop = FALSE]
 }
@@ -108,7 +108,7 @@ plot_ps_metrics <- function(physeq, x = "samples", color = NULL, shape = NULL, t
     # Include the sample data, if it is there.
     DF <- data.frame(pmDF, phyloseq::sample_data(physeq), check.names = FALSE)
   } else {
-    # If no sample data, leave it out.
+    # If no sample data, leave it out
     DF <- data.frame(pmDF, check.names = FALSE)
   }
 
@@ -116,7 +116,7 @@ plot_ps_metrics <- function(physeq, x = "samples", color = NULL, shape = NULL, t
     # If there is no "samples" variable in DF, add it
     DF$samples <- phyloseq::sample_names(physeq)
   }
-  # sample_names used to be default, and should also work.
+  # sample_names used to be default, and should also work
   # #backwardcompatibility
   if( !is.null(x) ){
     if( x %in% c("sample", "samples", "sample_names", "sample.names") ){
@@ -129,19 +129,7 @@ plot_ps_metrics <- function(physeq, x = "samples", color = NULL, shape = NULL, t
   # melt to display different chemical metrics separately
   mdf = melt(DF, measure.vars = metrics)
 
-  ## Interpret metrics
-  # If not provided (default), keep all 
-  if( !is.null(metrics) ){
-    if( any(metrics %in% as.character(mdf$variable)) ){
-      # If any metrics were in mdf, then subset to just those.
-      mdf <- mdf[as.character(mdf$variable) %in% metrics, ]
-    } else {
-      # Else, print warning about bad option choice for metrics, keeping all.
-      warning("Argument to `metrics` not supported. All chemical metrics (should be) included in plot.")
-    }
-  }
-
-  # Address `sortby` argument
+  # Handle `sortby` argument
   if(!is.null(sortby)){
     if(!all(sortby %in% levels(mdf$variable))){
       warning("`sortby` argument not among `metrics`. Ignored.")
@@ -162,7 +150,6 @@ plot_ps_metrics <- function(physeq, x = "samples", color = NULL, shape = NULL, t
 
   # Define variable mapping
   #metrics_map <- aes_string(x = x, y = "value", color = color, shape = shape)
-
   # aes_string is deprecated - use tidy evaluation instead 20230608 jmd
   # Start with just x and y in case color and/or shape are NULL 20230709
   metrics_map <- aes(.data[[x]], .data[["value"]])
@@ -170,7 +157,7 @@ plot_ps_metrics <- function(physeq, x = "samples", color = NULL, shape = NULL, t
   if(!is.null(color)) metrics_map <- modifyList(metrics_map, aes(color = .data[[color]]))
   if(!is.null(shape)) metrics_map <- modifyList(metrics_map, aes(shape = .data[[shape]]))
 
-  # Make the ggplot.
+  # Make the ggplot
   p <- ggplot(mdf, metrics_map) + geom_point(na.rm = TRUE)
 
   if(length(metrics) == 1) {
@@ -188,7 +175,7 @@ plot_ps_metrics <- function(physeq, x = "samples", color = NULL, shape = NULL, t
       lapply(variable, chemlab)
     }
     # Facet wrap using user-options
-    # Plot expressions with label_parsed
+    # Plot expressions with label_parsed 20230617 jmd
     # https://stackoverflow.com/questions/37089052/r-ggplot2-facet-grid-how-include-math-expressions-in-few-not-all-labels
     p <- p + facet_wrap(. ~ variable, nrow = nrow, scales = scales, labeller = labeller(.default = label_parsed, variable = metrics_labels))
   }
@@ -197,6 +184,7 @@ plot_ps_metrics <- function(physeq, x = "samples", color = NULL, shape = NULL, t
   if( !is.null(title) ){
     p <- p + ggtitle(title)
   }
+
   return(p)
 
 }
@@ -213,12 +201,12 @@ plot_ps_metrics2 <- function(physeq, x = "Zc", y = "nH2O", color = NULL, shape =
   # Calculate the chemical metrics
   pmDF <- ps_metrics(physeq, metrics = c(x, y), refdb = refdb, quiet = quiet)
 
-  # Make the plotting data.frame.
+  # Make the plotting data.frame
   if( !is.null(phyloseq::sample_data(physeq, errorIfNULL = FALSE)) ){
-    # Include the sample data, if it is there.
+    # Include the sample data, if it is there
     DF <- data.frame(pmDF, phyloseq::sample_data(physeq), check.names = FALSE)
   } else {
-    # If no sample data, leave it out.
+    # If no sample data, leave it out
     DF <- data.frame(pmDF, check.names = FALSE)
   }
 
@@ -233,12 +221,14 @@ plot_ps_metrics2 <- function(physeq, x = "Zc", y = "nH2O", color = NULL, shape =
   if(!is.null(color)) metrics_map <- modifyList(metrics_map, aes(color = .data[[color]]))
   if(!is.null(shape)) metrics_map <- modifyList(metrics_map, aes(shape = .data[[shape]]))
 
-  # Make the ggplot.
+  # Make the ggplot
   p <- ggplot(DF, metrics_map) + geom_point(na.rm = TRUE) + xlab(chemlab(x)) + ylab(chemlab(y))
+
   # Optionally add a title to the plot
   if( !is.null(title) ){
     p <- p + ggtitle(title)
   }
+
   return(p)
 
 }

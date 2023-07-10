@@ -1,3 +1,4 @@
+# chem16S/plot_metrics.R
 # Plot chemical metrics for community reference proteomes 20200901
 # Moved to chem16S 20220505
 
@@ -80,7 +81,7 @@ add_hull <- function(x, y, basecol, outline = FALSE, ...) {
   if(outline) {
     polygon(x[i], y[i], col = NA, border = basecol, ...)
   } else {
-    col <- rgb(r[1], r[2], r[3], 80, maxColorValue=255)
+    col <- rgb(r[1], r[2], r[3], 80, maxColorValue = 255)
     polygon(x[i], y[i], col = col, border = NA, ...)
   }
 }
