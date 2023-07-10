@@ -4,7 +4,7 @@
 \alias{add_hull}
 \title{Plot chemical metrics of community reference proteomes}
 \description{
-Functions to plot chemical metrics (\Zc and \nH2O) for community reference proteomes.
+Functions to plot chemical metrics of community reference proteomes.
 }
 
 \usage{
@@ -85,8 +85,8 @@ ihi <- mdat$metadata$salinity > 20
 add_hull(pm$Zc[ilo], pm$nH2O[ilo], "green3")
 add_hull(pm$Zc[ihi], pm$nH2O[ihi], "blue")
 
-# Show points for all samples and larger points for
-# mean values of high- and low-salinity samples
+# Show points for all samples and larger star-shaped points
+# for mean values of high- and low-salinity samples
 plot_metrics(mdat, pch1 = 21, pch2 = 24)
 
 # Make a plot for only Proteobacteria

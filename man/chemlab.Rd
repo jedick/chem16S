@@ -20,7 +20,7 @@ This function provides formatted labels for chemical metrics and related variabl
 }
 
 \seealso{
-This function is used in \code{\link{plot_metrics}}, \code{\link{plot_ps_metrics}}, and \code{\link{plot_ps_metrics2}}.
+This function is used by \code{\link{plot_metrics}}, \code{\link{plot_ps_metrics}}, and \code{\link{plot_ps_metrics2}}.
 }
 
 \examples{

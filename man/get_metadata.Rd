@@ -22,12 +22,10 @@ Each data set contains environmental data, but the specific variables differ bet
 Therefore, this function processes the environmental data for different datasets and appends \samp{pch} and \samp{col} columns that can be used for visualization and identifying trends between groups of samples.
 
 Samples are identified by the \code{Run} column (case-sensitive) in both \code{file} and \code{metrics}.
-It is possible that metrics for one or more samples are not available (such as the number of RDP classifications is below \code{mincount} in \code{\link{get_metrics}}).
+It is possible that metrics for one or more samples are not available (for example, if the number of RDP classifications is below \code{mincount} in \code{\link{get_metrics}}).
 The function therefore removes metadata for unavailable samples.
 Then, the samples in \code{metrics} are placed in the same order as they appear in metadata.
 Ordering the samples is important because the columns in RDP Classifier output are not necessarily in the same order as the metadata.
-
-In actual projects, customized getmdat_* functions can be used for more complex processing tasks.
 }
 
 \value{

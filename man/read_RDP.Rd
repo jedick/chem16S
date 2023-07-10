@@ -3,7 +3,7 @@
 \alias{read_RDP}
 \title{Read and filter RDP Classifier output}
 \description{
-Reads RDP Classifier output and optionally applies copy-number correction, extracts lineages, removes classifications below a certain count, or extracts lineages, or truncates classifications to lowest taxonomic level.
+Reads RDP Classifier output and optionally applies copy-number correction, extracts lineages, removes classifications below a certain count, or truncates classifications to lowest taxonomic level.
 }
 
 \usage{
@@ -31,13 +31,13 @@ Sequences classified to the class Chloroplast or genera Chlorophyta or Bacillari
 Then, only columns (samples) with classification count >= \code{mincount} are retained.
 All remaining sequences (those classified to genus or higher levels) can be used for mapping to the NCBI taxonomy.
 
-The lineage text of the RDP Classifier looks like \dQuote{Root;rootrank;Archaea;domain;Diapherotrites;phylum;Diapherotrites Incertae Sedis AR10;genus;}, so you can use \code{lineage = "Archaea"} to select the archaeal classifications or \code{lineage = "genus"} to select genus-level classifications.
+The lineage text of the RDP Classifier looks like \dQuote{Root;rootrank;Archaea;domain;Diapherotrites; phylum;Diapherotrites Incertae Sedis AR10;genus;}, so you can use \code{lineage = "Archaea"} to select the archaeal classifications or \code{lineage = "genus"} to select genus-level classifications.
 
 Use the \code{lowest.level} argument to truncate the classifications to a level higher than genus.
 This argument does not reduce the number of classifications, but only trims the RDP lineages to the specified level.
 This may create duplicate lineages, for which the classification counts are summed, and only unique lineages are present in the returned data frame.
 
-Change \code{quiet} to FALSE to enable printing of messages about percentage classification to genus level, omitted sequences, and final range of total counts among all samples.
+Change \code{quiet} to TRUE to suppress printing of messages about percentage classification to genus level, omitted sequences, and final range of total counts among all samples.
 }
 
 \value{

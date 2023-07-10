@@ -5,30 +5,31 @@
 \alias{ps_metrics}
 \alias{plot_ps_metrics}
 \alias{plot_ps_metrics2}
-\title{Calculate and plot chemical metrics from phyloseq objects}
+\title{Process `phyloseq-class` objects to calculate chemical metrics}
 \description{
-Calculate chemical metrics of community reference proteomes from taxonomic abundances in phyloseq objects and make plots of individual metrics or two metrics against each other.
+Calculate chemical metrics of community reference proteomes from taxonomic abundances in \code{\link[phyloseq]{phyloseq-class}} objects and make plots of individual metrics or two metrics against each other.
 }
 
 \usage{
   ps_taxacounts(physeq, split = TRUE)
   ps_metrics(physeq, split = TRUE, refdb = "GTDB", quiet = FALSE, ...)
-  plot_ps_metrics(physeq, x = "samples", color = NULL, shape = NULL, title = NULL,
-    scales = "free_y", nrow = 1, metrics = c("Zc", "nO2", "nH2O"), sortby = NULL,
-    refdb = "GTDB", quiet = FALSE)
-  plot_ps_metrics2(physeq, x = "Zc", y = "nH2O", color = NULL, shape = NULL,
-    title = NULL, refdb = "GTDB", quiet = FALSE)
+  plot_ps_metrics(physeq, x = "samples", color = NULL, shape = NULL,
+    title = NULL, scales = "free_y", nrow = 1,
+    metrics = c("Zc", "nO2", "nH2O"), sortby = NULL, refdb = "GTDB",
+    quiet = FALSE)
+  plot_ps_metrics2(physeq, x = "Zc", y = "nH2O", color = NULL,
+    shape = NULL, title = NULL, refdb = "GTDB", quiet = FALSE)
 }
 
 \arguments{
-  \item{physeq}{phyloseq-class, a phyloseq object containing an otu_table and tax_table}
+  \item{physeq}{`phyloseq-class`, a \pkg{phyloseq} object containing an `otu_table` and `tax_table`}
   \item{split}{logical, calculate metrics for each sample (TRUE) or the entire set (FALSE)}
   \item{refdb}{character, name of reference database (\samp{GTDB} or \samp{RefSeq}; passed to \code{\link{get_metrics}})}
   \item{quiet}{logical, suppress printed messages? (passed to \code{\link{map_taxa}})}
   \item{...}{additional arguments for \code{\link{get_metrics}}}
   \item{x}{map this variable to the horizontal axis}
-  \item{color}{map this variable to different colors}
-  \item{shape}{map this variable to different shapes}
+  \item{color}{map this variable to colors}
+  \item{shape}{map this variable to shapes}
   \item{title}{main title for the plot}
   \item{scales}{\samp{free_y} or \samp{fixed} for different vertical scales or same scale in each panel}
   \item{nrow}{number of rows of panels (passed to \code{\link{facet_wrap}})}
@@ -39,15 +40,15 @@ Calculate chemical metrics of community reference proteomes from taxonomic abund
 
 \details{
 
-\code{ps_taxacounts} returns a data frame with lowest-level classifications (from genus to domain) and abundances for each OTU in the \code{physeq} object.
+\code{ps_taxacounts} returns a data frame with lowest-level classifications (from genus to phylum) and abundances for each OTU in the \code{physeq} object.
 
-\code{ps_metrics} calculates chemical metrics of community reference proteomes from the lowest-level classifications after mapping to the NCBI taxonomy with \code{\link{map_taxa}}.
+\code{ps_metrics} calculates chemical metrics of community reference proteomes from the lowest-level classifications after mapping to the RefSeq taxonomy with \code{\link{map_taxa}}.
 To choose the metrics to calculate, use the \code{metrics} argument, which is passed via \code{...} to \code{\link{get_metrics}}.
 
 \code{plot_ps_metrics} plots individual chemical metrics or multiple chemical metrics, each in their own panel.
 This function is modified from \code{\link[phyloseq]{plot_richness}}; see that help page for further details about graphics-related arguments.
 
-\code{plot_ps_metrics2} makes a cross-plot of two chemical metrics.
+\code{plot_ps_metrics2} plot two chemical metrics against each other.
 
 }
 
