@@ -116,7 +116,6 @@ History:
     \item{\file{BGPF13.tab.xz}}{Heart Lake Geyser Basin.}
     \item{\file{HLA+16.tab.xz}}{Baltic Sea.}
     \item{\file{SMS+12.tab.xz}}{Bison Pool.}
-    \item{\file{bergeyTrainingTree.csv}}{Data from \code{bergeyTrainingTree.xml} in the RDP Classifier package version 2.1.3 (\url{https://sourceforge.net/projects/rdp-classifier/}), used for copy-number adjustment (this option is not active by default).}
   }
 
 }

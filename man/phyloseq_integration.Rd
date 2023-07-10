@@ -79,12 +79,14 @@ table(taxacounts$rank)
 map <- map_taxa(taxacounts)
 # Show most prevalent unmapped groups
 head(sort(table(attr(map, "unmapped_groups")), TRUE), 5)
-# Calculate chemical metrics
-# quiet = FALSE prints messages about taxonomic mapping
-ps_metrics(GlobalPatterns, quiet = FALSE)
+# Calculate chemical metrics with manual mapping to RefSeq
+ps_metrics(GlobalPatterns, refdb = "RefSeq")
 }
 
 # Plot metrics grouped by sample type and sorted by mean Zc
-plot_ps_metrics(GlobalPatterns, x = "SampleType", sortby = "Zc")
+p <- plot_ps_metrics(GlobalPatterns, x = "SampleType", sortby = "Zc")
+# Change orientation of x-axis labels
+p + ggplot2::theme(axis.text.x = ggplot2::element_text(
+  angle = 45, vjust = 1, hjust = 1))
 }
 }

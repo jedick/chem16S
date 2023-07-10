@@ -3,12 +3,12 @@
 \alias{read_RDP}
 \title{Read and filter RDP Classifier output}
 \description{
-Reads RDP Classifier output and optionally applies copy-number correction, extracts lineages, removes classifications below a certain count, or truncates classifications to lowest taxonomic level.
+Reads RDP Classifier output and optionally extracts lineages, removes classifications below a certain count, or truncates classifications to lowest taxonomic level.
 }
 
 \usage{
   read_RDP(file, lineage = NULL, mincount = 200,
-    lowest.level = NULL, cn = FALSE, quiet = FALSE)
+    lowest.level = NULL, quiet = FALSE)
 }
 
 \arguments{
@@ -16,7 +16,6 @@ Reads RDP Classifier output and optionally applies copy-number correction, extra
   \item{lineage}{character, regular expression for filtering lineages}
   \item{mincount}{integer, samples with less than this number of RDP classifications are excluded}
   \item{lowest.level}{character, truncate classifications at this taxonomic level}
-  \item{cn}{logical, adjust counts for 16S rRNA gene copy number?}
   \item{quiet}{logical, suppress printed messages?}
 }
 
@@ -55,24 +54,21 @@ file <- system.file("extdata/RDP/SMS+12.tab.xz", package = "chem16S")
 # Default settings
 r0 <- read_RDP(file)
 
-# Print a lot of messages
-r1 <- read_RDP(file, quiet = FALSE)
+# Suppress messages
+r1 <- read_RDP(file, quiet = TRUE)
 
 # Increase minimum count threshold
 r2 <- read_RDP(file, mincount = 500)
 # This should be 3 (i.e., 3 samples have less than 500 counts)
 ncol(r1) - ncol(r2)
 
-# Apply copy-number correction
-r3 <- read_RDP(file, cn = TRUE)
-
 # Keep only Archaea
-r4 <- read_RDP(file, lineage = "Archaea")
+r3 <- read_RDP(file, lineage = "Archaea")
 # This should be TRUE
-all(grepl("Archaea", r4$lineage))
+all(grepl("Archaea", r3$lineage))
 
 # Truncate taxonomy at phylum
-r5 <- read_RDP(file, lowest.level = "phylum")
+r4 <- read_RDP(file, lowest.level = "phylum")
 # This should be TRUE
-all(sapply(strsplit(r5$lineage, ";"), tail, 1) == "phylum")
+all(sapply(strsplit(r4$lineage, ";"), tail, 1) == "phylum")
 }

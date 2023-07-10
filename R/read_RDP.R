@@ -5,7 +5,7 @@
 # Moved to chem16S 20220505
 
 # Read and filter RDP results for all samples in a study 20200912
-read_RDP <- function(file, lineage = NULL, mincount = 200, lowest.level = NULL, cn = FALSE, quiet = FALSE) {
+read_RDP <- function(file, lineage = NULL, mincount = 200, lowest.level = NULL, quiet = FALSE) {
 
   # Read file
   dat <- read.table(file, sep = "\t", header = TRUE, check.names = FALSE)
@@ -125,20 +125,20 @@ read_RDP <- function(file, lineage = NULL, mincount = 200, lowest.level = NULL, 
     }
   }
 
-  # Adjust counts for 16S rRNA gene copy number 20200927
-  if(cn) {
-    # Data from rdp_classifier_2.13/src/data/classifier/16srrna/bergeyTrainingTree.xml (20200720)
-    bergey <- read.csv(system.file("extdata/RDP/bergeyTrainingTree.csv", package = "chem16S"))
-    # Paste together rank and name
-    RDPgroups <- paste(out$rank, out$name, sep = "_")
-    bergeygroups <- paste(bergey$rank, bergey$name, sep = "_")
-    # Get the copy number for these groups
-    ibergey <- match(RDPgroups, bergeygroups)
-    cpNumber <- bergey$cpNumber[ibergey]
-    # Divide RDP Classifier counts by copy number
-    # Round to 3 decimal places following output of RDP Classifier with copy-number adjustment
-    out[, icol] <- round(out[, icol] / cpNumber, 3)
-  }
+#  # Adjust counts for 16S rRNA gene copy number 20200927
+#  if(cn) {
+#    # Data from rdp_classifier_2.13/src/data/classifier/16srrna/bergeyTrainingTree.xml (20200720)
+#    bergey <- read.csv(system.file("extdata/RDP/bergeyTrainingTree.csv", package = "chem16S"))
+#    # Paste together rank and name
+#    RDPgroups <- paste(out$rank, out$name, sep = "_")
+#    bergeygroups <- paste(bergey$rank, bergey$name, sep = "_")
+#    # Get the copy number for these groups
+#    ibergey <- match(RDPgroups, bergeygroups)
+#    cpNumber <- bergey$cpNumber[ibergey]
+#    # Divide RDP Classifier counts by copy number
+#    # Round to 3 decimal places following output of RDP Classifier with copy-number adjustment
+#    out[, icol] <- round(out[, icol] / cpNumber, 3)
+#  }
 
   RDP <- out
 
@@ -171,7 +171,7 @@ read_RDP <- function(file, lineage = NULL, mincount = 200, lowest.level = NULL, 
   attr.orig <- attributes(RDP)
   # New attributes
   # (NOTE: NULL values are not stored)
-  attr.new <- list(file = file, lineage = lineage, mincount = mincount, lowest.level = lowest.level, cn = cn)
+  attr.new <- list(file = file, lineage = lineage, mincount = mincount, lowest.level = lowest.level)
   attributes(RDP) <- c(attr.orig, attr.new)
 
   RDP
