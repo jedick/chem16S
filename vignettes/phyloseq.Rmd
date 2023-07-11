@@ -264,10 +264,10 @@ Bacteroidetes (an older name for Bacteroidota) have some of the lowest `r nH2O` 
 
 ## Take-home messages
 
-1. Taxonomic mapping from Silva to RefSeq or RDP to RefSeq is incomplete.
-   If you do this, it is advisable to report the percentage of mapped taxonomic classifications as well as the major unmapped groups,
+1. Taxonomic mapping from RDP to RefSeq is incomplete.
+   If you use this, it is advisable to report the percentage of mapped taxonomic classifications as well as the major unmapped groups,
    which can be listed with the `quiet = FALSE` argument to `map_taxa()`, `ps_metrics()`, `plot_ps_metrics()`, and `plot_ps_metrics2()`.
-2. Consistent taxonomy can be achieved by using the GTDB for both reference proteomes and 16S rRNA classification.
+2. Consistent taxonomy can be achieved by using the GTDB for both reference proteomes and taxonomic classification of 16S rRNA gene sequences.
    For the dataset analyzed here, this leads to a clearer separation between sample groups in chemical space and helps to identify the taxonomic basis for possible outliers.
 2. Gut communities in later stages of mouse growth are characterized by relatively oxidized and dehydrated reference proteomes.
 

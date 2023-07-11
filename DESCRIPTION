@@ -1,13 +1,13 @@
 Date: 2023-07-10
 Package: chem16S
-Version: 0.1.3-42
+Version: 1.0.0
 Title: Chemical Metrics of Community Reference Proteomes
 Authors@R: c(
-    person("Jeffrey", "Dick", , "jeff@chnosz.net", role = c("aut", "cre"),
+    person("Jeffrey", "Dick", , "j3ffdick@gmail.com", role = c("aut", "cre"),
       comment = c(ORCID = "0000-0002-0687-5890"))
     )
 Author: Jeffrey Dick [aut, cre] (0000-0002-0687-5890)
-Maintainer: Jeffrey Dick <jeff@chnosz.net>
+Maintainer: Jeffrey Dick <j3ffdick@gmail.com>
 Depends: R (>= 3.5.0)
 Imports: plyr, ggplot2, rlang, reshape2
 Suggests: tinytest, knitr, phyloseq, patchwork, ggpmisc, rmarkdown
@@ -20,10 +20,10 @@ Description: Combines taxonomic classifications of high-throughput 16S rRNA
   length, and average molecular weight of amino acid residues. Uses precomputed
   reference proteomes for archaea and bacteria derived from the Genome Taxonomy
   Database (GTDB). Also includes reference proteomes derived from the NCBI
-  Reference Sequence (RefSeq) database and taxonomic mapping from the RDP
-  Classifier training set to RefSeq taxonomy as described by Dick and Tan (2023)
+  Reference Sequence (RefSeq) database and manual mapping from the RDP Classifier
+  training set to RefSeq taxonomy as described by Dick and Tan (2023)
   <doi:10.1007/s00248-022-01988-9>. Processes taxonomic classifications in RDP
-  Classifier format or as OTU tables in 'phyloseq-class' objects from the
+  Classifier format or OTU tables in 'phyloseq-class' objects from the
   Bioconductor package 'phyloseq'.
 Encoding: UTF-8
 License: GPL-3

@@ -1,8 +1,5 @@
-CHANGES IN chem16S 0.1.3-32 (2023-07-06)
-----------------------------------------
-
-- Rename readRDP() to read_RDP(), getmetrics() to get_metrics(), plotmet() to
-  plot_metrics(), and other analogous changes to function names.
+CHANGES IN chem16S 1.0.0 (2023-07-10)
+-------------------------------------
 
 - Add functions for integration with phyloseq: ps_taxacounts(), ps_metrics(),
   plot_ps_metrics(), and plot_ps_metrics2().
@@ -13,6 +10,11 @@ CHANGES IN chem16S 0.1.3-32 (2023-07-06)
 - Change default reference database from RefSeq to GTDB.
 
 - Add metrics: nO2, GRAVY, pI, MW, length, H/C, N/C, O/C, and S/C.
+
+- Rename readRDP() to read_RDP(), getmetrics() to get_metrics(), plotmet() to
+  plot_metrics(), and other analogous changes to function names.
+
+- First release on CRAN.
 
 CHANGES IN chem16S 0.1.3 (2023-02-12)
 -------------------------------------
@@ -43,4 +45,4 @@ CHANGES IN chem16S 0.1.1 (2022-10-11)
 CHANGES IN chem16S 0.1.0 (2022-07-04)
 -------------------------------------
 
-- First release
+- First release on GitHub.

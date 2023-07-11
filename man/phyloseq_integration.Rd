@@ -69,7 +69,6 @@ The author of this Rd file and the \code{ps_taxacounts} and \code{ps_metrics} fu
 if(requireNamespace("phyloseq", quietly = TRUE)) {
 # Load the GlobalPatterns dataset from phyloseq
 data(GlobalPatterns, package = "phyloseq")
-
 \dontrun{
 # Get lowest-level (to genus) taxon for each OTU
 taxacounts <- ps_taxacounts(GlobalPatterns)
