@@ -122,7 +122,7 @@ History:
 
 \section{Files in extdata/RDP-GTDB}{
 
-  Output of RDP Classifer using the GTDB SSU training set (\url{https://doi.org/10.5281/zenodo.7633100}).
+  Output of RDP Classifer using the GTDB SSU training set (\doi{10.5281/zenodo.7633100}).
 
   \describe{
     \item{\file{BGPF13.tab.xz}}{Heart Lake Geyser Basin.}

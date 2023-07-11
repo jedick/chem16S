@@ -47,7 +47,7 @@ For mapping to the RefSeq (NCBI) taxonomy, some group names are manually mapped 
 }
 
 To avoid manual mapping, GTDB can be used for both taxonomic assignemnts and reference proteomes.
-Taxonomic assignments can be made using the RDP Classifier with \href{https://doi.org/10.5281/zenodo.7633100}{this GTDB SSU training set} or \pkg{dada2} with \href{https://doi.org/10.5281/zenodo.6655692}{this GTDB training set}.
+Taxonomic assignments can be made using the RDP Classifier with this GTDB SSU training set: \doi{10.5281/zenodo.7633100} or \pkg{dada2} with this GTDB training set: \doi{10.5281/zenodo.6655692}.
 Example files created using the RDP Classifier are provided under \file{extdata/RDP-GTDB}.
 An example dataset created with DADA2 is \code{data(\link{mouse.GTDB})}; this is a \code{\link[phyloseq]{phyloseq-class}} object that can be processed with functions described at \code{\link{physeq}}.
 

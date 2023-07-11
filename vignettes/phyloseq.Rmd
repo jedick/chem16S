@@ -185,7 +185,8 @@ imin <- which.min(lengths)
 text(lengths[imin], 1.5, AA.RDP$Run[imin], adj = 1)
 ```
 
-Compared to the other samples, that from Day `r strsplit(AA.RDP$Run[imin], "D")[[1]][2]` has the lowest average protein length of the community reference proteome.
+<!-- if(!is.null(AA.RDP)) is needed to build the vignette without phyloseq 20230711 -->
+Compared to the other samples, that from Day `r if(!is.null(AA.RDP)) strsplit(AA.RDP$Run[imin], "D")[[1]][2]` has the lowest average protein length of the community reference proteome.
 
 ## From taxonomy to chemical metrics
 
