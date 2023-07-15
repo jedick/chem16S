@@ -14,17 +14,17 @@ Suggests: tinytest, knitr, patchwork, ggpmisc, rmarkdown
 Description: Combines taxonomic classifications of high-throughput 16S rRNA
   gene sequences with reference proteomes of archaeal and bacterial taxa to
   generate amino acid compositions of community reference proteomes. Calculates
-  chemical metrics including carbon oxidation state (Zc), stoichiometric
-  oxidation and hydration state (nO2 and nH2O), H/C, N/C, O/C, and S/C ratios,
-  grand average of hydropathicity (GRAVY), isoelectric point (pI), protein
-  length, and average molecular weight of amino acid residues. Uses precomputed
-  reference proteomes for archaea and bacteria derived from the Genome Taxonomy
-  Database (GTDB). Also includes reference proteomes derived from the NCBI
-  Reference Sequence (RefSeq) database and manual mapping from the RDP Classifier
-  training set to RefSeq taxonomy as described by Dick and Tan (2023)
-  <doi:10.1007/s00248-022-01988-9>. Processes taxonomic classifications in RDP
-  Classifier format or OTU tables in 'phyloseq-class' objects from the
-  Bioconductor package 'phyloseq'.
+  chemical metrics including carbon oxidation state ('Zc'), stoichiometric
+  oxidation and hydration state ('nO2' and 'nH2O'), H/C, N/C, O/C, and S/C
+  ratios, grand average of hydropathicity ('GRAVY'), isoelectric point ('pI'),
+  protein length, and average molecular weight of amino acid residues. Uses
+  precomputed reference proteomes for archaea and bacteria derived from the
+  Genome Taxonomy Database ('GTDB'). Also includes reference proteomes derived
+  from the NCBI Reference Sequence ('RefSeq') database and manual mapping from
+  the 'RDP Classifier' training set to 'RefSeq' taxonomy as described by Dick and
+  Tan (2023) <doi:10.1007/s00248-022-01988-9>. Processes taxonomic
+  classifications in 'RDP Classifier' format or OTU tables in 'phyloseq-class'
+  objects from the Bioconductor package 'phyloseq'.
 Encoding: UTF-8
 License: GPL-3
 VignetteBuilder: knitr
