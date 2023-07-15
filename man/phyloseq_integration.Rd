@@ -66,7 +66,6 @@ The author of this Rd file and the \code{ps_taxacounts} and \code{ps_metrics} fu
 }
 
 \examples{
-if(requireNamespace("phyloseq", quietly = TRUE)) {
 # Load the GlobalPatterns dataset from phyloseq
 data(GlobalPatterns, package = "phyloseq")
 \dontrun{
@@ -87,5 +86,4 @@ p <- plot_ps_metrics(GlobalPatterns, x = "SampleType", sortby = "Zc")
 # Change orientation of x-axis labels
 p + ggplot2::theme(axis.text.x = ggplot2::element_text(
   angle = 45, vjust = 1, hjust = 1))
-}
 }

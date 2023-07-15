@@ -1,4 +1,4 @@
-Date: 2023-07-11
+Date: 2023-07-15
 Package: chem16S
 Version: 1.0.0
 Title: Chemical Metrics of Community Reference Proteomes
@@ -9,8 +9,8 @@ Authors@R: c(
 Author: Jeffrey Dick [aut, cre] (0000-0002-0687-5890)
 Maintainer: Jeffrey Dick <j3ffdick@gmail.com>
 Depends: R (>= 3.5.0)
-Imports: plyr, ggplot2, rlang, reshape2
-Suggests: tinytest, knitr, phyloseq, patchwork, ggpmisc, rmarkdown
+Imports: plyr, ggplot2, rlang, reshape2, phyloseq
+Suggests: tinytest, knitr, patchwork, ggpmisc, rmarkdown
 Description: Combines taxonomic classifications of high-throughput 16S rRNA
   gene sequences with reference proteomes of archaeal and bacterial taxa to
   generate amino acid compositions of community reference proteomes. Calculates

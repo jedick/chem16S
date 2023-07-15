@@ -63,11 +63,11 @@ knitr::knit_hooks$set(
            '</div>', sep = '\n')
    }
 )
-# Don't evaluate chunks if phyloseq is not available 20230619
-if(!requireNamespace("phyloseq", quietly = TRUE)) {
-  knitr::opts_chunk$set(eval = FALSE)
-  warning("The **phyloseq** package is not available, so this vignette shows only the code without the results.")
-}
+## Don't evaluate chunks if phyloseq is not available 20230619
+#if(!requireNamespace("phyloseq", quietly = TRUE)) {
+#  knitr::opts_chunk$set(eval = FALSE)
+#  warning("The **phyloseq** package is not available, so this vignette shows only the code without the results.")
+#}
 ```
 
 What's the difference between *chemical metrics* and *diversity metrics*?

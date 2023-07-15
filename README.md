@@ -29,21 +29,18 @@ Precomputed amino acid compositions of reference proteomes are provided for the 
 
 ### Installation
 
-If you don't have it already, first install the **remotes** package from CRAN, then use that to install **chem16S** from GitHub.
+After installing **phyloseq** from Bioconductor, use `install_github` (provided by either **remotes** or **devtools**) to install **chem16S** from GitHub.
 
 ```
-# Skip this if you already have 'remotes' installed
-install.packages("remotes")
+# Install 'BiocManager' from CRAN
+if(!require("BiocManager", quietly = TRUE)) install.packages("BiocManager")
 
-remotes::install_github("jedick/chem16S")
-```
-
-**phyloseq** is an optional but recommended dependency that is needed to build some of the vignettes in **chem16S**.
-
-```
-# Skip this if you already have 'BiocManager' installed
-install.packages("BiocManager")
-
+# Install 'phyloseq' from Bioconductor
 BiocManager::install("phyloseq")
+
+# Install 'remotes' from CRAN
+if(!require("remotes", quietly = TRUE)) install.packages("remotes")
+
+# Install 'chem16S' from GitHub
 remotes::install_github("jedick/chem16S", build_vignettes = TRUE)
 ```

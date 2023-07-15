@@ -110,6 +110,7 @@ read_RDP <- function(file, lineage = NULL, mincount = 200, lowest.level = NULL, 
   if(any(ismall)) {
     if(!quiet) print(paste0("read_RDP", basetxt, ": discarding ", sum(ismall), " samples with < ", mincount, " total counts"))
     out <- out[, c(TRUE, TRUE, TRUE, TRUE, !ismall)]
+    if(ncol(out) == 4) stop("No samples are left! (try lowering 'mincount')")
     icol <- 5:ncol(out)
   }
 

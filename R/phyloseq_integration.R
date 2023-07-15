@@ -11,10 +11,6 @@
 # (genus to domain level - use column names similar to output from RDP Classifier)
 ps_taxacounts <- function(physeq, split = TRUE) {
 
-  if(!requireNamespace("phyloseq", quietly = TRUE)) {
-    stop("Pleast first install phyloseq from Bioconductor")
-  }
-  
   # Get taxonomy table
   taxtable <- phyloseq::tax_table(physeq)
 
@@ -95,10 +91,6 @@ plot_ps_metrics <- function(physeq, x = "samples", color = NULL, shape = NULL, t
   scales = "free_y", nrow = 1, metrics = c("Zc", "nO2", "nH2O"), sortby = NULL,
   refdb = "GTDB", quiet = FALSE) { 
 
-  if(!requireNamespace("phyloseq", quietly = TRUE)) {
-    stop("Pleast first install phyloseq from Bioconductor")
-  }
-  
   # Calculate the chemical metrics
   pmDF <- ps_metrics(physeq, metrics = metrics, refdb = refdb, quiet = quiet)
 
@@ -194,10 +186,6 @@ plot_ps_metrics <- function(physeq, x = "samples", color = NULL, shape = NULL, t
 plot_ps_metrics2 <- function(physeq, x = "Zc", y = "nH2O", color = NULL, shape = NULL,
   title = NULL, refdb = "GTDB", quiet = FALSE) { 
 
-  if(!requireNamespace("phyloseq", quietly = TRUE)) {
-    stop("Pleast first install phyloseq from Bioconductor")
-  }
-  
   # Calculate the chemical metrics
   pmDF <- ps_metrics(physeq, metrics = c(x, y), refdb = refdb, quiet = quiet)
 

@@ -49,12 +49,12 @@ knitr::knit_hooks$set(
            '</div>', sep = '\n')
    }
 )
-# Don't evaluate chunks if phyloseq is not available 20230619
-if(!requireNamespace("phyloseq", quietly = TRUE)) {
-  knitr::opts_chunk$set(eval = FALSE)
-  day <- imin <- AA.RDP <- map.RDP <- map.silva <- NULL
-  warning("The **phyloseq** package is not available, so this vignette shows only the code without the results.")
-}
+## Don't evaluate chunks if phyloseq is not available 20230619
+#if(!requireNamespace("phyloseq", quietly = TRUE)) {
+#  knitr::opts_chunk$set(eval = FALSE)
+#  day <- imin <- AA.RDP <- map.RDP <- map.silva <- NULL
+#  warning("The **phyloseq** package is not available, so this vignette shows only the code without the results.")
+#}
 ```
 
 This vignette demonstrates the integration of **chem16S** with **phyloseq** to calculate chemical metrics of community reference proteomes.

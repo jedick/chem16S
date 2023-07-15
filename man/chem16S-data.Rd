@@ -21,12 +21,10 @@
 }
 
 \examples{
-if(requireNamespace("phyloseq", quietly = TRUE)) {
 # Load one data set
 data(mouse.silva)
 # Summarize the object (phyloseq-class)
 mouse.silva
-}
 }
 
 \references{
