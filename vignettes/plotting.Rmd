@@ -70,17 +70,12 @@ knitr::knit_hooks$set(
 #}
 ```
 
-What's the difference between *chemical metrics* and *diversity metrics*?
-The visualization of diversity metrics for communities often takes the form of ordinations, which are a type of dimensionality reduction that associates trends in the data with one or more synthetic variables.
-Ordinations have a major limitation: the synthetic variables obtained in one study cannot be compared with those of other studies.
-
 Chemical metrics quantify the elemental variation between communities by using reference proteomes derived from sequenced genomes, multiplied by taxonomic abundances inferred from high-throughput 16R rRNA gene sequences.
-Instead of synthetic variable names like "PCoA1" or "NMDS1", chemical metrics have names like "oxidation state" and "hydration state".
 Because chemical metrics are defined independently of the data, they can be compared across studies.
 Furthermore, they are basic tools for exploring hypotheses about molecular adaptation to environments.
 
 In this vignette we'll analyze **phyloseq**'s `GlobalPatterns` dataset [based on data from @CLW+11] to visualize chemical variation of community reference proteomes across environments.
-Then, we'll explore specific hypothesis about the effects of redox conditions and salinity on genomic adaptation by analyzing datasets for microbial communities in marine sediment [@FEN+22] and geothermal waters [@ZFZ+23].
+Then, we'll explore specific hypotheses about the effects of redox conditions and salinity on genomic adaptation by analyzing datasets for microbial communities in marine sediment [@FEN+22] and geothermal waters [@ZFZ+23].
 
 ## Load required packages
 
