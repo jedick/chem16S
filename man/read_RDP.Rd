@@ -40,11 +40,11 @@ Change \code{quiet} to TRUE to suppress printing of messages about percentage cl
 }
 
 \value{
-  Data frame with columns inherited from \code{file} (for RDP output: taxid, rank, lineage, name, and one column of classification counts for each sample).
-  If any sample has less than \code{mincount} counts, that column is omitted from the result.
-  Output has rows from \code{file} that are selected or modified by filtering operations.
+Data frame with columns inherited from \code{file} (from RDP output files: \code{taxid}, \code{rank}, \code{lineage}, \code{name}, and one column of classification counts for each sample).
+If any sample has less than \code{mincount} total counts, that column is omitted from the result.
+The rows in the result are subset from those in \code{file} by filtering operations.
 
-  NB: taxids in RDP files are not NCBI taxids.
+NB: taxids in RDP files are not NCBI taxids.
 }
 
 \examples{

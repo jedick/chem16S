@@ -37,6 +37,12 @@ See \code{\link{calc_metrics}} for other available metrics.
 
 }
 
+\value{
+A data frame with one row for each sample, corresponding to columns 5 and above of \code{RDP}.
+The sample names are in the first column, which is named \code{Run} by default, or \code{group} if the \code{groups} argument is provided.
+The remaining columns have numeric values and are named for each of the calculated \code{metrics}.
+}
+
 \seealso{
 \code{\link{calc_metrics}}, \code{\link{plot_metrics}}
 }

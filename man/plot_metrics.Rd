@@ -56,7 +56,8 @@ The fill color is a semi-transparent version of the color given in \code{basecol
 }
 
 \value{
-A data frame with columns with study name and Run IDs (\samp{name}, \samp{Run}), plotting values (\samp{nH2O}, \samp{Zc}), and plotting symbols and colors (\samp{pch}, \samp{col}).
+For \code{plot_metrics}, a data frame with columns with study name and Run IDs (\samp{name}, \samp{Run}), plotting values (\samp{nH2O}, \samp{Zc}), and plotting symbols and colors (\samp{pch}, \samp{col}).
+For \code{add_hull}, no return value (called for side effects).
 }
 
 \references{

@@ -42,7 +42,7 @@ Calculate chemical metrics of community reference proteomes from taxonomic abund
 
 \code{ps_taxacounts} returns a data frame with lowest-level classifications (from genus to phylum) and abundances for each OTU in the \code{physeq} object.
 
-\code{ps_metrics} calculates chemical metrics of community reference proteomes from the lowest-level classifications after mapping to the RefSeq taxonomy with \code{\link{map_taxa}}.
+\code{ps_metrics} calculates chemical metrics of community reference proteomes from the lowest-level classifications after taxonomic mapping with \code{\link{map_taxa}}.
 To choose the metrics to calculate, use the \code{metrics} argument, which is passed via \code{...} to \code{\link{get_metrics}}.
 
 \code{plot_ps_metrics} plots individual chemical metrics or multiple chemical metrics, each in their own panel.
@@ -66,23 +66,27 @@ The author of this Rd file and the \code{ps_taxacounts} and \code{ps_metrics} fu
 }
 
 \examples{
-# Load the GlobalPatterns dataset from phyloseq
-data(GlobalPatterns, package = "phyloseq")
-\dontrun{
-# Get lowest-level (to genus) taxon for each OTU
-taxacounts <- ps_taxacounts(GlobalPatterns)
+# Example 1: Humboldt Sulfuretum (Fonseca et al., 2022)
+file <- system.file("extdata/DADA2/FEN+22/ps_FEN+22.rds", package = "chem16S")
+physeq <- readRDS(file)
+# Get lowest-level (to genus) classification for each OTU
+taxacounts <- ps_taxacounts(physeq)
 # Show numbers of assignments at each taxonomic level
 table(taxacounts$rank)
-# Map taxonomic names to GTDB taxonomy
+# Map taxonomic names
 map <- map_taxa(taxacounts)
-# Show most prevalent unmapped groups
-head(sort(table(attr(map, "unmapped_groups")), TRUE), 5)
-# Calculate chemical metrics with manual mapping to RefSeq
-ps_metrics(GlobalPatterns, refdb = "RefSeq")
-}
+# Taxonomy and reference proteomes are both from GTDB,
+# so there are no unmapped classifications
+sum(attr(map, "unmapped_percent")) # == 0
+# Calculate chemical metrics
+ps_metrics(physeq)
 
-# Plot metrics grouped by sample type and sorted by mean Zc
-p <- plot_ps_metrics(GlobalPatterns, x = "SampleType", sortby = "Zc")
+# Example 2: GlobalPatterns dataset from phyloseq
+data(GlobalPatterns, package = "phyloseq")
+# Plot metrics grouped by sample type and sorted by mean Zc;
+# refdb = "RefSeq" uses manual mappings from the RDP to NCBI taxonomy
+p <- plot_ps_metrics(GlobalPatterns, x = "SampleType",
+                     sortby = "Zc", refdb = "RefSeq")
 # Change orientation of x-axis labels
 p + ggplot2::theme(axis.text.x = ggplot2::element_text(
   angle = 45, vjust = 1, hjust = 1))

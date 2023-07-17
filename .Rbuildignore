@@ -1,3 +1,4 @@
 LICENSE
 .*.backup
 ^\.github$
+inst/extdata/.*.R$

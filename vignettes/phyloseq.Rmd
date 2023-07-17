@@ -23,8 +23,8 @@ H2O <- "H<sub>2</sub>O"
 O2 <- "O<sub>2</sub>"
 ```
 
-```{r setup, echo = FALSE}
-options(width = 80)
+```{r setup, include = FALSE}
+oldopt <- options(width = 80)
 # Use pngquant to optimize PNG images
 library(knitr)
 knit_hooks$set(pngquant = hook_pngquant)
@@ -149,7 +149,7 @@ map.silva <- map_taxa(tc.silva, refdb = "RefSeq")
 The messages show that one group was manually mapped, and the total mapping rate (including both automatic name matching and manual mapping) is `r round(100 - sum(attr(map.silva, "unmapped_percent")), 1)`%.
 
 Not let's analyze a `phyloseq-class` object that was made using the RDP training set.
-This results in a considerably higher mapping rate to the RefSeq taxonomy.
+This results in a considerably higher mapping rate to the NCBI taxonomy.
 
 ```{r map.RDP, collapse = TRUE}
 data(mouse.RDP)
@@ -175,7 +175,7 @@ AA.RDP <- ps_metrics(mouse.RDP, refdb = "RefSeq", quiet = TRUE, return_AA = TRUE
 head(AA.RDP)
 ```
 
-In this data frame, columns named `Run` and `chains` have the sample names and abundance-weighted numbers of reference proteomes -- that is, the total abundance of ASVs that have taxonomic classifications mapped to the RefSeq taxonomy -- that are used to compute the amino acid composition.
+In this data frame, columns named `Run` and `chains` have the sample names and abundance-weighted numbers of reference proteomes -- that is, the total abundance of ASVs that have taxonomic classifications mapped to the NCBI taxonomy -- that are used to compute the amino acid composition.
 We can use `calc_metrics()` to calculate the average protein length of each community reference proteome, then make a histogram:
 
 ```{r AA.RDP_length, fig.width = 7, fig.height = 5, fig.align = "center", pngquant = pngquant}
@@ -276,3 +276,7 @@ Beyond conventional diversity metrics used for microbiome analysis, visualizing 
 See the next vignette ([**Plotting two chemical metrics**](plotting.html)) for more examples.
 
 ## References
+
+```{r cleanup, include = FALSE}
+options(oldopt)
+```

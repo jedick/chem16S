@@ -1,4 +1,4 @@
-CHANGES IN chem16S 1.0.0 (2023-07-15)
+CHANGES IN chem16S 1.0.0 (2023-07-17)
 -------------------------------------
 
 - Add functions for integration with phyloseq: ps_taxacounts(), ps_metrics(),

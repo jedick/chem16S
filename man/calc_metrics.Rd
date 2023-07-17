@@ -71,7 +71,7 @@ The following metrics are available:
 }
 
 \value{
-A data frame with the same number of rows as \code{AAcomp} and one column for each of the \code{metrics}.
+A data frame with the same number of rows as \code{AAcomp} and one column of numeric values for each of the \code{metrics}.
 An error is produced if any of the \code{metrics} is not available for calculation.
 }
 

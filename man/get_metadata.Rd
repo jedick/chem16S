@@ -29,7 +29,9 @@ Ordering the samples is important because the columns in RDP Classifier output a
 }
 
 \value{
-  A list with two components: \code{metadata} and \code{metrics}.
+If \code{metrics} is NULL, a data frame read from \code{file} with columns \samp{pch} and \samp{col} appended.
+Otherwise, a list with two components, \code{metadata} and \code{metrics}.
+In this list, \code{metrics} is the value from the \code{metrics} argument and \code{metadata} is a data frame read from \code{file} with columns \samp{pch} and \samp{col} appended and excluding any rows that correspond to unavailable samples in \code{metrics}.
 }
 
 \examples{

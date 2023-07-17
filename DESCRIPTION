@@ -28,4 +28,4 @@ Description: Combines taxonomic classifications of high-throughput 16S rRNA
 Encoding: UTF-8
 License: GPL-3
 VignetteBuilder: knitr
-URL: https://github.com/jedick/chem16S
+URL: https://github.com/jedick/chem16S, https://doi.org/10.5281/zenodo.6793059

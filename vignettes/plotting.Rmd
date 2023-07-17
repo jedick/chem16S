@@ -37,8 +37,8 @@ Zc <- "<i>Z</i><sub>C</sub>"
 nH2O <- "<i>n</i><sub>H<sub>2</sub>O</sub>"
 ```
 
-```{r setup, echo = FALSE}
-options(width = 80)
+```{r setup, include = FALSE}
+oldopt <- options(width = 80)
 ## Use pngquant to optimize PNG images
 library(knitr)
 knit_hooks$set(pngquant = hook_pngquant)
@@ -300,7 +300,7 @@ This distinction suggests that the factors that influence elemental composition 
 
 ## Take-home messages
 
-* Unlike synthetic variables in ordination, chemical metrics are defined independently of the data and can be compared across datasets.
+* Chemical metrics are defined independently of the data and can be compared across datasets.
 * In some cases, covariation between `r Zc` and `r nH2O` suggests interactions between environmental variables.
   For instance, if lower redox potential is associated with greater organic matter content in sediments, this could drive a positive association between `r Zc` and `r nH2O`.
 * Variation of `r nH2O` may reflect the influence of diverse factors including salinity, organic matter content, and others.
@@ -309,3 +309,7 @@ This distinction suggests that the factors that influence elemental composition 
   More comprehensive tests of the prediction of a positive correlation between `r Zc` and redox potential at local and global scales have been reported by @DM23.
 
 ## References
+
+```{r cleanup, include = FALSE}
+options(oldopt)
+```
