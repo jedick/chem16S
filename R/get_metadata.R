@@ -49,7 +49,7 @@ get_metadata <- function(file, metrics = NULL) {
     # Insert sample column in metrics
     # Use first column name starting with "sample" or "Sample" 20210818
     sampcol <- grep("^sample", colnames(metadata), ignore.case = TRUE)[1]
-    metrics <- data.frame(Run = metrics$Run, sample = metadata[, sampcol], nH2O = metrics$nH2O, Zc = metrics$Zc)
+    metrics <- data.frame(Run = metrics[, 1], sample = metadata[, sampcol], metrics[, -1])
     list(metadata = metadata, metrics = metrics)
   }
 
