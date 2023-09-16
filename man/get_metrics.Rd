@@ -3,7 +3,7 @@
 \alias{get_metrics}
 \title{Calculate chemical metrics of community reference proteomes}
 \description{
-Combines RDP classifications with RefSeq reference proteomes to get amino acid compositions of community reference proteomes.
+Combines taxonomic classifications with reference proteomes for taxa to get amino acid compositions of community reference proteomes.
 Amino acid compositions are used to calculate chemical metrics.
 }
 
