@@ -2,3 +2,4 @@ LICENSE
 .*.backup
 ^\.github$
 inst/extdata/.*.R$
+CITATION.cff

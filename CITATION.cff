@@ -1,0 +1,28 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "Dick"
+  given-names: "Jeffrey M."
+  orcid: "https://orcid.org/0000-0002-0687-5890"
+title: "chem16S"
+version: 1.0.0
+doi: 10.5281/zenodo.6793059
+date-released: 2023-07-17
+url: "https://github.com/jedick/chem16S"
+preferred-citation:
+  type: article
+  authors:
+  - family-names: "Dick"
+    given-names: "Jeffrey M."
+    orcid: "https://orcid.org/0000-0002-0687-5890"
+  - family-names: "Kang"
+    given-names: "Xun"
+  doi: "10.1093/bioinformatics/btad564"
+  journal: "Bioinformatics"
+#  month: 9
+#  start: 1 # First page number
+#  end: 10 # Last page number
+  title: "chem16S: Community-level chemical metrics for exploring genomic adaptation to environments"
+#  issue: 1
+#  volume: 1
+  year: 2023

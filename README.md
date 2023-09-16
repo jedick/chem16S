@@ -10,8 +10,8 @@
 * See the [manual](https://chnosz.net/chem16S/manual) and vignettes: [Chemical metrics of reference proteomes for taxa](https://chnosz.net/chem16S/vignettes/metrics.html), [Integration of *chem16S* with *phyloseq*](https://chnosz.net/chem16S/vignettes/phyloseq.html), and [Plotting two chemical metrics](https://chnosz.net/chem16S/vignettes/plotting.html).
 
 Supported input formats:
-* [RDP Classifier](https://sourceforge.net/projects/rdp-classifier/)
 * `phyloseq-class` objects created using [*phyloseq*](https://doi.org/doi:10.18129/B9.bioc.phyloseq)
+* [RDP Classifier](https://sourceforge.net/projects/rdp-classifier/)
 
 Supported reference databases:
 
@@ -33,7 +33,7 @@ The sequence data analyzed for this plot is from [Herlemann et al. (2016)](https
 
 * Scripts in the [GTDB](inst/extdata/GTDB) and [RefSeq](inst/extdata/RefSeq) directories were used to generate the reference proteomes for genus- and higher-level archaeal and bacterial taxa (and viruses for RefSeq).
 
-* It is recommended to use a GTDB training set for taxonomic classification (see [*DADA2 formatted 16S rRNA gene sequences for both bacteria & archaea*](https://doi.org/10.5281/zenodo.6655692)) and automatic matching to GTDB reference proteomes.
+* It is recommended to use a GTDB training set for taxonomic classification (e.g. [*DADA2 formatted 16S rRNA gene sequences for both bacteria & archaea*](https://doi.org/10.5281/zenodo.6655692)) so that all taxonomic assignments can be matched to GTDB reference proteomes available in *chem16S*.
 
 * For taxonomic classifications made using the RDP training set, *chem16S* includes manual mappings to the NCBI taxonomy described by [Dick and Tan (2023)](https://doi.org/10.1007/s00248-022-01988-9).
 
