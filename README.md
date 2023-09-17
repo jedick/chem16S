@@ -26,7 +26,7 @@ For instance, an association of lower *n*<sub>H<sub>2</sub>O</sub> with higher s
 <!-- Default image is too big
 ![chem16S::plot_metrics example: Baltic Sea nH2O-Zc plot](inst/images/plot_metrics.png)
 -->
-<img src="inst/images/plot_metrics.png" alt="chem16S::plot_metrics example: Baltic Sea nH2O-Zc plot" width="500" />
+<img src="inst/images/plot_metrics.png" alt="Baltic Sea nH2O-Zc plot (example from chem16S::plot_metrics)" width="400" />
 
 PSU stands for practical salinity units.
 The sequence data analyzed for this plot was taken from [Herlemann et al. (2016)](https://doi.org/10.3389/fmicb.2016.01883) and the code to make this plot is available in the [help page for `chem16S::plot_metrics`](https://chnosz.net/chem16S/manual/plot_metrics.html).
