@@ -1,12 +1,12 @@
 ---
-title: "Chemical metrics of reference proteomes"
+title: "Chemical metrics of reference proteomes for taxa"
 author: "Jeffrey M. Dick"
 output:
   html_vignette:
     mathjax: null
     toc: true
 vignette: >
-  %\VignetteIndexEntry{Chemical metrics of reference proteomes}
+  %\VignetteIndexEntry{Chemical metrics of reference proteomes for taxa}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 bibliography: chem16S.bib
