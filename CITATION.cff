@@ -19,10 +19,9 @@ preferred-citation:
     given-names: "Xun"
   doi: "10.1093/bioinformatics/btad564"
   journal: "Bioinformatics"
-#  month: 9
-#  start: 1 # First page number
-#  end: 10 # Last page number
-  title: "chem16S: Community-level chemical metrics for exploring genomic adaptation to environments"
-#  issue: 1
-#  volume: 1
+  month: 9
+  start: btad564
+  title: "chem16S: community-level chemical metrics for exploring genomic adaptation to environments"
+  issue: 9
+  volume: 39
   year: 2023

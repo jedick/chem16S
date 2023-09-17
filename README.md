@@ -6,7 +6,7 @@
 
 #### *chem16S* processes taxonomic classifications of 16S rRNA gene sequences for a chemical representation of the genomic differences between communities.
 
-* Read the paper in *Bioinformatics*: [*chem16S*: Community-level chemical metrics for exploring genomic adaptation to environments](https://doi.org/10.1093/bioinformatics/btad564).
+* Read the paper in *Bioinformatics*: [*chem16S*: community-level chemical metrics for exploring genomic adaptation to environments](https://doi.org/10.1093/bioinformatics/btad564).
 
 * View the [manual](https://chnosz.net/chem16S/manual) and vignettes: [Chemical metrics of reference proteomes for taxa](https://chnosz.net/chem16S/vignettes/metrics.html), [Integration of *chem16S* with *phyloseq*](https://chnosz.net/chem16S/vignettes/phyloseq.html), and [Plotting two chemical metrics](https://chnosz.net/chem16S/vignettes/plotting.html).
 

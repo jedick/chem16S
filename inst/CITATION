@@ -1,13 +1,13 @@
 bibentry(bibtype = "Article",
-         title = "\\emph{chem16S}: Community-level chemical metrics for exploring genomic adaptation to environments",
+         title = "\\emph{chem16S}: community-level chemical metrics for exploring genomic adaptation to environments",
          author = c(
            person(given = c("Jeffrey", "M."), family = "Dick", email = "jeff@chnosz.net"),
            person(given = "Xun", family = "Kang", email = "xunkang@csu.edu.cn")
          ),
          journal = "Bioinformatics",
          year = "2023",
-         volume = "",
-         number = "",
-         pages = "",
+         volume = "39",
+         number = "9",
+         pages = "btad564",
          doi = "10.1093/bioinformatics/btad564"
 )

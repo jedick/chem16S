@@ -1,6 +1,6 @@
-Date: 2023-09-17
+Date: 2023-09-18
 Package: chem16S
-Version: 1.0.0-5
+Version: 1.0.0-6
 Title: Chemical Metrics of Community Reference Proteomes
 Authors@R: c(
     person("Jeffrey", "Dick", , "j3ffdick@gmail.com", role = c("aut", "cre"),
