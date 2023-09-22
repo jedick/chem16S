@@ -26,7 +26,7 @@ Only exactly matching names are automatically mapped.
 
 For mapping to the NCBI (RefSeq) taxonomy, some group names are manually mapped as follows (see Dick and Tan, 2023):
 \tabular{ll}{
-    \strong{Input (i.e., RDP)} \tab \strong{RefSeq} \cr
+    \strong{RDP training set} \tab \strong{NCBI} \cr
     genus_Escherichia/Shigella \tab genus_Escherichia \cr
     phylum_Cyanobacteria/Chloroplast \tab phylum_Cyanobacteria \cr
     genus_Marinimicrobia_genera_incertae_sedis \tab species_Candidatus Marinimicrobia bacterium \cr

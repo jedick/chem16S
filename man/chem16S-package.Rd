@@ -168,7 +168,7 @@ Bowen De León K, Gerlach R, Peyton BM, Fields MW. 2013. Archaeal and bacterial 
 
 Callahan B. 2020. DADA2 Pipeline Tutorial (1.16). \url{https://benjjneb.github.io/dada2/tutorial.html}, accessed on 2023-06-14.
 
-Dick JM, Meng D. 2023. Community- and genome-based evidence for a shaping influence of redox potential on bacterial protein evolution. \emph{mSystems}. \doi{10.1128/msystems.00014-23}
+Dick JM, Meng D. 2023. Community- and genome-based evidence for a shaping influence of redox potential on bacterial protein evolution. \emph{mSystems} \bold{8}(3): e00014-23. \doi{10.1128/msystems.00014-23}
 
 Dick JM, Tan J. 2023. Chemical links between redox conditions and estimated community proteomes from 16S rRNA and reference protein sequences. \emph{Microbial Ecology} \bold{85}: 1338--1355. \doi{10.1007/s00248-022-01988-9}
 

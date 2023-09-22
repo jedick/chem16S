@@ -1,5 +1,5 @@
 <!-- badges: start -->
-[![CRAN](https://www.r-pkg.org/badges/version/chem16S)](https://cran.r-project.org/package=chem16S)
+[![CRAN](https://img.shields.io/badge/dynamic/yaml?url=https%3A%2F%2Fcran.r-project.org%2Fweb%2Fpackages%2Fchem16S%2FDESCRIPTION&query=%24.Version&logo=r&label=CRAN&color=4bc51e)](https://cran.r-project.org/package=chem16S)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6793059.svg)](https://doi.org/10.5281/zenodo.6793059)
 [![R-CMD-check](https://github.com/jedick/chem16S/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/jedick/chem16S/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
@@ -19,7 +19,7 @@ Supported reference databases:
 * [Genome Taxonomy Database](https://gtdb.ecogenomic.org/) (GTDB release 207)
 * [NCBI Reference Sequence Database](https://www.ncbi.nlm.nih.gov/refseq/) (RefSeq release 206)
 
-The *chem16S* R package combines taxonomic classifications of high-throughput 16S rRNA gene sequences with precomputed amino acid compositions of reference proteomes for archaea and bacteria to generate the amino acid compositions of **community reference proteomes**.
+The *chem16S* R package combines taxonomic classifications of high-throughput 16S rRNA gene sequences with precomputed amino acid compositions of reference proteomes for archaea and bacteria to obtain the amino acid compositions of **community reference proteomes**.
 Chemical metrics of community reference proteomes such as **carbon oxidation state** (*Z*<sub>C</sub>) and **stoichiometric hydration state** (*n*<sub>H<sub>2</sub>O</sub>) reveal new ways that microbial genomes are adapted to environmental conditions.
 For instance, an association of lower *n*<sub>H<sub>2</sub>O</sub> with higher salinity in the Baltic Sea suggests a genomically encoded dehydration trend:
 
@@ -33,7 +33,7 @@ The sequence data analyzed for this plot was taken from [Herlemann et al. (2016)
 
 ### Methods
 
-* Scripts in the [GTDB](inst/extdata/GTDB) and [RefSeq](inst/extdata/RefSeq) directories were used to generate the reference proteomes for genus- and higher-level archaeal and bacterial taxa (and viruses for RefSeq).
+* Scripts in the [GTDB](inst/extdata/GTDB) and [RefSeq](inst/extdata/RefSeq) directories were used to generate reference proteomes for genus- and higher-level archaeal and bacterial taxa (and viruses for RefSeq).
 
 * It is recommended to use a GTDB training set for taxonomic classification (e.g. [*DADA2 formatted 16S rRNA gene sequences for both bacteria & archaea*](https://doi.org/10.5281/zenodo.6655692)) so that taxonomic assignments can be automatically matched to GTDB reference proteomes available in *chem16S*.
 
