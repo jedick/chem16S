@@ -11,9 +11,7 @@ get_metrics <- function(RDP = NULL, map = NULL, refdb = "GTDB", taxon_AA = NULL,
   map <- na.omit(map)
   if(length(map) == 0) stop(paste("no available mappings to taxa in", refdb, "reference database"))
 
-  # Get amino acid compositions of taxa compiled from:
-  #   - RefSeq (no longer using precompiled metrics in taxon_metrics.csv 20220108) or
-  #   - GTDB 20221016
+  # Get amino acid compositions of taxa compiled from RefSeq or GTDB
   AApath <- file.path("extdata", refdb, "taxon_AA.csv.xz")
   AAfile <- system.file(AApath, package = "chem16S")
   if(is.null(taxon_AA)) taxon_AA <- read.csv(AAfile, as.is = TRUE)

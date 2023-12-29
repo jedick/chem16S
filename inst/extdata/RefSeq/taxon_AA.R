@@ -1,7 +1,7 @@
 # chem16S/RefSeq/taxon_AA.R
 
 # Functions to generate amino acid compositions and chemical metrics of
-# higher-level taxa from RefSeq species-level reference proteomes (protein_refseq.R)
+# higher-level taxa from RefSeq species-level reference proteomes
 
 # Notes moved from README.md on 20230708
 #* Only taxids classified at the species level are used, and archaeal and bacterial species with less than 500 reference protein sequences are excluded;
@@ -11,15 +11,13 @@
 
 # Calculate amino acid composition of taxonomic groups at genus and higher ranks --> taxon_AA.csv
 # taxon_AA()       
-# Calculate chemical metrics (nH2O, Zc) for each RefSeq group --> taxon_metrics.csv
-# taxon_metrics()         
 
 # Calculate average amino acid composition of genus and higher ranks in RefSeq 20200911
 taxon_AA <- function(ranks = c("genus", "family", "order", "class", "phylum", "superkingdom")) {
 
   # Read RefSeq amino acid compositions and taxon names
-  refseq <- read.csv(system.file("extdata/RefSeq/protein_refseq.csv.xz", package = "JMDplots"), as.is = TRUE)
-  taxa <- read.csv(system.file("extdata/RefSeq/taxon_names.csv.xz", package = "chem16S"), as.is = TRUE)
+  refseq <- read.csv(system.file("extdata/RefSeq/genome_AA.csv.xz", package = "JMDplots"), as.is = TRUE)
+  taxa <- read.csv(system.file("extdata/RefSeq/taxonomy.csv.xz", package = "chem16S"), as.is = TRUE)
   # Make sure the data tables have consistent taxids
   stopifnot(all(refseq$organism == taxa$taxid))
   # Keep taxids classified at species level 20220104
@@ -111,34 +109,3 @@ taxon_AA <- function(ranks = c("genus", "family", "order", "class", "phylum", "s
   out$abbrv[is.na(out$abbrv)] <- ""
   write.csv(out, "taxon_AA.csv", row.names = FALSE, quote = FALSE)
 }
-
-# Compute chemical metrics for each RefSeq group 20200927
-taxon_metrics <- function() {
-  # Read amino acid compositions of all groups
-  AA <- read.csv("taxon_AA.csv", as.is = TRUE)
-  # Build output data frame; rename columns for better readability
-  out <- data.frame(rank = AA$protein, group = AA$organism, ntaxa = AA$ref, parent = AA$abbrv, nH2O = NA, Zc = NA, nC = NA)
-  # Calculate metrics
-  out$nH2O <- round(canprot::nH2O(AA), 6)
-  out$Zc <- round(canprot::Zc(AA), 6)
-  out$nC <- round(CAA(AA), 6)
-  write.csv(out, "taxon_metrics.csv", row.names = FALSE, quote = FALSE)
-}
-
-# Function used in taxon_metrics() to calculate number of carbon atoms in amino acid compositions 20200927
-CAA <- function(AAcomp) {
-  # the number of carbons of the amino acids
-  nC_AA <- c(Ala = 3, Cys = 3, Asp = 4, Glu = 5, Phe = 9, Gly = 2, His = 6, 
-    Ile = 6, Lys = 6, Leu = 6, Met = 5, Asn = 4, Pro = 5, Gln = 5, 
-    Arg = 6, Ser = 3, Thr = 4, Val = 5, Trp = 11, Tyr = 9)
-  # find columns with names for the amino acids
-  isAA <- colnames(AAcomp) %in% c("Ala", "Cys", "Asp", "Glu", "Phe", "Gly", "His", "Ile", "Lys", 
-    "Leu", "Met", "Asn", "Pro", "Gln", "Arg", "Ser", "Thr", "Val", "Trp", "Tyr")
-  iAA <- match(colnames(AAcomp)[isAA], names(nC_AA))
-  # calculate the nC for all occurrences of each amino acid
-  multC <- t(t(AAcomp[, isAA]) * nC_AA[iAA])
-  # calculate the total nC, then the per-residue nC
-  nCtot <- rowSums(multC)
-  nCtot / rowSums(AAcomp[, isAA])
-}
-al

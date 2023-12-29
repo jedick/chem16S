@@ -1,4 +1,4 @@
-# chem16S/RefSeq/protein_refseq.R
+# chem16S/RefSeq/genome_AA.R
 # Calculate the overall amino acid composition of proteins for each taxid in RefSeq
 # 20100704 First version
 # 20130922 Deal with WP multispecies accessions (RefSeq 61)
@@ -152,7 +152,7 @@ read.allfiles <- function() {
   #invisible(aalist)
 }
 
-protein.refseq <- function() {
+genome_AA <- function() {
   # List all files in "csv" directory
   files <- file.path("csv", dir("csv"))
   # Read the CSV files into a single list
@@ -173,6 +173,6 @@ protein.refseq <- function() {
   aaall <- cbind(aadat[, 1:4], aasum)
   aaall$ref <- aaref
   # Save the result
-  write.csv(aaall, "protein_refseq.csv", row.names = FALSE, quote = 3)
+  write.csv(aaall, "genome_AA.csv", row.names = FALSE, quote = 3)
   invisible(aaall)
 }

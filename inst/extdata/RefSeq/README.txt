@@ -1,14 +1,21 @@
+# Run R scripts to produce output files in this order:
+# 1. genome_AA.R --> genome_AA.csv (hosted in https://github.com/jedick/JMDplots because of its size)
+# 2. taxonomy.R  --> taxonomy.csv (mirrored in https://github.com/jedick/JMDplots)
+# 3. taxon_AA.R  --> taxon_AA.csv
+
+### Details for steps 1 and 2 ###
+
 # This document describes steps for processing the 
 # RefSeq database (release 206, 2021-05-21) to produce these files:
 
-protein_refseq.csv: total amino acid composition of all proteins for
+genome_AA.csv: total amino acid composition of all proteins for
   bacteria, archaea, and viral genomes in the RefSeq collection (n = 49448)
-taxon_names.csv: taxid, phylum name and species name for 49448 taxa
+taxonomy.csv: taxid, phylum name and species name for 49448 taxa
 
 # These functions/scripts have the following purpose (output files listed in parentheses):
 gencat.sh - extract accession, taxid, sequence length from RefSeq release catalog (accession.taxid.txt)
-protein_refseq.R - get average amino acid composition for each taxid from gzipped sequence files (protein_refseq.csv)
-taxon_names.R - get taxonomic names for each taxid represented (taxon_names.csv)
+genome_AA.R - get average amino acid composition for each taxid from gzipped sequence files (genome_AA.csv)
+taxonomy.R - get taxonomic names for each taxid represented (taxonomy.csv)
 
 ## Download stuff
 
@@ -35,20 +42,20 @@ wget -N -i urllist
 6. Use 'gencat.sh' to generate accession.taxid.txt for bacteria, archaea, and viral proteins in the catalog [11 minutes]
    for RefSeq 206, 'wc -l accession.taxid.txt' is 169527530
 
-7. Generate protein_refseq.csv
+7. Generate genome_AA.csv
    mkdir csv
    Then, run these R commands in the working directory that contains accession.taxid.txt, protein/, and csv/
-   > source("protein_refseq.R")
+   > source("genome_AA.R")
    > read.allfiles()    # ca. 19 hours (8 cores)
-   > protein.refseq()   # 5 minutes
+   > genome_AA()        # 5 minutes
 
 ## Taxonomy stuff
 
-8. Edit 'taxon_names.R' so that 'taxdir' points to the directory where the files
+8. Edit 'taxonomy.R' so that 'taxdir' points to the directory where the files
     'names.dmp' and 'nodes.dmp' are present. These files can be downloaded from
     https://ftp.ncbi.nih.gov/pub/taxonomy/taxdump.tar.gz
 
     File info on server (accessed on 2021-05-21):
     taxdump.tar.gz            2021-05-21 21:27   53M
 
-9. Source 'taxon_names.R' to generate the file 'taxon_names.csv' [8 hours]
+9. Source 'taxonomy.R' to generate the file 'taxonomy.csv' [8 hours]

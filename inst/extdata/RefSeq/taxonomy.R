@@ -8,8 +8,8 @@ require(CHNOSZ)
 # Change this to the location where names.dmp and nodes.dmp are located
 taxdir <- "./taxdump"
 
-# Get the taxids from protein_refseq.csv
-pr <- read.csv("protein_refseq.csv")
+# Get the taxids from genome_AA.csv
+pr <- read.csv("genome_AA.csv")
 taxid <- pr$organism
 
 # Read in the names and nodes
@@ -56,4 +56,4 @@ cat("done!\n")
 # Write results to a file
 out <- as.data.frame(out)
 out <- cbind(data.frame(taxid = taxid[ii], out))
-write.csv(out, "taxon_names.csv", row.names = FALSE, quote = FALSE)
+write.csv(out, "taxonomy.csv", row.names = FALSE, quote = FALSE)

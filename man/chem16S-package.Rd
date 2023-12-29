@@ -64,20 +64,19 @@ History:
 
     \item{\file{README.txt}}{Description of steps to generate reference proteomes of species-level taxa (including downloads and shell commands).}
     \item{\file{gencat.sh}}{Helper script to extract microbial protein records from the RefSeq catalog.}
-    \item{\file{protein_refseq.R}}{
+    \item{\file{genome_AA.R}}{
       R code to sum the amino acid compositions of all proteins for each bacterial, archaeal, and viral species in the NCBI Reference Sequence database.
-      NOTE: To save space, the output file (\file{protein_refseq.csv}) is not stored here but is in the \code{extdata/RefSeq} directory of the JMDplots package on GitHub (\url{https://github.com/jedick/JMDplots}.
+      NOTE: To save space in this package, the output file (\file{genome_AA.csv}) is stored in the \code{extdata/RefSeq} directory of the JMDplots package on GitHub (\url{https://github.com/jedick/JMDplots}.
       The first five columns are: \code{protein} (\dQuote{refseq}), \code{organism} (taxonomic id), \code{ref} (organism name), \code{abbrv} (empty), \code{chains} (number of protein sequences for this organism).
       Columns 6 to 25 have the counts of amino acids.
     }
-    \item{\file{taxon_names.R}}{
-      R code for processing taxonomic IDs; the output file is \file{taxon_names.csv}.
+    \item{\file{taxonomy.R}}{
+      R code for processing taxonomic IDs; the output file is \file{taxonomy.csv}.
       The columns are NCBI taxonomic ID (taxid), and names at different taxonomic rank (species, genus, family, order, class, phylum, superkingdom).
     }
 
     \item{\file{taxon_AA.R}}{Functions to create the files listed below:}
     \item{\file{taxon_AA.csv.xz}}{Average amino acid composition of reference proteomes for all species in each genus, family, order, class, phylum, and superkingdom.}
-    \item{\file{taxon_metrics.csv.xz}}{Selected chemical metrics (\Zc and \nH2O) of reference proteomes for taxa at genus and higher ranks.}
 
   }
 
@@ -180,7 +179,7 @@ O'Leary NA et al. 2016. Reference sequence (RefSeq) database at NCBI: current st
 
 Parks DH, Chuvochina M, Rinke C, Mussig AJ, Chaumeil P-A, Hugenholtz P. 2022. GTDB: an ongoing census of bacterial and archaeal diversity through a phylogenetically consistent, rank normalized and complete genome-based taxonomy. \emph{Nucleic Acids Research} \bold{50}: D785--D794. \doi{10.1093/nar/gkab776}
 
-Swingley WD, Meyer-Dombard DR, Shock EL, Alsop EB, Falenski HD, Havig JR, Raymond J. 2012. Coordinating environmental genomics and geochemistry reveals metabolic transitions in a hot spring ecosystem. \emph{PLOS One} \bold{7}(6): e38108. \doi{doi.org/10.1371/journal.pone.0038108}
+Swingley WD, Meyer-Dombard DR, Shock EL, Alsop EB, Falenski HD, Havig JR, Raymond J. 2012. Coordinating environmental genomics and geochemistry reveals metabolic transitions in a hot spring ecosystem. \emph{PLOS One} \bold{7}(6): e38108. \doi{10.1371/journal.pone.0038108}
 
 Zhang H-S, Feng Q-D, Zhang D-Y, Zhu G-L, Yang L. 2023. Bacterial community structure in geothermal springs on the northern edge of Qinghai-Tibet plateau. \emph{Frontiers in Microbiology} \bold{13}: 994179. \doi{10.3389/fmicb.2022.994179}
 
