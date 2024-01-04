@@ -1,5 +1,8 @@
-CHANGES IN chem16S 1.0.0-1 (2023-07-23)
--------------------------------------
+CHANGES IN chem16S 1.0.0-10 (2023-12-29)
+----------------------------------------
+
+- Normalize file names in extdata/RefSeq and extdata/GTDB for easier
+  programmatic access.
 
 - Add 'xvar' and 'yvar' arguments to plot_metrics().
 

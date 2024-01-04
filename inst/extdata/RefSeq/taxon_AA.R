@@ -108,4 +108,5 @@ taxon_AA <- function(ranks = c("genus", "family", "order", "class", "phylum", "s
   # Replace NA parent with ""
   out$abbrv[is.na(out$abbrv)] <- ""
   write.csv(out, "taxon_AA.csv", row.names = FALSE, quote = FALSE)
+
 }

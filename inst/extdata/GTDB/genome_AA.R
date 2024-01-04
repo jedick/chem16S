@@ -23,6 +23,10 @@ genome_AA <- function() {
   genome <- unlist(strsplit(basename(files[ifile]), "_protein.faa"))
   aa$organism <- genome
 
+  # Put in species names 20240104
+  taxonomy <- read.csv("taxonomy.csv")
+  aa$ref <- taxonomy$species
+
   # Save result
   write.csv(aa, "genome_AA.csv", row.names = FALSE, quote = FALSE)
 

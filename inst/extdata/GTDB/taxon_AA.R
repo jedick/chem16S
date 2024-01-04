@@ -2,15 +2,15 @@
 taxon_AA <- function() {
 
   # Read the summed amino acid compositions of all proteins for each genome
-  genaa <- read.csv("genome_AA.csv.xz")
+  genome_AA <- read.csv("genome_AA.csv.xz")
   # Read the taxonomy 20231229
   taxonomy <- read.csv("taxonomy.csv")
   # Keep only genomes with at least 500 proteins
-  i500 <- genaa$chains >= 500
-  genaa <- genaa[i500, ]
+  i500 <- genome_AA$chains >= 500
+  genome_AA <- genome_AA[i500, ]
   taxonomy <- taxonomy[i500, ]
   # Normalize by number of proteins
-  genaa[, 5:25] <- genaa[, 5:25] / genaa$chains
+  genome_AA[, 5:25] <- genome_AA[, 5:25] / genome_AA$chains
 
   # Loop over taxonomic ranks
   ranks <- c("domain", "phylum", "class", "order", "family", "genus")
@@ -30,7 +30,7 @@ taxon_AA <- function() {
     for(i in 1:length(utaxa)) {
       # Sum amino acid compositions for all genomes in this taxon
       itaxa <- taxa == utaxa[i]
-      aa[i, 5:25] <- aasum(genaa[itaxa, ])[, 5:25]
+      aa[i, 5:25] <- aasum(genome_AA[itaxa, ])[, 5:25]
     }
     # Normalize by number of genomes (put the number in 'ref' column)
     aa$ref <- aa$chains
