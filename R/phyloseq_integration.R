@@ -29,9 +29,14 @@ ps_taxacounts <- function(physeq, split = TRUE) {
   # Initialize taxid (OTU name), lineage, name, and rank columns
   taxid <- rownames(taxacounts)
   taxacounts <- cbind(taxid, lineage = NA, name = NA, rank = NA, taxacounts)
+  # Get ranks from column names of taxonomic table 20240121
+  ps_ranks <- phyloseq::rank_names(physeq)
+  # Allow Domain or Kingdom, and exclude Species
+  allowed_ranks <- c("Domain", "Kingdom", "Phylum", "Class", "Order", "Family", "Genus")
+  ranks <- intersect(ps_ranks, allowed_ranks)
   # Loop over taxonomic ranks
-  for(rank in c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus")) {
-    # Get classifications at this rank
+  for(rank in ranks) {
+    # Get classifications for this rank
     names <- as.vector(taxtable[, rank])
     # Insert non-NA classifications into data frame
     is.classified <- !is.na(names)
@@ -46,8 +51,8 @@ ps_taxacounts <- function(physeq, split = TRUE) {
     taxacounts$lineage[ichl] <- paste(taxacounts$lineage[ichl], names[ichl], sep = ";")
   }
 
-  # Exclude domain (kingdom)-level classifications 20230618
-  taxacounts <- taxacounts[taxacounts$rank != "kingdom", ]
+  # Exclude domain/kingdom-level classifications 20230618
+  taxacounts <- taxacounts[! taxacounts$rank %in% c("domain", "kingdom"), ]
   # Exclude NA classifications 20230625
   taxacounts <- taxacounts[!is.na(taxacounts$lineage), ]
 
