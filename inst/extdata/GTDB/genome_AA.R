@@ -13,9 +13,9 @@ genome_AA <- function() {
     # Print progress message
     if(i %% 100 == 0) print(i)
     # Read amino acid composition 
-    aa <- suppressMessages(read.fasta(files[i]))
+    aa <- suppressMessages(canprot::read.fasta(files[i]))
     # Sum amino acid composition
-    aasum(aa)
+    canprot::aasum(aa)
   })
   aa <- do.call(rbind, aa)
 

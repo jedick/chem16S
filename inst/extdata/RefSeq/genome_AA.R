@@ -8,9 +8,9 @@
 # - After parallel reading, combine composition tables
 
 # This script depends on system "join" command
-# CHNOSZ is needed for read.fasta
-library(CHNOSZ)
-# Set maxcores to 1 here (for read.fasta) -- we will parallelize across files
+# canprot is needed for read.fasta
+library(canprot)
+# Set maxcores to 1 here -- we will parallelize across files
 thermo("opt$maxcores" = 1)
 library(parallel)
 
@@ -132,7 +132,7 @@ read.allfiles <- function() {
   cl <- makeCluster(getOption("cl.cores", 8), outfile = "")
   # Set up R environment (would not be needed with FORK cluster)
   clusterExport(cl, c("read.file", "aadat"))
-  clusterEvalQ(cl, suppressMessages(library(CHNOSZ)))
+  clusterEvalQ(cl, suppressMessages(library(canprot)))
 
   ## For debugging: https://stackoverflow.com/questions/16895848/results-of-workers-not-returned-properly-snow-debug
   #workerfun <- function(i) {
@@ -160,7 +160,7 @@ genome_AA <- function() {
   # Extract the numeric parts of the data frames to be added
   aamat <- lapply(aalist, function(x) x[, 5:25])
   # Add together the amino acid compositions from all files
-  aasum <- Reduce("+", aamat)
+  sumaa <- Reduce("+", aamat)
   # Combine the organism names from all the files
   aaref <- sapply(aalist, function(x) x$ref)
   # Prepend an all-"" column first so that "" always appears first in unique()
@@ -170,7 +170,7 @@ genome_AA <- function() {
   # Remove the leading ;
   aaref <- gsub("^;", "", aaref)
   # Make a combined data frame
-  aaall <- cbind(aadat[, 1:4], aasum)
+  aaall <- cbind(aadat[, 1:4], sumaa)
   aaall$ref <- aaref
   # Save the result
   write.csv(aaall, "genome_AA.csv", row.names = FALSE, quote = 3)

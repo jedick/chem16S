@@ -11,13 +11,15 @@ export(
   # 20230617
   "plot_ps_metrics2",
   # 20230704
-  "calc_metrics", "chemlab"
+  "chemlab"
 )
 
 importFrom("stats", "aggregate", "na.omit")
 importFrom("utils", "read.csv", "read.table", "tail", "modifyList")
 importFrom("grDevices", "chull", "col2rgb", "rgb")
 importFrom("graphics", "box", "lines", "par", "polygon")
+# Functions moved to canprot 20240302
+importFrom("canprot", "calc.metrics")
 
 # Integration with phyloseq 20230608
 # Moved phyloseq to Suggests 20230619
