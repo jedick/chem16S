@@ -26,7 +26,7 @@ If \code{varname} is not among the chemical metrics described in \code{\link[can
 }
 
 \seealso{
-This function is used by \code{\link{plot_metrics}}, \code{\link{plot_ps_metrics}}, and \code{\link{plot_ps_metrics2}}.
+\code{\link[canprot]{cplab}}
 }
 
 \examples{

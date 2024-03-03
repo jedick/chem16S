@@ -8,6 +8,8 @@ CHANGES IN chem16S 1.0.0-12 (2024-02-28)
 
 - Add 'Domain' as an allowed rank in ps_taxacounts().
 
+- Move calc_metrics() to canprot::calc.metrics().
+
 CHANGES IN chem16S 1.0.0 (2023-07-17)
 -------------------------------------
 
