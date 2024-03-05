@@ -198,13 +198,13 @@ Besides `r Zc` and `r nH2O`, **chem16S** can calculate elemental ratios (H/C, N/
 
 ```{r other_metrics, fig.width = 8, fig.height = 5, fig.align = "center", pngquant = pngquant}
 AAcomp <- taxon_AA[match(classes, taxon_AA$organism), ]
-metrics <- canprot::calc.metrics(AAcomp, c("H_C", "O_C", "N_C", "S_C", "GRAVY", "pI", "MW", "Length"))
+metrics <- canprot::calc.metrics(AAcomp, c("HC", "OC", "NC", "SC", "GRAVY", "pI", "MW", "plength"))
 layout(rbind(c(1, 2, 5), c(3, 4, 5)), widths = c(2, 2, 1.5))
 opar <- par(mar = c(4.5, 4, 1, 1), cex = 1)
-plot(metrics$O_C, metrics$H_C, col = 1:10, pch = 1:10, xlab = "O/C", ylab = "H/C")
-plot(metrics$N_C, metrics$S_C, col = 1:10, pch = 1:10, xlab = "N/C", ylab = "S/C")
+plot(metrics$OC, metrics$HC, col = 1:10, pch = 1:10, xlab = "O/C", ylab = "H/C")
+plot(metrics$NC, metrics$SC, col = 1:10, pch = 1:10, xlab = "N/C", ylab = "S/C")
 plot(metrics$pI, metrics$GRAVY, col = 1:10, pch = 1:10, xlab = "pI", ylab = "GRAVY")
-plot(metrics$Length, metrics$MW, col = 1:10, pch = 1:10, xlab = "Length", ylab = "MW")
+plot(metrics$plength, metrics$MW, col = 1:10, pch = 1:10, xlab = "Length", ylab = "MW")
 plot.new()
 legend("right", classes, col = 1:10, pch = 1:10, bty = "n", xpd = NA)
 par(opar)

@@ -53,6 +53,7 @@ get_metrics <- function(RDP = NULL, map = NULL, refdb = "GTDB", taxon_AA = NULL,
   } else {
     # Calculate chemical metrics from amino acid composition
     metrics_values <- calc.metrics(AAcomp, metrics)
+    colnames(metrics_values) <- metrics
     # Create output data frame
     out <- cbind(samplecols, metrics_values)
   }
