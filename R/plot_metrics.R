@@ -78,15 +78,3 @@ plot_metrics <- function(mdat,
   invisible(out)
 
 }
-
-# Add convex hulls 20200923
-add_hull <- function(x, y, basecol, outline = FALSE, ...) {
-  i <- chull(x, y)
-  r <- as.numeric(col2rgb(basecol))
-  if(outline) {
-    polygon(x[i], y[i], col = NA, border = basecol, ...)
-  } else {
-    col <- rgb(r[1], r[2], r[3], 80, maxColorValue = 255)
-    polygon(x[i], y[i], col = col, border = NA, ...)
-  }
-}

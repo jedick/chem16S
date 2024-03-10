@@ -22,7 +22,9 @@ legend("bottomright", legend, pch = pch, col = 1, pt.bg = pt.bg, bg = "white")
 ilo <- mdat$metadata$salinity < 6
 ihi <- mdat$metadata$salinity > 20
 # Add convex hulls
-add_hull(pm$Zc[ilo], pm$nH2O[ilo], "green3")
-add_hull(pm$Zc[ihi], pm$nH2O[ihi], "blue")
+canprot::add.hull(pm$Zc[ilo], pm$nH2O[ilo],
+  col = adjustcolor("green3", alpha.f = 0.3), border = NA)
+canprot::add.hull(pm$Zc[ihi], pm$nH2O[ihi],
+  col = adjustcolor("blue", alpha.f = 0.3), border = NA)
 
 savePlot("plot_metrics.png")
