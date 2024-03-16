@@ -8,7 +8,7 @@
 # - After parallel reading, combine composition tables
 
 # This script depends on system "join" command
-# canprot is needed for read.fasta
+# canprot is needed for read_fasta
 library(canprot)
 # Set maxcores to 1 here -- we will parallelize across files
 thermo("opt$maxcores" = 1)
@@ -48,7 +48,7 @@ read.file <- function(file) {
   lines <- readLines(file)
   ihead <- grep("^>", lines)
   # Get the amino acid compositions from the file
-  aa <- suppressMessages(read.fasta(file = "", lines = lines, ihead = ihead))
+  aa <- suppressMessages(read_fasta(file = "", lines = lines, ihead = ihead))
   # Sort the data by accession (needed for join command)
   accord <- order(aa$protein)
   ihead <- ihead[accord]

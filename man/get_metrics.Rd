@@ -31,7 +31,7 @@ The community reference proteome is computed from the amino acid compositions of
 \code{map} defines the taxonomic mapping between \code{RDP} and \code{refdb}.
 Then, chemical metrics are calculated from the amino acid composition of the community reference proteome.
 The default chemical metrics are carbon oxidation state (\Zc), stoichiometric oxidation state (\nO2), and stoichiometric hydration state (\nH2O).
-See \code{\link[canprot]{calc.metrics}} for other available metrics.
+See \code{\link[canprot]{calc_metrics}} for other available metrics.
 
 \code{groups}, if given, is a list of one or more indexing vectors (with logical or numeric values) corresponding to samples whose taxonomic classifications are aggregated into groups before calculating amino acid compositions and chemical metrics.
 
@@ -44,7 +44,7 @@ The remaining columns have numeric values and are named for each of the calculat
 }
 
 \seealso{
-\code{\link[canprot]{calc.metrics}}, \code{\link{plot_metrics}}
+\code{\link[canprot]{calc_metrics}}, \code{\link{plot_metrics}}
 }
 
 \examples{

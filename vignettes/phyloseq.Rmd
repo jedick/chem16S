@@ -176,10 +176,10 @@ head(AA.RDP)
 ```
 
 In this data frame, columns named `Run` and `chains` have the sample names and abundance-weighted numbers of reference proteomes -- that is, the total abundance of ASVs that have taxonomic classifications mapped to the NCBI taxonomy -- that are used to compute the amino acid composition.
-We can use `canprot::calc.metrics()` to calculate the average protein length of each community reference proteome, then make a histogram:
+We can use `canprot::calc_metrics()` to calculate the average protein length of each community reference proteome, then make a histogram:
 
 ```{r AA.RDP_length, fig.width = 7, fig.height = 5, fig.align = "center", pngquant = pngquant}
-lengths <- canprot::calc.metrics(AA.RDP, "length")[, 1]
+lengths <- canprot::calc_metrics(AA.RDP, "length")[, 1]
 hist(lengths)
 imin <- which.min(lengths)
 text(lengths[imin], 1.5, AA.RDP$Run[imin], adj = 1)

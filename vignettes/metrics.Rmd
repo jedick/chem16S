@@ -72,7 +72,7 @@ table(ranks)[unique(ranks)]
 * Calculate `r Zc`.
 * Make boxplots for the taxa at each rank.
 ```{r Zc_boxplot, fig.width = 5, fig.height = 5, fig.align = "center", pngquant = pngquant}
-taxon_Zc <- canprot::calc.metrics(taxon_AA, "Zc")[, 1]
+taxon_Zc <- canprot::calc_metrics(taxon_AA, "Zc")[, 1]
 Zc_list <- sapply( unique(ranks), function(rank) taxon_Zc[ranks == rank] )
 opar <- par(mar = c(4, 7, 1, 1))
 boxplot(Zc_list, horizontal = TRUE, las = 1, xlab = chemlab("Zc"))
@@ -143,7 +143,7 @@ par(opar)
 As above, but calculate `r nH2O` instead of `r Zc`.
 
 ```{r class_nH2O, fig.width = 10, fig.height = 5, fig.align = "center", pngquant = pngquant}
-taxon_nH2O <- canprot::calc.metrics(taxon_AA, "nH2O")[, 1]
+taxon_nH2O <- canprot::calc_metrics(taxon_AA, "nH2O")[, 1]
 get_nH2O <- function(genera) na.omit(taxon_nH2O[match(genera, taxon_AA$organism)])
 
 opar <- par(mfrow = c(1, 2), mar = c(4, 10, 1, 1))
@@ -198,7 +198,7 @@ Besides `r Zc` and `r nH2O`, **chem16S** can calculate elemental ratios (H/C, N/
 
 ```{r other_metrics, fig.width = 8, fig.height = 5, fig.align = "center", pngquant = pngquant}
 AAcomp <- taxon_AA[match(classes, taxon_AA$organism), ]
-metrics <- canprot::calc.metrics(AAcomp, c("HC", "OC", "NC", "SC", "GRAVY", "pI", "MW", "plength"))
+metrics <- canprot::calc_metrics(AAcomp, c("HC", "OC", "NC", "SC", "GRAVY", "pI", "MW", "plength"))
 layout(rbind(c(1, 2, 5), c(3, 4, 5)), widths = c(2, 2, 1.5))
 opar <- par(mar = c(4.5, 4, 1, 1), cex = 1)
 plot(metrics$OC, metrics$HC, col = 1:10, pch = 1:10, xlab = "O/C", ylab = "H/C")

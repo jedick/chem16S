@@ -18,7 +18,7 @@ importFrom("utils", "read.csv", "read.table", "tail", "modifyList")
 importFrom("grDevices", "chull", "col2rgb", "rgb")
 importFrom("graphics", "box", "lines", "par", "polygon")
 # calc_metrics() moved to canprot 20240302
-importFrom("canprot", "calc.metrics", "cplab")
+importFrom("canprot", "calc_metrics", "cplab")
 
 # Integration with phyloseq 20230608
 # Moved phyloseq to Suggests 20230619

@@ -35,7 +35,7 @@ taxon_AA <- function() {
     for(i in 1:length(utaxa)) {
       # Sum amino acid compositions for all genomes in this taxon
       itaxa <- taxa == utaxa[i]
-      aa[i, 5:25] <- canprot::aasum(genome_AA[itaxa, ])[, 5:25]
+      aa[i, 5:25] <- canprot::sum_aa(genome_AA[itaxa, ])[, 5:25]
     }
     # Normalize by number of genomes (put the number in 'ref' column)
     aa$ref <- aa$chains
