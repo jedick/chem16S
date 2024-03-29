@@ -194,7 +194,7 @@ par(opar)
 
 ## Other metrics
 
-Besides `r Zc` and `r nH2O`, **chem16S** can calculate elemental ratios (H/C, N/C, O/C, and S/C), grand average of hydropathicity (GRAVY), isoelectric point (pI), average molecular weight of amino acid residues (MW), and protein length.
+Besides `r Zc` and `r nH2O`, the `calc_metrics()` function in **canprot** can calculate elemental ratios (H/C, N/C, O/C, and S/C), grand average of hydropathicity (GRAVY), isoelectric point (pI), average molecular weight of amino acid residues (MW), and protein length.
 
 ```{r other_metrics, fig.width = 8, fig.height = 5, fig.align = "center", pngquant = pngquant}
 AAcomp <- taxon_AA[match(classes, taxon_AA$organism), ]
@@ -220,7 +220,6 @@ Respectively, these findings suggest genomic adaptation by Methanococci and Epsi
 A notable observation in this regard is that viruses without an envelope have lower water content than bacterial cells [@Mat75].
 
 In summary, chemical metrics provide insight into how environmental factors shape the amino acid and elemental composition of proteins.
-The study of genomic variation using geochemical methods is part of a new field called geochemical biology.
 
 ## References
 

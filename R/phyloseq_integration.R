@@ -92,12 +92,13 @@ ps_metrics <- function(physeq, split = TRUE, refdb = "GTDB", quiet = FALSE, ...)
 
 # Plot individual chemical metrics 20230608
 # Adapted by Jeffrey Dick from phyloseq::plot_richness() by Paul J. McMurdie
-plot_ps_metrics <- function(physeq, x = "samples", color = NULL, shape = NULL, title = NULL,
-  scales = "free_y", nrow = 1, metrics = c("Zc", "nO2", "nH2O"), sortby = NULL,
-  refdb = "GTDB", quiet = FALSE) { 
+plot_ps_metrics <- function(physeq, metrics = c("Zc", "nO2", "nH2O"), x = "samples",
+  color = NULL, shape = NULL, title = NULL,
+  scales = "free_y", nrow = 1, sortby = NULL, ...) { 
 
   # Calculate the chemical metrics
-  pmDF <- ps_metrics(physeq, metrics = metrics, refdb = refdb, quiet = quiet)
+  #pmDF <- ps_metrics(physeq, metrics = metrics, refdb = refdb, quiet = quiet)
+  pmDF <- ps_metrics(physeq, metrics = metrics, ...)
 
   # Make the plotting data.frame.
   # This coerces to data.frame, required for reliable output from reshape2::melt()
@@ -188,11 +189,11 @@ plot_ps_metrics <- function(physeq, x = "samples", color = NULL, shape = NULL, t
 
 # Plot two chemical metrics against each other 20230617
 # Parts of this function were adapted by Jeffrey Dick from phyloseq::plot_richness() by Paul J. McMurdie
-plot_ps_metrics2 <- function(physeq, x = "Zc", y = "nH2O", color = NULL, shape = NULL,
+plot_ps_metrics2 <- function(physeq, metrics = c("Zc", "nH2O"), color = NULL, shape = NULL,
   title = NULL, refdb = "GTDB", quiet = FALSE) { 
 
   # Calculate the chemical metrics
-  pmDF <- ps_metrics(physeq, metrics = c(x, y), refdb = refdb, quiet = quiet)
+  pmDF <- ps_metrics(physeq, metrics = metrics, refdb = refdb, quiet = quiet)
 
   # Make the plotting data.frame
   if( !is.null(phyloseq::sample_data(physeq, errorIfNULL = FALSE)) ){
@@ -208,14 +209,14 @@ plot_ps_metrics2 <- function(physeq, x = "Zc", y = "nH2O", color = NULL, shape =
     DF$samples <- phyloseq::sample_names(physeq)
   }
 
-  # Start with just x and y in case color and/or shape are NULL 20230709
-  metrics_map <- aes(.data[[x]], .data[[y]])
+  # Start with just x and y variables in case color and/or shape are NULL 20230709
+  metrics_map <- aes(.data[[metrics[1]]], .data[[metrics[2]]])
   # https://stackoverflow.com/questions/20084104/combine-merge-two-ggplot-aesthetics
   if(!is.null(color)) metrics_map <- modifyList(metrics_map, aes(color = .data[[color]]))
   if(!is.null(shape)) metrics_map <- modifyList(metrics_map, aes(shape = .data[[shape]]))
 
   # Make the ggplot
-  p <- ggplot(DF, metrics_map) + geom_point(na.rm = TRUE) + xlab(chemlab(x)) + ylab(chemlab(y))
+  p <- ggplot(DF, metrics_map) + geom_point(na.rm = TRUE) + xlab(chemlab(metrics[1])) + ylab(chemlab(metrics[2]))
 
   # Optionally add a title to the plot
   if( !is.null(title) ){

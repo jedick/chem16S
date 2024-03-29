@@ -1,4 +1,4 @@
-CHANGES IN chem16S 1.0.0-17 (2024-03-16)
+CHANGES IN chem16S 1.0.0-18 (2024-03-29)
 ----------------------------------------
 
 - Normalize file names in extdata/RefSeq and extdata/GTDB for easier
@@ -9,6 +9,8 @@ CHANGES IN chem16S 1.0.0-17 (2024-03-16)
 - Add 'Domain' as an allowed rank in ps_taxacounts().
 
 - Move calc_metrics() and add_hull() to canprot.
+
+- A single 'metrics' argument replaces 'x' and 'y' in plot_ps_metrics2().
 
 CHANGES IN chem16S 1.0.0 (2023-07-17)
 -------------------------------------
