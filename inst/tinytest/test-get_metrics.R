@@ -26,5 +26,14 @@ g.metrics <- get_metrics(RDP, map, groups = groups, refdb = "RefSeq")
 expect_equal(g.metrics$group, c("A", "B"), info = info)
 
 # 20221016
-info <- "Bacteria are more oxidized than Archaea (ensures we don't have NA/NaN results)"
+info <- "Bacteria are more oxidized than Archaea (checks that we don't have NA/NaN results)"
 expect_true(diff(g.metrics$Zc) > 0, info = info)
+
+# 20240329
+# Changed get_metrics() to divide amino acid composition by the number of proteins
+# ("chains" column in AAcomp) before sending it to canprot::calc_metrics()
+info <- "Protein length is calculated correctly"
+Length <- get_metrics(RDP, map, refdb = "RefSeq", metrics = "Length")$Length
+expect_equal(round(range(Length)), c(278, 341), info = info)
+g.Length <- get_metrics(RDP, map, groups = groups, refdb = "RefSeq", metrics = "Length")$Length
+expect_equal(round(range(g.Length)), c(286, 325), info = info)

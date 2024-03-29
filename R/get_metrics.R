@@ -39,6 +39,8 @@ get_metrics <- function(RDP = NULL, map = NULL, refdb = "GTDB", taxon_AA = NULL,
       t(thisRDP) %*% AAmat
     })
     AAcomp <- as.data.frame(do.call(rbind, AAcomp))
+    # Check that the total number of protein sequences is equal to the total number of classifications
+    stopifnot(sum(AAcomp[, "chains"]) == sum(RDPmat))
     # Names of samples are group names
     group <- names(groups)
     if(is.null(group)) group <- 1:length(groups)
@@ -51,6 +53,9 @@ get_metrics <- function(RDP = NULL, map = NULL, refdb = "GTDB", taxon_AA = NULL,
     # Just return the amino acid composition
     out <- cbind(samplecols, AAcomp)
   } else {
+    # Divide amino acid composition by number of proteins in order to calculate
+    # length and other protein-level metrics (pMW, etc.) correctly 20240329
+    AAcomp <- AAcomp / AAcomp$chains
     # Calculate chemical metrics from amino acid composition
     metrics_values <- calc_metrics(AAcomp, metrics)
     colnames(metrics_values) <- metrics
