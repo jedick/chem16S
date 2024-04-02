@@ -4,8 +4,8 @@ info <- "Sample metrics are in same order as metadata"
 # Get metrics for the Bison Pool dataset
 RDPfile <- system.file("extdata/RDP/SMS+12.tab.xz", package = "chem16S")
 RDP <- read_RDP(RDPfile, quiet = TRUE)
-map <- map_taxa(RDP, refdb = "RefSeq", quiet = TRUE)
-metrics <- get_metrics(RDP, map, refdb = "RefSeq")
+map <- map_taxa(RDP, refdb = "RefSeq_206", quiet = TRUE)
+metrics <- get_metrics(RDP, map, refdb = "RefSeq_206")
 # Get metadata for the Bison Pool dataset
 mdatfile <- system.file("extdata/metadata/SMS+12.csv", package = "chem16S")
 mdat <- get_metadata(mdatfile, metrics)

@@ -7,12 +7,12 @@ Maps taxonomic names to NCBI (RefSeq) or GTDB taxonomy by automatic matching of 
 }
 
 \usage{
-  map_taxa(taxacounts = NULL, refdb = "GTDB", quiet = FALSE)
+  map_taxa(taxacounts = NULL, refdb = "GTDB_207", quiet = FALSE)
 }
 
 \arguments{
   \item{taxacounts}{data frame with taxonomic name and abundances}
-  \item{refdb}{character, name of reference database (\samp{GTDB} or \samp{RefSeq})}
+  \item{refdb}{character, name of reference database (\samp{GTDB_207} or \samp{RefSeq_206})}
   \item{quiet}{logical, suppress printed messages?}
 }
 
@@ -64,7 +64,7 @@ Attributes \code{unmapped_groups} and \code{unmapped_percent} have the input nam
 # Mapping taxonomic classifications from RDP training set to NCBI taxonomy
 file <- system.file("extdata/RDP/SMS+12.tab.xz", package = "chem16S")
 RDP <- read_RDP(file)
-map <- map_taxa(RDP, refdb = "RefSeq")
+map <- map_taxa(RDP, refdb = "RefSeq_206")
 # About 24% of classifications are unmaped
 sum(attributes(map)$unmapped_percent)
 

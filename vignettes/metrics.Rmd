@@ -64,7 +64,7 @@ This vignette was compiled on `r Sys.Date()` with **chem16S** version `r session
 * Read the acid compositions of reference proteomes.
 * Show the counts of taxa at each level (taxonomic rank).
 ```{r taxon_AA}
-taxon_AA <- read.csv(system.file("extdata/RefSeq/taxon_AA.csv.xz", package = "chem16S"))
+taxon_AA <- read.csv(system.file("RefDB/RefSeq_206/taxon_AA.csv.xz", package = "chem16S"))
 ranks <- taxon_AA$protein
 table(ranks)[unique(ranks)]
 ```
@@ -86,7 +86,7 @@ par(opar)
 * Define a function to get `r Zc` for named genera.
 * Calculate mean `r Zc` for genera in selected phyla.
 ```{r phylum_to_genus}
-taxnames <- read.csv(system.file("extdata/RefSeq/taxonomy.csv.xz", package = "chem16S"))
+taxnames <- read.csv(system.file("RefDB/RefSeq_206/taxonomy.csv.xz", package = "chem16S"))
 phylum_to_genus <- function(phylum) na.omit(unique(taxnames$genus[taxnames$phylum == phylum]))
 get_Zc <- function(genera) na.omit(taxon_Zc[match(genera, taxon_AA$organism)])
 sapply(sapply(sapply(c("Crenarchaeota", "Euryarchaeota"), phylum_to_genus), get_Zc), mean)

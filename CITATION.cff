@@ -5,9 +5,7 @@ authors:
   given-names: "Jeffrey M."
   orcid: "https://orcid.org/0000-0002-0687-5890"
 title: "chem16S"
-version: 1.0.0
 doi: 10.5281/zenodo.6793059
-date-released: 2023-07-17
 url: "https://github.com/jedick/chem16S"
 preferred-citation:
   type: article

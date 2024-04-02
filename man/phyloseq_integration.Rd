@@ -12,18 +12,18 @@ Calculate chemical metrics of community reference proteomes from taxonomic abund
 
 \usage{
   ps_taxacounts(physeq, split = TRUE)
-  ps_metrics(physeq, split = TRUE, refdb = "GTDB", quiet = FALSE, ...)
+  ps_metrics(physeq, split = TRUE, refdb = "GTDB_207", quiet = FALSE, ...)
   plot_ps_metrics(physeq, metrics = c("Zc", "nO2", "nH2O"), x = "samples",
     color = NULL, shape = NULL, title = NULL,
     scales = "free_y", nrow = 1, sortby = NULL, ...)
   plot_ps_metrics2(physeq, metrics = c("Zc", "nH2O"), color = NULL,
-    shape = NULL, title = NULL, refdb = "GTDB", quiet = FALSE)
+    shape = NULL, title = NULL, refdb = "GTDB_207", quiet = FALSE)
 }
 
 \arguments{
   \item{physeq}{`phyloseq-class`, a \pkg{phyloseq} object containing an `otu_table` and `tax_table`}
   \item{split}{logical, calculate metrics for each sample (TRUE) or the entire set (FALSE)}
-  \item{refdb}{character, name of reference database (\samp{GTDB} or \samp{RefSeq}; passed to \code{\link{get_metrics}})}
+  \item{refdb}{character, name of reference database (passed to \code{\link{get_metrics}})}
   \item{quiet}{logical, suppress printed messages? (passed to \code{\link{map_taxa}})}
   \item{...}{additional arguments passed to \code{ps_metrics} and thence to \code{\link{get_metrics}}}
   \item{metrics}{character, chemical metrics to calculate}
@@ -86,7 +86,7 @@ data(GlobalPatterns, package = "phyloseq")
 # Plot metrics grouped by sample type and sorted by mean Zc;
 # refdb = "RefSeq" uses manual mappings from the RDP to NCBI taxonomy
 p <- plot_ps_metrics(GlobalPatterns, x = "SampleType",
-                     sortby = "Zc", refdb = "RefSeq")
+                     sortby = "Zc", refdb = "RefSeq_206")
 # Change orientation of x-axis labels
 p + ggplot2::theme(axis.text.x = ggplot2::element_text(
   angle = 45, vjust = 1, hjust = 1))

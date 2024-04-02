@@ -2,7 +2,7 @@
 
 file <- system.file("extdata/RDP/SMS+12.tab.xz", package = "chem16S")
 RDP <- read_RDP(file, quiet = TRUE)
-map <- map_taxa(RDP, refdb = "RefSeq", quiet = TRUE)
+map <- map_taxa(RDP, refdb = "RefSeq_206", quiet = TRUE)
 
 info <- "NA mappings are listed in unmapped_groups attribute"
 expect_equal(sum(is.na(map)), length(attr(map, "unmapped_groups")), info = info)
@@ -14,7 +14,7 @@ expect_equal(sum(attr(map, "unmapped_percent")), NAcounts / allcounts * 100, inf
 
 info <- "For the test file, 53 RDP and NCBI names are identical and 2 are different"
 # Read amino acid compositions of reference proteomes for genus and higher taxonomic groups from NCBI RefSeq`
-AAfile <- system.file("extdata/RefSeq/taxon_AA.csv.xz", package = "chem16S")
+AAfile <- system.file("RefDB/RefSeq_206/taxon_AA.csv.xz", package = "chem16S")
 AA <- read.csv(AAfile, as.is = TRUE)
 # Make names by combining rank and name
 NCBIname <- paste(AA$protein, AA$organism, sep = "_")[map]
@@ -32,7 +32,7 @@ expect_equal(NCBIname[sapply(samenames, isFALSE)], c("genus_Synechococcus", "phy
 info <- "First example from ?map_taxa produces expected output"
 file <- system.file("extdata/RDP/SMS+12.tab.xz", package = "chem16S")
 RDP <- read_RDP(file, quiet = TRUE)
-expect_message(map <- map_taxa(RDP, refdb = "RefSeq"), "class_Cyanobacteria --> phylum_Cyanobacteria \\(12.3%\\)", info = info)
+expect_message(map <- map_taxa(RDP, refdb = "RefSeq_206"), "class_Cyanobacteria --> phylum_Cyanobacteria \\(12.3%\\)", info = info)
 expect_equal(length(attributes(map)$unmapped_percent), 8, info = info)
 expect_equal(round(sum(attributes(map)$unmapped_percent), 2), 24.42)
 
@@ -40,14 +40,14 @@ info <- "Sanity check that ranks are conserved, except for some groups"
 # This dataset requires a fairly complex manual mapping
 file <- system.file("extdata/RDP/HLA+16.tab.xz", package = "chem16S")
 RDP <- read_RDP(file)
-map <- map_taxa(RDP, refdb = "RefSeq")
+map <- map_taxa(RDP, refdb = "RefSeq_206")
 # The following lines are adapted from get_metrics()
 # Exclude NA mappings
 RDP <- RDP[!is.na(map), ]
 map <- na.omit(map)
 # Get amino acid compositions of taxa compiled from RefSeq
-refdb <- "RefSeq"
-AApath <- file.path("extdata", refdb, "taxon_AA.csv.xz")
+refdb <- "RefSeq_206"
+AApath <- file.path("RefDB", refdb, "taxon_AA.csv.xz")
 AAfile <- system.file(AApath, package = "chem16S")
 taxon_AA <- read.csv(AAfile, as.is = TRUE)
 # Apply the mapping

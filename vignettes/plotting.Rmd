@@ -106,10 +106,10 @@ Human = get_variable(GlobalPatterns, "SampleType") %in% c("Feces", "Mock", "Skin
 sample_data(GlobalPatterns)$Human <- factor(Human)
 ```
 
-Taxonomic assignments were made using the RDP Classifier without any additional training set specified [@CLW+11], so we use the `refdb = "RefSeq"` argument to apply the manual mappings between RDP and RefSeq described by @DT23.
+Taxonomic assignments were made using the RDP Classifier without any additional training set specified [@CLW+11], so we use the `refdb = "RefSeq_206"` argument to apply the manual mappings between RDP and RefSeq described by @DT23.
 
 ```{r plot_metrics2.GlobalPatterns, collapse = TRUE}
-p2 <- plot_ps_metrics2(GlobalPatterns, color = "SampleType", shape = "Human", refdb = "RefSeq")
+p2 <- plot_ps_metrics2(GlobalPatterns, color = "SampleType", shape = "Human", refdb = "RefSeq_206")
 ```
 
 ```{r plot_metrics2.GlobalPatterns_geom, fig.width = 6, fig.height = 4, fig.align = "center", pngquant = pngquant}

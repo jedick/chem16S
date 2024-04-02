@@ -4,12 +4,12 @@
 [![R-CMD-check](https://github.com/jedick/chem16S/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/jedick/chem16S/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-*chem16S* combines genomic and taxonomic information to calculate **chemical metrics** for microbial communities.
-This is a new way to measure **genomic adaptation** to physicochemical environments, with applications ranging from Earth-life coevolution to human microbial habitats.
+*chem16S* calculates chemical metrics for microbial communities by combining taxonomic abundances with genomic reference sequences for proteins.
+The chemical representation of communities has applications ranging from human microbiomes to Earth-life coevolution.
 
 * Read the paper in *Bioinformatics*: [*chem16S*: community-level chemical metrics for exploring genomic adaptation to environments](https://doi.org/10.1093/bioinformatics/btad564).
 
-* View the [manual](https://chnosz.net/chem16S/manual) and vignettes: [Chemical metrics of reference proteomes for taxa](https://chnosz.net/chem16S/vignettes/metrics.html), [Integration of *chem16S* with *phyloseq*](https://chnosz.net/chem16S/vignettes/phyloseq.html), and [Plotting two chemical metrics](https://chnosz.net/chem16S/vignettes/plotting.html).
+* View the [manual](https://chnosz.net/chem16S/manual/) and vignettes: [Chemical metrics of reference proteomes for taxa](https://chnosz.net/chem16S/vignettes/metrics.html), [Integration of *chem16S* with *phyloseq*](https://chnosz.net/chem16S/vignettes/phyloseq.html), and [Plotting two chemical metrics](https://chnosz.net/chem16S/vignettes/plotting.html).
 
 Supported input formats:
 * `phyloseq-class` objects created using [*phyloseq*](https://doi.org/doi:10.18129/B9.bioc.phyloseq)
@@ -19,6 +19,8 @@ Supported reference databases:
 
 * [Genome Taxonomy Database](https://gtdb.ecogenomic.org/) (GTDB release 207)
 * [NCBI Reference Sequence Database](https://www.ncbi.nlm.nih.gov/refseq/) (RefSeq release 206)
+
+### Description
 
 The *chem16S* R package combines taxonomic classifications of high-throughput 16S rRNA gene sequences with precomputed amino acid compositions of reference proteomes for archaea and bacteria to obtain the amino acid compositions of **community reference proteomes**.
 Chemical metrics of community reference proteomes such as **carbon oxidation state** (*Z*<sub>C</sub>) and **stoichiometric hydration state** (*n*<sub>H<sub>2</sub>O</sub>) reveal new types of adaptations of microbial genomes to environmental conditions.

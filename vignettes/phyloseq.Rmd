@@ -143,7 +143,7 @@ This is just an example to show the limitations of the technique.
 :::
 
 ```{r map.silva, collapse = TRUE}
-map.silva <- map_taxa(tc.silva, refdb = "RefSeq")
+map.silva <- map_taxa(tc.silva, refdb = "RefSeq_206")
 ```
 
 The messages show that one group was manually mapped, and the total mapping rate (including both automatic name matching and manual mapping) is `r round(100 - sum(attr(map.silva, "unmapped_percent")), 1)`%.
@@ -154,7 +154,7 @@ This results in a considerably higher mapping rate to the NCBI taxonomy.
 ```{r map.RDP, collapse = TRUE}
 data(mouse.RDP)
 tc.RDP <- ps_taxacounts(mouse.RDP)
-map.RDP <- map_taxa(tc.RDP, refdb = "RefSeq")
+map.RDP <- map_taxa(tc.RDP, refdb = "RefSeq_206")
 ```
 
 Now the total mapping rate is `r round(100 - sum(attr(map.RDP, "unmapped_percent")), 1)`%. 
@@ -171,7 +171,7 @@ In order, these functions get the lowest-level taxon for each OTU or ASV, map ta
 To peek into this process, let's begin by listing the amino acid compositions of some community reference proteomes.
 
 ```{r AA.RDP, collapse = TRUE}
-AA.RDP <- ps_metrics(mouse.RDP, refdb = "RefSeq", quiet = TRUE, return_AA = TRUE)
+AA.RDP <- ps_metrics(mouse.RDP, refdb = "RefSeq_206", quiet = TRUE, return_AA = TRUE)
 head(AA.RDP)
 ```
 
@@ -193,7 +193,7 @@ Compared to the other samples, that from Day `r if(!is.null(AA.RDP)) strsplit(AA
 We're now ready to calculcate chemical metrics from the amino acid compositions.
 
 ```{r metrics.RDP, collapse = TRUE}
-metrics.RDP <- ps_metrics(mouse.RDP, refdb = "RefSeq", quiet = TRUE)
+metrics.RDP <- ps_metrics(mouse.RDP, refdb = "RefSeq_206", quiet = TRUE)
 head(metrics.RDP)
 ```
 
@@ -211,14 +211,14 @@ cor(metrics.RDP$Zc, metrics.RDP$nH2O)
 Let's plot each of these chemical metrics against the sampling day.
 
 ```{r plot_metrics.RDP, fig.width = 7, fig.height = 5, fig.align = "center", pngquant = pngquant}
-plot_ps_metrics(mouse.RDP, x = "Day", color = "When", shape = "When", refdb = "RefSeq", quiet = TRUE) +
+plot_ps_metrics(mouse.RDP, x = "Day", color = "When", shape = "When", refdb = "RefSeq_206", quiet = TRUE) +
   geom_point(size = 3)
 ```
 
 Let's plot two chemical metrics against each other.
 
 ```{r plot_metrics2.RDP, fig.width = 6, fig.height = 4, fig.align = "center", pngquant = pngquant}
-plot_ps_metrics2(mouse.RDP, color = "When", shape = "When", refdb = "RefSeq", quiet = TRUE) +
+plot_ps_metrics2(mouse.RDP, color = "When", shape = "When", refdb = "RefSeq_206", quiet = TRUE) +
   geom_point(size = 3)
 ```
 
@@ -232,7 +232,7 @@ Here we load a `phyloseq-class` object prepared following the DADA2 Pipeline Tut
 Then, we plot chemical metrics calculated for reference proteomes derived from the same version of the GTDB.
 
 ::: {.infobox .note}
-`refdb = "GTDB"` is the default option for functions in **chem16S**, so the argument does not need to be explicitly given.
+`refdb = "GTDB_207"` is the default option for functions in **chem16S**, so the argument does not need to be explicitly given.
 :::
 
 ```{r data.GTDB, collapse = TRUE, fig.width = 6, fig.height = 4, fig.align = "center", pngquant = pngquant}

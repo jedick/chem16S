@@ -4,7 +4,7 @@
 # Add refdb argument to use RefSeq or GTDB 20221016
 # TODO: warn when mapped percentage is below a certain value 20230615
 
-map_taxa <- function(taxacounts = NULL, refdb = "GTDB", quiet = FALSE) {
+map_taxa <- function(taxacounts = NULL, refdb = "GTDB_207", quiet = FALSE) {
 
   # Make group names by combining rank and name
   INPUTgroups <- paste(taxacounts$rank, taxacounts$name, sep = "_")
@@ -16,7 +16,7 @@ map_taxa <- function(taxacounts = NULL, refdb = "GTDB", quiet = FALSE) {
   if(!is.null(fileattr)) basetxt <- paste0(" [", basename(fileattr), "]")
 
   # Manual mappings for RefSeq (NCBI) taxonomy but not for GTDB 20221016
-  if(refdb == "RefSeq") {
+  if(grepl("RefSeq", refdb)) {
 
     mapping <- getOption("manual_mappings")
     INPUT <- paste(mapping$RDP.rank, mapping$RDP.name, sep = "_")
@@ -48,8 +48,12 @@ map_taxa <- function(taxacounts = NULL, refdb = "GTDB", quiet = FALSE) {
   # Read amino acid compositions of reference proteomes for genus and higher taxonomic groups:
   #   - from RefSeq (NCBI) or
   #   - from GTDB 20221016
-  AApath <- file.path("extdata", refdb, "taxon_AA.csv.xz")
+  AApath <- file.path("RefDB", refdb, "taxon_AA.csv.xz")
   AAfile <- system.file(AApath, package = "chem16S")
+  if(!file.exists(AAfile)) {
+    available_RefDB <- dir(system.file("RefDB", package = "chem16S"))
+    stop(paste0("Chosen refdb (", refdb, ") is not one of ", paste(available_RefDB, collapse = ", ")))
+  }
   taxon_AA <- read.csv(AAfile, as.is = TRUE)
   AAgroups <- paste(taxon_AA$protein, taxon_AA$organism, sep = "_")
   # Do the mapping!
@@ -83,4 +87,3 @@ map_taxa <- function(taxacounts = NULL, refdb = "GTDB", quiet = FALSE) {
   iAA
 
 }
-

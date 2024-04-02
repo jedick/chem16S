@@ -3,7 +3,7 @@
 # Moved to chem16S 20220505
 # Add refdb argument 20221016
 
-get_metrics <- function(RDP = NULL, map = NULL, refdb = "GTDB", taxon_AA = NULL,
+get_metrics <- function(RDP = NULL, map = NULL, refdb = "GTDB_207", taxon_AA = NULL,
   groups = NULL, return_AA = FALSE, zero_AA = NULL, metrics = c("Zc", "nO2", "nH2O")) {
 
   # Exclude NA mappings
@@ -12,7 +12,7 @@ get_metrics <- function(RDP = NULL, map = NULL, refdb = "GTDB", taxon_AA = NULL,
   if(length(map) == 0) stop(paste("no available mappings to taxa in", refdb, "reference database"))
 
   # Get amino acid compositions of taxa compiled from RefSeq or GTDB
-  AApath <- file.path("extdata", refdb, "taxon_AA.csv.xz")
+  AApath <- file.path("RefDB", refdb, "taxon_AA.csv.xz")
   AAfile <- system.file(AApath, package = "chem16S")
   if(is.null(taxon_AA)) taxon_AA <- read.csv(AAfile, as.is = TRUE)
   

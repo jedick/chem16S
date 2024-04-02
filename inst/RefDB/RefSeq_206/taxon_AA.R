@@ -16,8 +16,8 @@
 taxon_AA <- function(ranks = c("genus", "family", "order", "class", "phylum", "superkingdom")) {
 
   # Read RefSeq amino acid compositions and taxon names
-  refseq <- read.csv(system.file("extdata/RefSeq/genome_AA.csv.xz", package = "JMDplots"), as.is = TRUE)
-  taxa <- read.csv(system.file("extdata/RefSeq/taxonomy.csv.xz", package = "chem16S"), as.is = TRUE)
+  refseq <- read.csv(system.file("RefDB/RefSeq_206/genome_AA.csv.xz", package = "JMDplots"), as.is = TRUE)
+  taxa <- read.csv(system.file("RefDB/RefSeq_206/taxonomy.csv.xz", package = "chem16S"), as.is = TRUE)
   # Make sure the data tables have consistent taxids
   stopifnot(all(refseq$organism == taxa$taxid))
   # Keep taxids classified at species level 20220104
