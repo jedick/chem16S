@@ -1,4 +1,4 @@
-CHANGES IN chem16S 1.0.0-18 (2024-03-29)
+CHANGES IN chem16S 1.0.0-21 (2024-04-02)
 ----------------------------------------
 
 - Normalize file names in extdata/RefSeq and extdata/GTDB for easier
@@ -11,6 +11,8 @@ CHANGES IN chem16S 1.0.0-18 (2024-03-29)
 - Move calc_metrics() and add_hull() to canprot.
 
 - A single 'metrics' argument replaces 'x' and 'y' in plot_ps_metrics2().
+
+- Change default reference database to GTDB r214.
 
 CHANGES IN chem16S 1.0.0 (2023-07-17)
 -------------------------------------

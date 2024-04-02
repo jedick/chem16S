@@ -12,12 +12,12 @@ Calculate chemical metrics of community reference proteomes from taxonomic abund
 
 \usage{
   ps_taxacounts(physeq, split = TRUE)
-  ps_metrics(physeq, split = TRUE, refdb = "GTDB_207", quiet = FALSE, ...)
+  ps_metrics(physeq, split = TRUE, refdb = "GTDB_214", quiet = FALSE, ...)
   plot_ps_metrics(physeq, metrics = c("Zc", "nO2", "nH2O"), x = "samples",
     color = NULL, shape = NULL, title = NULL,
     scales = "free_y", nrow = 1, sortby = NULL, ...)
   plot_ps_metrics2(physeq, metrics = c("Zc", "nH2O"), color = NULL,
-    shape = NULL, title = NULL, refdb = "GTDB_207", quiet = FALSE)
+    shape = NULL, title = NULL, refdb = "GTDB_214", quiet = FALSE)
 }
 
 \arguments{
@@ -67,19 +67,19 @@ The author of this Rd file and the \code{ps_taxacounts} and \code{ps_metrics} fu
 
 \examples{
 # Example 1: Humboldt Sulfuretum (Fonseca et al., 2022)
-file <- system.file("extdata/DADA2/FEN+22/ps_FEN+22.rds", package = "chem16S")
+file <- system.file("extdata/DADA2-GTDB_207/FEN+22/ps_FEN+22.rds", package = "chem16S")
 physeq <- readRDS(file)
 # Get lowest-level (to genus) classification for each OTU
 taxacounts <- ps_taxacounts(physeq)
 # Show numbers of assignments at each taxonomic level
 table(taxacounts$rank)
 # Map taxonomic names
-map <- map_taxa(taxacounts)
+map <- map_taxa(taxacounts, refdb = "GTDB_207")
 # Taxonomy and reference proteomes are both from GTDB,
 # so there are no unmapped classifications
 sum(attr(map, "unmapped_percent")) # == 0
 # Calculate chemical metrics
-ps_metrics(physeq)
+ps_metrics(physeq, refdb = "GTDB_207")
 
 # Example 2: GlobalPatterns dataset from phyloseq
 data(GlobalPatterns, package = "phyloseq")

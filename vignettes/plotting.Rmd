@@ -138,7 +138,7 @@ Here we read the `phyloseq-class` object created by using DADA2 [@CMR+16] to ide
 A sample taken from 50 m depth at the Valparaiso location on 2012-05-12 is available in the Sequence Read Archive (SRA) but was not included in the analysis described by @FEN+22.
 The taxonomic composition of this sample is highly different from the all the others (see the ordination plots in the `extdata` directory where the `ps_FEN+22.rds` file is located), so we exclude it to avoid anomalous results.
 ```{r read_Humboldt}
-psfile <- system.file("extdata/DADA2/FEN+22/ps_FEN+22.rds", package = "chem16S")
+psfile <- system.file("extdata/DADA2-GTDB_207/FEN+22/ps_FEN+22.rds", package = "chem16S")
 ps <- readRDS(psfile)
 ps <- prune_samples(sample_names(ps) != "SRR1346095", ps)
 ps
@@ -146,7 +146,7 @@ ps
 
 Then, we plot `r Zc` and `r nH2O` for the community reference proteomes using different colors for sample groups.
 ```{r plot_metrics2.Humboldt, fig.width = 6, fig.height = 4, fig.align = "center", pngquant = pngquant}
-plot_ps_metrics2(ps, color = "Location") +
+plot_ps_metrics2(ps, refdb = "GTDB_207", color = "Location") +
   geom_polygon(aes(fill = Location), alpha = 0.5) + geom_point(size = 3)
 ```
 
@@ -166,9 +166,9 @@ if(!requireNamespace("patchwork", quietly = TRUE)) {
 ```
 
 ```{r plot_metrics2.Humboldt_redox_OM, fig.width = 6, fig.height = 5, fig.align = "center", pngquant = pngquant}
-p2 <- plot_ps_metrics2(ps, color = "Sediment_redox") +
+p2 <- plot_ps_metrics2(ps, refdb = "GTDB_207", color = "Sediment_redox") +
   geom_point(size = 4) + labs(color = "Sediment redox (Eh)")
-p3 <- plot_ps_metrics2(ps, color = "Organic_matter") +
+p3 <- plot_ps_metrics2(ps, refdb = "GTDB_207", color = "Organic_matter") +
   geom_point(size = 4) + labs(color = "Organic matter (%)")
 p2 / p3
 ```
@@ -181,7 +181,7 @@ Previous observations that protein expression in cells is shifted toward lower `
 We can use correlations between two environmental variables (redox potential or OM) and two chemical metrics for communities (`r Zc` or `r nH2O`) in order to test these hypotheses.
 To make the plots, let's construct a single data frame containing the sample data and chemical metrics.
 ```{r sample.data.and.chemical.metrics.for.communities}
-sample.data.and.chemical.metrics.for.communities <- cbind(sample_data(ps), ps_metrics(ps))
+sample.data.and.chemical.metrics.for.communities <- cbind(sample_data(ps), ps_metrics(ps, refdb = "GTDB_207"))
 ```
 
 Now let's write a function to create a scatter plot for two variables and add a regression line.
@@ -232,18 +232,19 @@ This interaction among environmental variables yields a mechanistic hypothesis f
 ## Qinghai-Tibet Plateau (Hot Springs)
 
 @ZFZ+23 reported 16S rRNA gene sequences for mildly alkaline hot spring reservoirs in the Qinghai-Tibet Plateau.
-I made the following predictions before downloading the sequence data from SRA:
+The following general predictions can be made about these data:
 
-* I expected to find a positive correlation between `r Zc` of community reference proteomes and oxidation-reduction potential (ORP).
-* Because of input of reducing fluids, I expected to find lower `r Zc` than communities in marine sediments of the Humboldt Sulfuretum.
-* Assuming that these samples have relatively low salinity, I expected to find higher `r nH2O` than marine sediment communities.
+* A positive correlation between `r Zc` of community reference proteomes and oxidation-reduction potential (ORP).
+* Because of input of reducing fluids, lower `r Zc` in this dataset compared to marine sediments of the Humboldt Sulfuretum.
+* Assuming that these samples have relatively low salinity, higher `r nH2O` than marine sediment communities.
 
+Let's test these predictions by doing some calculations.
 The following commands load the data and plot two environmental variables (ORP and temperature (T)) against two chemical metrics.
 
 ```{r load_Qinghai.Tibet}
-psfile2 <- system.file("extdata/DADA2/ZFZ+23/ps_ZFZ+23.rds", package = "chem16S")
+psfile2 <- system.file("extdata/DADA2-GTDB_207/ZFZ+23/ps_ZFZ+23.rds", package = "chem16S")
 ps2 <- readRDS(psfile2)
-data.and.metrics <- cbind(sample_data(ps2), ps_metrics(ps2))
+data.and.metrics <- cbind(sample_data(ps2), ps_metrics(ps2, refdb = "GTDB_207"))
 ps2
 ```
 
@@ -268,7 +269,7 @@ sp1 + sp2 + sp3 + sp4
 ```{r scatter_plot_2, echo = FALSE, fig.width = 7, fig.height = 6, fig.align = "center", pngquant = pngquant}
 ```
 
-The correlation between ORP and `r Zc` isn't as strong as I had expected.
+The correlation between ORP and `r Zc` isn't as strong as might be predicted.
 Moreover, neither of the chemical metrics is strongly associated with temperature.
 Therefore, this dataset seems to be an exception to the notion that particular chemical metrics of community reference proteomes are shaped by the environment at a local scale.
 
@@ -289,14 +290,15 @@ Let's add a column to the sample data to indicate the type of environment for ea
 ```{r plot_metrics2.merged, fig.width = 6, fig.height = 4, fig.align = "center", pngquant = pngquant}
 sample_data(ps_merged)$Environment <-
   ifelse(is.na(sample_data(ps_merged)$Depth), "Hot spring", "Marine sediment")
-plot_ps_metrics2(ps_merged, color = "Environment", shape = "Environment") + geom_point(size = 3)
+plot_ps_metrics2(ps_merged, refdb = "GTDB_207", color = "Environment", shape = "Environment") +
+  geom_point(size = 3)
 ```
 
 In most cases, the communities from hot springs in the Qinghai-Tibet Plateau have lower `r Zc` and higher `r nH2O` compared to those in marine sediments of the Humboldt Sulfuretum.
 This outcome is consistent with predictions about genomic adaptation to relatively more reducing and less saline conditions of the hot springs.
 
-It is also notable that the positive association between `r Zc` and `r nH2O` observed for the sediment communities does not extend to the comparison between two datasets.
-This distinction suggests that the factors that influence elemental composition of community reference proteomes are different at local and global scales.
+The positive association between `r Zc` and `r nH2O` for the sediment communities does not extend to the comparison between two datasets.
+This distinction suggests that the factors that influence community-level elemental composition are different at local and global scales.
 
 ## Take-home messages
 

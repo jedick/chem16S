@@ -27,8 +27,9 @@ History:
   \enumerate{
     \item Work begun in 2021. The combination of RefSeq reference proteomes with taxonomic abundances to compute community-level chemical metrics was described by Dick and Tan (2023). \pkg{chem16S} originated as code in the \pkg{JMDplots} package (\url{https://github.com/jedick/JMDplots}).
     \item Development in 2022. Dick and Meng (2023) compared community \Zc with redox potential measurements from local to global scales. The term \dQuote{community reference proteomes} was first applied, and \pkg{chem16S} was split into a separate package.
-    \item Late 2022. GTDB was added as a reference database.
-    \item June--July 2023. Integration with \pkg{phyloseq} and addition of vignettes: \emph{Chemical metrics of reference proteomes}, \emph{Integration of chem16S with phyloseq}, and \emph{Plotting two chemical metrics}. Default reference database changed to GTDB.
+    \item Late 2022. GTDB r207 was added as a reference database.
+    \item June--July 2023. Integration with \pkg{phyloseq} and addition of vignettes: \emph{Chemical metrics of reference proteomes}, \emph{Integration of chem16S with phyloseq}, and \emph{Plotting two chemical metrics}. Default reference database changed to GTDB r207.
+    \item April 2024. Changed default reference database to GTDB r214.
   }
 
 }
@@ -51,7 +52,7 @@ History:
 }
 
 
-\section{Files in extdata/RefSeq}{
+\section{Files in RefDB/RefSeq_206}{
 
   NOTE: None of the \file{*.R} files in the \file{extdata} directories are included in the package submitted to CRAN; see GitHub or Zenodo for these files.
 
@@ -82,7 +83,7 @@ History:
 
 }
 
-\section{Files in extdata/GTDB}{
+\section{Files in RefDB/GTDB_207 and RefDB/GTDB_214}{
 
   \describe{
     \item{\file{taxon_AA.R}}{Functions to process GTDB source files (Parks et al., 2022) and produce the following output file:}
@@ -112,7 +113,7 @@ History:
   \describe{
     \item{\file{pipeline.R}}{
       Pipeline for sequence data processing (uses external programs fastq-dump, vsearch, seqtk, RDP Classifier).
-      This was used to make the files in both \file{RDP} and \file{RDP-GTDB} (the latter with \code{GTDB = TRUE} in the script).
+      This was used to make the files in both \file{RDP} and \file{RDP-GTDB_207} (the latter with \code{GTDB = TRUE} in the script).
     }
     \item{\file{BGPF13.tab.xz}}{Heart Lake Geyser Basin.}
     \item{\file{HLA+16.tab.xz}}{Baltic Sea.}
@@ -121,9 +122,9 @@ History:
 
 }
 
-\section{Files in extdata/RDP-GTDB}{
+\section{Files in extdata/RDP-GTDB_207}{
 
-  Output of RDP Classifer using the GTDB SSU training set (\doi{10.5281/zenodo.7633100}).
+  Output of RDP Classifer using the GTDB r207 SSU training set (\doi{10.5281/zenodo.7633100}).
 
   \describe{
     \item{\file{BGPF13.tab.xz}}{Heart Lake Geyser Basin.}
@@ -133,9 +134,9 @@ History:
 
 }
 
-\section{Files in extdata/DADA2}{
+\section{Files in extdata/DADA2-GTDB_207}{
 
-  Identification and taxonomic classification of sequences using DADA2.
+  Identification and taxonomic classification of sequences using DADA2 with GTDB r207.
 
   \describe{
     \item{\file{FEN+22}}{
