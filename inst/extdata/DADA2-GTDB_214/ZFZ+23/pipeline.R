@@ -65,11 +65,11 @@ head(out)
 ### Learn the Error Rates
 ###
 
-# Timing on 2022 Intel i9-11900K desktop computer
+# Timing on 2018 8-core Intel laptop
 system.time(errF <- learnErrors(filtFs, multithread = TRUE))
 ## 127464868 total bases in 522397 reads from 4 samples will be used for learning the error rates.
-##     user   system  elapsed
-## 5533.684   36.862  676.027
+##      user    system   elapsed
+## 10404.745    40.656  1882.410
 
 #saveRDS(errF, "errF.rds")
 
@@ -121,7 +121,7 @@ dim(seqtab.nochim)
 sum(seqtab.nochim) / sum(seqtab)
 ## [1] 0.8360862
 
-#saveRDS(seqtab.nochim, "seqtab.nochim.rds")
+saveRDS(seqtab.nochim, "seqtab.nochim.rds")
 
 ###
 ### Track reads through the pipeline
@@ -145,24 +145,24 @@ track
 ### Assign taxonomy
 ###
 
-# The GTDB r207 training set for DADA2 is available at https://zenodo.org/record/6655692
-system.time(taxa <- assignTaxonomy(seqtab.nochim, "/home/sequence/DADA2/GTDB_bac120_arc53_ssu_r207_Genus.fa.gz", multithread = TRUE))
-##     user   system  elapsed
-## 6359.198   12.316  446.880
+# GTDB r214 16S rRNA sequences formatted for DADA2 were downloaded from https://zenodo.org/record/10403693
+system.time(taxa <- assignTaxonomy(seqtab.nochim, "/home/sequence/DADA2/GTDB_bac120_arc53_ssu_r214_genus.fa.gz", multithread = TRUE, tryRC = TRUE))
+##      user    system   elapsed
+## 10143.656     6.935  1312.774
 
 # Let’s inspect the taxonomic assignments:
 taxa.print <- taxa # Removing sequence rownames for display only
 rownames(taxa.print) <- NULL
 head(taxa.print)
 ##      Kingdom    Phylum             Class             Order               Family            Genus
-## [1,] "Bacteria" "Aquificota"       "Aquificae"       "Aquificales"       "Aquificaceae"    NA
+## [1,] "Bacteria" "Aquificota"       "Aquificae"       "Aquificales"       "Aquificaceae"    "UBA11096"
 ## [2,] "Bacteria" "Aquificota"       "Aquificae"       "Aquificales"       "Aquificaceae"    "UBA11096"
-## [3,] "Bacteria" "Campylobacterota" "Campylobacteria" "Campylobacterales" "Arcobacteraceae" NA
+## [3,] "Bacteria" "Campylobacterota" "Campylobacteria" "Campylobacterales" "Arcobacteraceae" "Aliarcobacter"
 ## [4,] "Bacteria" "Aquificota"       "Aquificae"       "Aquificales"       "Aquificaceae"    "UBA11096"
 ## [5,] "Bacteria" "Aquificota"       "Aquificae"       "Aquificales"       "Aquificaceae"    "UBA11096"
-## [6,] "Bacteria" "Campylobacterota" "Campylobacteria" "Campylobacterales" "Arcobacteraceae" NA
+## [6,] "Bacteria" "Campylobacterota" "Campylobacteria" "Campylobacterales" "Arcobacteraceae" "Aliarcobacter"
 
-#saveRDS(taxa, "taxa.rds")
+saveRDS(taxa, "taxa.rds")
 
 ###
 ### Bonus: Handoff to phyloseq

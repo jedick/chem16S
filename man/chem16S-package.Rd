@@ -29,7 +29,7 @@ History:
     \item Development in 2022. Dick and Meng (2023) compared community \Zc with redox potential measurements from local to global scales. The term \dQuote{community reference proteomes} was first applied, and \pkg{chem16S} was split into a separate package.
     \item Late 2022. GTDB r207 was added as a reference database.
     \item June--July 2023. Integration with \pkg{phyloseq} and addition of vignettes: \emph{Chemical metrics of reference proteomes}, \emph{Integration of chem16S with phyloseq}, and \emph{Plotting two chemical metrics}. Default reference database changed to GTDB r207.
-    \item April 2024. Changed default reference database to GTDB r214.
+    \item April 2024. Updated to GTDB r214.
   }
 
 }
@@ -83,7 +83,7 @@ History:
 
 }
 
-\section{Files in RefDB/GTDB_207 and RefDB/GTDB_214}{
+\section{Files in RefDB/GTDB_214}{
 
   \describe{
     \item{\file{taxon_AA.R}}{Functions to process GTDB source files (Parks et al., 2022) and produce the following output file:}
@@ -134,9 +134,9 @@ History:
 
 }
 
-\section{Files in extdata/DADA2-GTDB_207}{
+\section{Files in extdata/DADA2-GTDB_214}{
 
-  Identification and taxonomic classification of sequences using DADA2 with GTDB r207.
+  Identification and taxonomic classification of sequences using DADA2 with GTDB r214.
 
   \describe{
     \item{\file{FEN+22}}{

@@ -12,7 +12,7 @@ Maps taxonomic names to NCBI (RefSeq) or GTDB taxonomy by automatic matching of 
 
 \arguments{
   \item{taxacounts}{data frame with taxonomic name and abundances}
-  \item{refdb}{character, name of reference database (\samp{GTDB_207}, \samp{GTDB_214}, or \samp{RefSeq_206})}
+  \item{refdb}{character, name of reference database (\samp{GTDB_214} or \samp{RefSeq_206})}
   \item{quiet}{logical, suppress printed messages?}
 }
 
@@ -49,7 +49,7 @@ For mapping to the NCBI (RefSeq) taxonomy, some group names are manually mapped 
 To avoid manual mapping, GTDB can be used for both taxonomic assignemnts and reference proteomes.
 Taxonomic assignments can be made using the RDP Classifier with this GTDB SSU training set: \doi{10.5281/zenodo.7633100} or \pkg{dada2} with this GTDB training set: \doi{10.5281/zenodo.6655692}.
 Example files created using the RDP Classifier are provided under \file{extdata/RDP-GTDB_207}.
-An example dataset created with DADA2 is \code{data(\link{mouse.GTDB_207})}; this is a \code{\link[phyloseq]{phyloseq-class}} object that can be processed with functions described at \code{\link{physeq}}.
+An example dataset created with DADA2 is \code{data(\link{mouse.GTDB_214})}; this is a \code{\link[phyloseq]{phyloseq-class}} object that can be processed with functions described at \code{\link{physeq}}.
 
 Change \code{quiet} to TRUE to suppress printing of messages about manual mappings, most abundant unmapped groups, and overall percentage of mapped names.
 }
@@ -65,14 +65,15 @@ Attributes \code{unmapped_groups} and \code{unmapped_percent} have the input nam
 file <- system.file("extdata/RDP/SMS+12.tab.xz", package = "chem16S")
 RDP <- read_RDP(file)
 map <- map_taxa(RDP, refdb = "RefSeq_206")
-# About 24% of classifications are unmaped
+# About 24% of classifications are unmapped
 sum(attributes(map)$unmapped_percent)
 
 # Mapping from GTDB training set to GTDB taxonomy
 file <- system.file("extdata/RDP-GTDB_207/SMS+12.tab.xz", package = "chem16S")
 RDP.GTDB <- read_RDP(file)
-map.GTDB <- map_taxa(RDP.GTDB, refdb = "GTDB_207")
-# There is 100% mapping (zero unmapped classifications)
+map.GTDB <- map_taxa(RDP.GTDB)
+# The classifications were made with GTDB r207, but the reference database 
+# in chem16S has been updated to GTDB r214, so the mapping rate is less than 100 %
 sum(attributes(map.GTDB)$unmapped_percent)
 }
 

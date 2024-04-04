@@ -83,12 +83,12 @@ head(out)
 ### Learn the Error Rates
 ###
 
-# Timing on 2018 Intel i7-8550U notebook
+# Timing on 2018 8-core Intel CPU
 system.time(errF <- learnErrors(filtFs, multithread = TRUE))
 ##     user   system  elapsed
 ## 4406.295    6.821  694.335
 
-#saveRDS(errF, "errF.rds")
+saveRDS(errF, "errF.rds")
 
 # Visualize the estimated error rates:
 plotErrors(errF, nominalQ = TRUE)
@@ -147,7 +147,7 @@ table(nchar(getSequences(seqtab)))
 ##  500
 ## 2546
 
-#saveRDS(seqtab, "seqtab.rds")
+saveRDS(seqtab, "seqtab.rds")
 
 ###
 ### Remove chimeras
@@ -159,7 +159,7 @@ dim(seqtab.nochim)
 sum(seqtab.nochim) / sum(seqtab)
 ## [1] 0.8556967
 
-#saveRDS(seqtab.nochim, "seqtab.nochim.rds")
+saveRDS(seqtab.nochim, "seqtab.nochim.rds")
 
 ###
 ### Track reads through the pipeline
@@ -211,30 +211,30 @@ seqtab.nochim.B <- seqtab.nochim.B[, colSums(seqtab.nochim.B) > 0]
 dim(seqtab.nochim.B)
 ## [1]   14 2095
 
-#saveRDS(seqtab.nochim.B, "seqtab.nochim.B.rds")
+saveRDS(seqtab.nochim.B, "seqtab.nochim.B.rds")
 
 ###
 ### Assign taxonomy
 ###
 
-# The GTDB r207 training set for DADA2 is available at https://zenodo.org/record/6655692
-system.time(taxa <- assignTaxonomy(seqtab.nochim.B, "/home/sequence/DADA2/GTDB_bac120_arc53_ssu_r207_Genus.fa.gz", multithread = TRUE))
+# GTDB r214 16S rRNA sequences formatted for DADA2 were downloaded from https://zenodo.org/record/10403693
+system.time(taxa <- assignTaxonomy(seqtab.nochim.B, "GTDB_bac120_arc53_ssu_r214_genus.fa.gz", multithread = TRUE, tryRC = TRUE))
 ##     user   system  elapsed
-## 3873.874    6.198  541.574
+## 4788.254    4.055  631.154
 
 # Let’s inspect the taxonomic assignments:
 taxa.print <- taxa # Removing sequence rownames for display only
 rownames(taxa.print) <- NULL
 head(taxa.print)
 ##      Kingdom    Phylum           Class                 Order              Family              Genus
-## [1,] "Bacteria" "Bacteroidota"   "Bacteroidia"         "Flavobacteriales" "Flavobacteriaceae" NA
-## [2,] "Bacteria" "Proteobacteria" "Gammaproteobacteria" NA                 NA                  NA
-## [3,] "Bacteria" "Proteobacteria" "Gammaproteobacteria" "Beggiatoales"     "Beggiatoaceae"     "Marithrix"
-## [4,] "Bacteria" "Proteobacteria" "Gammaproteobacteria" "Beggiatoales"     "Beggiatoaceae"     "Marithrix"
-## [5,] "Bacteria" "Proteobacteria" "Gammaproteobacteria" "Beggiatoales"     "Beggiatoaceae"     "Marithrix"
-## [6,] "Bacteria" "Bacteroidota"   "Bacteroidia"         "Flavobacteriales" "Flavobacteriaceae" "Flavicella"
+## [1,] "Bacteria" "Bacteroidota"   "Bacteroidia"         "Flavobacteriales" "Flavobacteriaceae" "Lutimonas"
+## [2,] "Bacteria" "Pseudomonadota" "Gammaproteobacteria" NA                 NA                  NA
+## [3,] "Bacteria" "Pseudomonadota" "Gammaproteobacteria" "Beggiatoales"     "Beggiatoaceae"     "Marithrix"
+## [4,] "Bacteria" "Pseudomonadota" "Gammaproteobacteria" "Beggiatoales"     "Beggiatoaceae"     "Marithrix"
+## [5,] "Bacteria" "Pseudomonadota" "Gammaproteobacteria" "Beggiatoales"     "Beggiatoaceae"     "Marithrix"
+## [6,] "Bacteria" "Bacteroidota"   "Bacteroidia"         "Flavobacteriales" "Flavobacteriaceae" "Lutimonas"
 
-#saveRDS(taxa, "taxa.rds")
+saveRDS(taxa, "taxa.rds")
 
 ###
 ### Bonus: Handoff to phyloseq
@@ -264,7 +264,7 @@ taxa_names(ps) <- paste0("ASV", seq(ntaxa(ps)))
 ps
 ## phyloseq-class experiment-level object
 ## otu_table()   OTU Table:         [ 2095 taxa and 14 samples ]
-## sample_data() Sample Data:       [ 14 samples by 19 sample variables ]
+## sample_data() Sample Data:       [ 14 samples by 14 sample variables ]
 ## tax_table()   Taxonomy Table:    [ 2095 taxa by 6 taxonomic ranks ]
 ## refseq()      DNAStringSet:      [ 2095 reference sequences ]
 

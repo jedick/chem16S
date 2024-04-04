@@ -2,7 +2,7 @@
 \name{chem16S-data}
 \alias{mouse.silva}
 \alias{mouse.RDP}
-\alias{mouse.GTDB_207}
+\alias{mouse.GTDB_214}
 \title{`phyloseq-class` objects generated using the DADA2 Pipeline Tutorial}
 \description{
   Objects in \code{\link[phyloseq]{phyloseq-class}} format created by following the DADA2 Pipeline Tutorial (Callahan, 2020).
@@ -16,7 +16,7 @@
   \describe{
     \item{\file{mouse.silva}}{silva_nr99_v138.1: \href{https://zenodo.org/record/4587955}{Silva 138.1 prokaryotic SSU taxonomic training data formatted for DADA2}}
     \item{\file{mouse.RDP}}{rdp_train_set_18: \href{https://zenodo.org/record/4310151}{RDP taxonomic training data formatted for DADA2 (RDP trainset 18/release 11.5)}}
-    \item{\file{mouse.GTDB_207}}{GTDB_bac120_arc53_ssu_r207: \href{https://zenodo.org/record/6655692}{GTDB: DADA2 formatted 16S rRNA gene sequences for both bacteria & archaea}}
+    \item{\file{mouse.GTDB_214}}{GTDB_bac120_arc53_ssu_r214: \href{https://zenodo.org/record/10403693}{GTDB: DADA2 formatted 16S rRNA gene sequences for both bacteria & archaea}}
   }
 }
 

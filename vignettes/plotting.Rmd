@@ -138,7 +138,7 @@ Here we read the `phyloseq-class` object created by using DADA2 [@CMR+16] to ide
 A sample taken from 50 m depth at the Valparaiso location on 2012-05-12 is available in the Sequence Read Archive (SRA) but was not included in the analysis described by @FEN+22.
 The taxonomic composition of this sample is highly different from the all the others (see the ordination plots in the `extdata` directory where the `ps_FEN+22.rds` file is located), so we exclude it to avoid anomalous results.
 ```{r read_Humboldt}
-psfile <- system.file("extdata/DADA2-GTDB_207/FEN+22/ps_FEN+22.rds", package = "chem16S")
+psfile <- system.file("extdata/DADA2-GTDB_214/FEN+22/ps_FEN+22.rds", package = "chem16S")
 ps <- readRDS(psfile)
 ps <- prune_samples(sample_names(ps) != "SRR1346095", ps)
 ps
@@ -146,7 +146,7 @@ ps
 
 Then, we plot `r Zc` and `r nH2O` for the community reference proteomes using different colors for sample groups.
 ```{r plot_metrics2.Humboldt, fig.width = 6, fig.height = 4, fig.align = "center", pngquant = pngquant}
-plot_ps_metrics2(ps, refdb = "GTDB_207", color = "Location") +
+plot_ps_metrics2(ps, refdb = "GTDB_214", color = "Location") +
   geom_polygon(aes(fill = Location), alpha = 0.5) + geom_point(size = 3)
 ```
 
@@ -166,9 +166,9 @@ if(!requireNamespace("patchwork", quietly = TRUE)) {
 ```
 
 ```{r plot_metrics2.Humboldt_redox_OM, fig.width = 6, fig.height = 5, fig.align = "center", pngquant = pngquant}
-p2 <- plot_ps_metrics2(ps, refdb = "GTDB_207", color = "Sediment_redox") +
+p2 <- plot_ps_metrics2(ps, refdb = "GTDB_214", color = "Sediment_redox") +
   geom_point(size = 4) + labs(color = "Sediment redox (Eh)")
-p3 <- plot_ps_metrics2(ps, refdb = "GTDB_207", color = "Organic_matter") +
+p3 <- plot_ps_metrics2(ps, refdb = "GTDB_214", color = "Organic_matter") +
   geom_point(size = 4) + labs(color = "Organic matter (%)")
 p2 / p3
 ```
@@ -181,7 +181,7 @@ Previous observations that protein expression in cells is shifted toward lower `
 We can use correlations between two environmental variables (redox potential or OM) and two chemical metrics for communities (`r Zc` or `r nH2O`) in order to test these hypotheses.
 To make the plots, let's construct a single data frame containing the sample data and chemical metrics.
 ```{r sample.data.and.chemical.metrics.for.communities}
-sample.data.and.chemical.metrics.for.communities <- cbind(sample_data(ps), ps_metrics(ps, refdb = "GTDB_207"))
+sample.data.and.chemical.metrics.for.communities <- cbind(sample_data(ps), ps_metrics(ps, refdb = "GTDB_214"))
 ```
 
 Now let's write a function to create a scatter plot for two variables and add a regression line.
@@ -242,9 +242,9 @@ Let's test these predictions by doing some calculations.
 The following commands load the data and plot two environmental variables (ORP and temperature (T)) against two chemical metrics.
 
 ```{r load_Qinghai.Tibet}
-psfile2 <- system.file("extdata/DADA2-GTDB_207/ZFZ+23/ps_ZFZ+23.rds", package = "chem16S")
+psfile2 <- system.file("extdata/DADA2-GTDB_214/ZFZ+23/ps_ZFZ+23.rds", package = "chem16S")
 ps2 <- readRDS(psfile2)
-data.and.metrics <- cbind(sample_data(ps2), ps_metrics(ps2, refdb = "GTDB_207"))
+data.and.metrics <- cbind(sample_data(ps2), ps_metrics(ps2, refdb = "GTDB_214"))
 ps2
 ```
 
@@ -290,7 +290,7 @@ Let's add a column to the sample data to indicate the type of environment for ea
 ```{r plot_metrics2.merged, fig.width = 6, fig.height = 4, fig.align = "center", pngquant = pngquant}
 sample_data(ps_merged)$Environment <-
   ifelse(is.na(sample_data(ps_merged)$Depth), "Hot spring", "Marine sediment")
-plot_ps_metrics2(ps_merged, refdb = "GTDB_207", color = "Environment", shape = "Environment") +
+plot_ps_metrics2(ps_merged, refdb = "GTDB_214", color = "Environment", shape = "Environment") +
   geom_point(size = 3)
 ```
 

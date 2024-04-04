@@ -67,19 +67,19 @@ The author of this Rd file and the \code{ps_taxacounts} and \code{ps_metrics} fu
 
 \examples{
 # Example 1: Humboldt Sulfuretum (Fonseca et al., 2022)
-file <- system.file("extdata/DADA2-GTDB_207/FEN+22/ps_FEN+22.rds", package = "chem16S")
+file <- system.file("extdata/DADA2-GTDB_214/FEN+22/ps_FEN+22.rds", package = "chem16S")
 physeq <- readRDS(file)
 # Get lowest-level (to genus) classification for each OTU
 taxacounts <- ps_taxacounts(physeq)
 # Show numbers of assignments at each taxonomic level
 table(taxacounts$rank)
 # Map taxonomic names
-map <- map_taxa(taxacounts, refdb = "GTDB_207")
+map <- map_taxa(taxacounts, refdb = "GTDB_214")
 # Taxonomy and reference proteomes are both from GTDB,
 # so there are no unmapped classifications
 sum(attr(map, "unmapped_percent")) # == 0
 # Calculate chemical metrics
-ps_metrics(physeq, refdb = "GTDB_207")
+ps_metrics(physeq, refdb = "GTDB_214")
 
 # Example 2: GlobalPatterns dataset from phyloseq
 data(GlobalPatterns, package = "phyloseq")
