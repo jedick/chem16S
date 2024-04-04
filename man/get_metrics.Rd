@@ -16,7 +16,7 @@ Amino acid compositions are used to calculate chemical metrics.
   \item{RDP}{data frame, taxonomic abundances produced by \code{\link{read_RDP}} or \code{\link{ps_taxacounts}}}
   \item{map}{data frame, taxonomic mapping produced by \code{\link{map_taxa}}}
   \item{refdb}{character, name of reference database (\samp{GTDB_214} or \samp{RefSeq_206})}
-  \item{taxon_AA}{data frame, contents of \file{taxon_AA.csv.xz} in \file{extdata/GTDB} or \file{extdata/RefSeq} (optionally used for speed-up)}
+  \item{taxon_AA}{data frame, amino acid compositions of taxa, used to bypass \code{refdb} specification}
   \item{groups}{list of indexing vectors, samples to be aggregated into groups}
   \item{return_AA}{logical, return the amino acid composition for each sample instead of the chemical metrics?}
   \item{zero_AA}{character, three-letter abbreviation(s) of amino acid(s) to assign zero counts for calculating chemical metrics}

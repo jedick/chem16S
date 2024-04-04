@@ -7,12 +7,13 @@ Maps taxonomic names to NCBI (RefSeq) or GTDB taxonomy by automatic matching of 
 }
 
 \usage{
-  map_taxa(taxacounts = NULL, refdb = "GTDB_214", quiet = FALSE)
+  map_taxa(taxacounts = NULL, refdb = "GTDB_214", taxon_AA = NULL, quiet = FALSE)
 }
 
 \arguments{
   \item{taxacounts}{data frame with taxonomic name and abundances}
   \item{refdb}{character, name of reference database (\samp{GTDB_214} or \samp{RefSeq_206})}
+  \item{taxon_AA}{data frame, amino acid compositions of taxa, used to bypass \code{refdb} specification}
   \item{quiet}{logical, suppress printed messages?}
 }
 

@@ -4,7 +4,7 @@
 # Add refdb argument to use RefSeq or GTDB 20221016
 # TODO: warn when mapped percentage is below a certain value 20230615
 
-map_taxa <- function(taxacounts = NULL, refdb = "GTDB_214", quiet = FALSE) {
+map_taxa <- function(taxacounts = NULL, refdb = "GTDB_214", taxon_AA = NULL, quiet = FALSE) {
 
   # Make group names by combining rank and name
   INPUTgroups <- paste(taxacounts$rank, taxacounts$name, sep = "_")
@@ -50,11 +50,13 @@ map_taxa <- function(taxacounts = NULL, refdb = "GTDB_214", quiet = FALSE) {
   #   - from GTDB 20221016
   AApath <- file.path("RefDB", refdb, "taxon_AA.csv.xz")
   AAfile <- system.file(AApath, package = "chem16S")
-  if(!file.exists(AAfile)) {
-    available_RefDB <- dir(system.file("RefDB", package = "chem16S"))
-    stop(paste0("Chosen refdb (", refdb, ") is not one of ", paste(available_RefDB, collapse = ", ")))
+  if(is.null(taxon_AA)) {
+    if(!file.exists(AAfile)) {
+      available_RefDB <- dir(system.file("RefDB", package = "chem16S"))
+      stop(paste0("Chosen refdb (", refdb, ") is not one of ", paste(available_RefDB, collapse = ", ")))
+    }
+    taxon_AA <- read.csv(AAfile, as.is = TRUE)
   }
-  taxon_AA <- read.csv(AAfile, as.is = TRUE)
   AAgroups <- paste(taxon_AA$protein, taxon_AA$organism, sep = "_")
   # Do the mapping!
   iAA <- match(INPUTgroups, AAgroups)
