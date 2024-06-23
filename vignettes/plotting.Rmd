@@ -126,7 +126,7 @@ These patterns could suggest an influence of greater oxygenation in flowing wate
 ## Humboldt Sulfuretum (Marine Sediment)
 
 ::: {.infobox .note}
-In the remainder of this vignette, we will use the GTDB reference database (which is the default in **chem16S**) because the taxonomic classifications for the datasets analyzed below were made using the GTDB training set provided by @Ali22.
+In the remainder of this vignette, we will use the GTDB reference database (which is the default in **chem16S**) because the taxonomic classifications for the datasets analyzed below were made using the GTDB training set provided by @Ali23.
 :::
 
 
@@ -298,7 +298,75 @@ In most cases, the communities from hot springs in the Qinghai-Tibet Plateau hav
 This outcome is consistent with predictions about genomic adaptation to relatively more reducing and less saline conditions of the hot springs.
 
 The positive association between `r Zc` and `r nH2O` for the sediment communities does not extend to the comparison between two datasets.
-This distinction suggests that the factors that influence community-level elemental composition are different at local and global scales.
+This suggests different influences of environmental factors on community-level elemental composition at local and global scales.
+
+## Comparing more datasets
+
+Let's add more data to the previous comparison, specifically freshwater and marine samples from the Baltic Sea salinity gradient [@HLA+16].
+The first part of the following code chunk is adapted from the help page for `plot_metrics()`.
+A few lines are added to remove brackish samples and adjust the plotting symbols for the remaining samples.
+Then, the values for hot springs and sediments are appended to the data frame.
+Finally, new colors are assigned and the plot is made.
+*Note: this chunk does not depend on running the previous code, except for `library(chem16S)` and `library(phyloseq)`.*
+
+<button id="B-more_datasets" onclick="ToggleDiv('more_datasets')">Show code</button>
+<div id="D-more_datasets" style="display: none">
+```{r more_datasets, eval = FALSE}
+# Get data for the Baltic Sea salinity gradient from Herlemann et al., 2016
+RDPfile <- system.file("extdata/RDP/HLA+16.tab.xz", package = "chem16S")
+RDP <- read_RDP(RDPfile)
+map <- map_taxa(RDP, refdb = "RefSeq_206")
+metrics <- get_metrics(RDP, map, refdb = "RefSeq_206")
+mdatfile <- system.file("extdata/metadata/HLA+16.csv", package = "chem16S")
+mdat <- get_metadata(mdatfile, metrics)
+# Take out brackish samples (6-20 PSU)
+ibrackish <- mdat$metadata$pch == 20
+mdat$metadata <- mdat$metadata[!ibrackish, ]
+mdat$metrics <- mdat$metrics[!ibrackish, ]
+# Keep the values used for the plot
+mdat$metadata <- mdat$metadata[, c("name", "pch", "col")]
+mdat$metrics <- mdat$metrics[, c("Zc", "nH2O")]
+# Change symbols
+isalt <- mdat$metadata$pch == 21
+ifresh <- mdat$metadata$pch == 24
+mdat$metadata$pch[isalt] <- 24
+mdat$metadata$pch[ifresh] <- 21
+mdat$metadata$col[isalt] <- 3
+mdat$metadata$col[ifresh] <- 4
+# Append hot spring and sediment values
+FEN22 <- readRDS(system.file("extdata/DADA2-GTDB_214/FEN+22/ps_FEN+22.rds", package = "chem16S"))
+FEN22 <- prune_samples(sample_names(FEN22) != "SRR1346095", FEN22)
+FEN22_metrics <- ps_metrics(FEN22)[, c("Zc", "nH2O")]
+ZFZ23 <- readRDS(system.file("extdata/DADA2-GTDB_214/ZFZ+23/ps_ZFZ+23.rds", package = "chem16S"))
+ZFZ23_metrics <- ps_metrics(ZFZ23)[, c("Zc", "nH2O")]
+mdat$metadata <- rbind(mdat$metadata,
+  data.frame(name = "sediment", pch = 25, col = rep(7, nrow(FEN22_metrics))))
+mdat$metadata <- rbind(mdat$metadata,
+  data.frame(name = "hot spring", pch = 22, col = rep(2, nrow(ZFZ23_metrics))))
+mdat$metrics <- rbind(mdat$metrics, FEN22_metrics, ZFZ23_metrics)
+# Change colors
+mdat$metadata$col[mdat$metadata$col == 2] <- (red <- "#db2828")
+mdat$metadata$col[mdat$metadata$col == 3] <- (green <- "#21ba45")
+mdat$metadata$col[mdat$metadata$col == 4] <- (blue <- "#2185d0")
+mdat$metadata$col[mdat$metadata$col == 7] <- (yellow <- "#fbbd08")
+# Create bold axis labels
+Zclab <- quote(bolditalic(Z)[bold(C)])
+nH2Olab <- quote(bolditalic(n)[bold(H[2]*O)])
+# Make the plot
+par(mar = c(4, 4, 1, 1))
+par(cex.lab = 1.2, mgp = c(2.8, 1, 0))
+pm <- plot_metrics(mdat, title = FALSE, xlab = Zclab, ylab = nH2Olab)
+# Add a legend
+legend <- c("Hot spring", "Freshwater", "Marine water", "Marine sediment")
+pch <- c(22, 21, 24, 25)
+pt.bg <- c(red, blue, green, yellow)
+legend("bottomleft", legend, pch = pch, col = 1, pt.bg = pt.bg, bg = "white", bty = "n")
+```
+</div>
+```{r more_datasets, message = FALSE, results = "hide", echo = FALSE, fig.width = 5, fig.height = 4, fig.align = "center", pngquant = pngquant}
+```
+
+Notice how more reducing samples (hot spring and sediment) have relatively low `r Zc` and more saline samples (marine water and sediment) have relatively low `r nH2O`.
 
 ## Take-home messages
 
