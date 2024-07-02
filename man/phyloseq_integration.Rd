@@ -32,7 +32,7 @@ Calculate chemical metrics of community reference proteomes from taxonomic abund
   \item{shape}{map this variable to shapes}
   \item{title}{main title for the plot}
   \item{scales}{\samp{free_y} or \samp{fixed} for different vertical scales or same scale in each panel}
-  \item{nrow}{number of rows of panels (passed to \code{\link{facet_wrap}})}
+  \item{nrow}{number of rows of panels (passed to \code{\link[ggplot2]{facet_wrap}})}
   \item{sortby}{subset of \code{metrics} argument, sort x-index by the mean values of these metrics}
 }
 

@@ -1,5 +1,7 @@
-CHANGES IN chem16S 1.0.0-21 (2024-04-02)
-----------------------------------------
+CHANGES IN chem16S 1.1.0 (2024-06-25)
+-------------------------------------
+
+- Change default reference database to GTDB version 214.
 
 - Normalize file names in RefDB/RefSeq_206 and RefDB/GTDB_214 for easier
   programmatic access.
@@ -8,11 +10,10 @@ CHANGES IN chem16S 1.0.0-21 (2024-04-02)
 
 - Add 'Domain' as an allowed rank in ps_taxacounts().
 
-- Move calc_metrics() and add_hull() to canprot.
+- Move calc_metrics() and add_hull() to the canprot package, which is now
+  imported by chem16S.
 
 - A single 'metrics' argument replaces 'x' and 'y' in plot_ps_metrics2().
-
-- Change default reference database to GTDB r214.
 
 CHANGES IN chem16S 1.0.0 (2023-07-17)
 -------------------------------------
