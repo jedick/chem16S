@@ -8,14 +8,14 @@ Amino acid compositions are used to calculate chemical metrics.
 }
 
 \usage{
-  get_metrics(RDP, map, refdb = "GTDB_214", taxon_AA = NULL, groups = NULL,
+  get_metrics(RDP, map, refdb = "GTDB_220", taxon_AA = NULL, groups = NULL,
     return_AA = FALSE, zero_AA = NULL, metrics = c("Zc", "nO2", "nH2O"))
 }
 
 \arguments{
   \item{RDP}{data frame, taxonomic abundances produced by \code{\link{read_RDP}} or \code{\link{ps_taxacounts}}}
   \item{map}{data frame, taxonomic mapping produced by \code{\link{map_taxa}}}
-  \item{refdb}{character, name of reference database (\samp{GTDB_214} or \samp{RefSeq_206})}
+  \item{refdb}{character, name of reference database (\samp{GTDB_220} or \samp{RefSeq_206})}
   \item{taxon_AA}{data frame, amino acid compositions of taxa, used to bypass \code{refdb} specification}
   \item{groups}{list of indexing vectors, samples to be aggregated into groups}
   \item{return_AA}{logical, return the amino acid composition for each sample instead of the chemical metrics?}
@@ -68,10 +68,10 @@ groups <- list(A = mdat$metadata$domain == "Archaea",
 # This is a data frame with 2 rows and group, Zc, nO2, and nH2O columns
 get_metrics(RDP, map, refdb = "RefSeq_206", groups = groups)
 
-## For the next example, classifications were made using the RDP Classifer
-## with 16S rRNA sequences from GTDB r207, but
-## reference proteomes are based on GTDB r214
-## (this uses the default option of refdb = "GTDB_214").
+## Classifications here were made using the RDP Classifer
+## retrained with 16S rRNA sequences from GTDB r207, but
+## reference proteomes are generated based on genomes in GTDB r220
+## (this uses the default option of refdb = "GTDB_220")
 RDPfile.GTDB <- system.file("extdata/RDP-GTDB_207/BGPF13.tab.xz", package = "chem16S")
 RDP.GTDB <- read_RDP(RDPfile.GTDB)
 map.GTDB <- map_taxa(RDP.GTDB)

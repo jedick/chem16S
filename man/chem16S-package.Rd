@@ -83,7 +83,7 @@ History:
 
 }
 
-\section{Files in RefDB/GTDB_214}{
+\section{Files in RefDB/GTDB_220}{
 
   \describe{
     \item{\file{taxon_AA.R}}{Functions to process GTDB source files (Parks et al., 2022) and produce the following output file:}

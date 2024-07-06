@@ -1,4 +1,9 @@
-CHANGES IN chem16S 1.1.0 (2024-06-25)
+CHANGES IN chem16S 1.1.0-1 (2024-07-06)
+---------------------------------------
+
+- Change default reference database to GTDB version 220.
+
+CHANGES IN chem16S 1.1.0 (2024-07-01)
 -------------------------------------
 
 - Change default reference database to GTDB version 214.

@@ -76,7 +76,7 @@ ps_taxacounts <- function(physeq, split = TRUE) {
 }
 
 # Calculate chemical metrics from phyloseq object
-ps_metrics <- function(physeq, split = TRUE, refdb = "GTDB_214", quiet = FALSE, ...) {
+ps_metrics <- function(physeq, split = TRUE, refdb = "GTDB_220", quiet = FALSE, ...) {
   # Obtain data frame with lowest-level (to genus) classifications for each OTU
   taxacounts <- ps_taxacounts(physeq, split = split)
   # Map names to NCBI taxonomy
@@ -190,7 +190,7 @@ plot_ps_metrics <- function(physeq, metrics = c("Zc", "nO2", "nH2O"), x = "sampl
 # Plot two chemical metrics against each other 20230617
 # Parts of this function were adapted by Jeffrey Dick from phyloseq::plot_richness() by Paul J. McMurdie
 plot_ps_metrics2 <- function(physeq, metrics = c("Zc", "nH2O"), color = NULL, shape = NULL,
-  title = NULL, refdb = "GTDB_214", quiet = FALSE) { 
+  title = NULL, refdb = "GTDB_220", quiet = FALSE) { 
 
   if(length(metrics) < 2) stop("please supply the names of two metrics in 'metrics'")
   if(length(metrics) > 2) warning("plot_ps_metrics2: 'metrics' has length > 2; using the first two")

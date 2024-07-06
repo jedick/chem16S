@@ -229,11 +229,12 @@ The community reference proteomes for Late samples tend to be more oxidized and 
 As noted above, mapping taxon names from Silva or RDP to RefSeq is not perfect.
 To overcome this limitation, the GTDB can be used for both taxonomic classification of 16S rRNA gene sequences and for reference proteomes of taxa.
 Here we load a `phyloseq-class` object prepared following the DADA2 Pipeline Tutorial modified to classify 16S rRNA gene sequences using GTDB r214 [@Ali23].
-Then, we plot chemical metrics calculated for reference proteomes derived from the same version of the GTDB.
+Then, we plot chemical metrics calculated for reference proteomes also derived from the GTDB, but a later version.
+(The reason for this is that DADA2-formatted 16S rRNA sequences from GTDB r220 are not yet available in the Zenodo repository maintained by @Ali23.)
 
 ```{r data.GTDB, collapse = TRUE, fig.width = 6, fig.height = 4, fig.align = "center", pngquant = pngquant}
 data(mouse.GTDB_214)
-plot_ps_metrics2(mouse.GTDB_214, refdb = "GTDB_214", color = "When", shape = "When") + geom_point(size = 3)
+plot_ps_metrics2(mouse.GTDB_214, refdb = "GTDB_220", color = "When", shape = "When") + geom_point(size = 3)
 ```
 
 Compared to using the RDP for classification of 16S rRNA sequences and RefSeq for reference proteomes, using the GTDB for both yields a clearer separation of Early and Late samples in chemical space.

@@ -3,7 +3,7 @@
 # Moved to chem16S 20220505
 # Add refdb argument 20221016
 
-get_metrics <- function(RDP = NULL, map = NULL, refdb = "GTDB_214", taxon_AA = NULL,
+get_metrics <- function(RDP = NULL, map = NULL, refdb = "GTDB_220", taxon_AA = NULL,
   groups = NULL, return_AA = FALSE, zero_AA = NULL, metrics = c("Zc", "nO2", "nH2O")) {
 
   # Exclude NA mappings

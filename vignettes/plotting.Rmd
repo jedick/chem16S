@@ -106,7 +106,7 @@ Human = get_variable(GlobalPatterns, "SampleType") %in% c("Feces", "Mock", "Skin
 sample_data(GlobalPatterns)$Human <- factor(Human)
 ```
 
-Taxonomic assignments were made using the RDP Classifier without any additional training set specified [@CLW+11], so we use the `refdb = "RefSeq_206"` argument to apply the manual mappings between RDP and RefSeq described by @DT23.
+Taxonomic assignments reported by @CLW+11 were made using the RDP Classifier (presumably with its default training set), so we use the `refdb = "RefSeq_206"` argument to use manual mappings between RDP and RefSeq described by @DT23.
 
 ```{r plot_metrics2.GlobalPatterns, collapse = TRUE}
 p2 <- plot_ps_metrics2(GlobalPatterns, color = "SampleType", shape = "Human", refdb = "RefSeq_206")
@@ -126,7 +126,9 @@ These patterns could suggest an influence of greater oxygenation in flowing wate
 ## Humboldt Sulfuretum (Marine Sediment)
 
 ::: {.infobox .note}
-In the remainder of this vignette, we will use the GTDB reference database (which is the default in **chem16S**) because the taxonomic classifications for the datasets analyzed below were made using the GTDB training set provided by @Ali23.
+Below, GTDB version 220 (the one currently used in **chem16S**) is used for making reference proteomes.
+However, taxonomic classifications of 16S rRNA sequences were made with the files provided by @Ali23, which are based on GTDB version 214.
+Therefore, the mapping rate between 16S rRNA classifications and reference genomes is less than 100%.
 :::
 
 
@@ -146,7 +148,7 @@ ps
 
 Then, we plot `r Zc` and `r nH2O` for the community reference proteomes using different colors for sample groups.
 ```{r plot_metrics2.Humboldt, fig.width = 6, fig.height = 4, fig.align = "center", pngquant = pngquant}
-plot_ps_metrics2(ps, refdb = "GTDB_214", color = "Location") +
+plot_ps_metrics2(ps, refdb = "GTDB_220", color = "Location") +
   geom_polygon(aes(fill = Location), alpha = 0.5) + geom_point(size = 3)
 ```
 
@@ -166,9 +168,9 @@ if(!requireNamespace("patchwork", quietly = TRUE)) {
 ```
 
 ```{r plot_metrics2.Humboldt_redox_OM, fig.width = 6, fig.height = 5, fig.align = "center", pngquant = pngquant}
-p2 <- plot_ps_metrics2(ps, refdb = "GTDB_214", color = "Sediment_redox") +
+p2 <- plot_ps_metrics2(ps, refdb = "GTDB_220", color = "Sediment_redox") +
   geom_point(size = 4) + labs(color = "Sediment redox (Eh)")
-p3 <- plot_ps_metrics2(ps, refdb = "GTDB_214", color = "Organic_matter") +
+p3 <- plot_ps_metrics2(ps, refdb = "GTDB_220", color = "Organic_matter") +
   geom_point(size = 4) + labs(color = "Organic matter (%)")
 p2 / p3
 ```
@@ -181,7 +183,7 @@ Previous observations that protein expression in cells is shifted toward lower `
 We can use correlations between two environmental variables (redox potential or OM) and two chemical metrics for communities (`r Zc` or `r nH2O`) in order to test these hypotheses.
 To make the plots, let's construct a single data frame containing the sample data and chemical metrics.
 ```{r sample.data.and.chemical.metrics.for.communities}
-sample.data.and.chemical.metrics.for.communities <- cbind(sample_data(ps), ps_metrics(ps, refdb = "GTDB_214"))
+sample.data.and.chemical.metrics.for.communities <- cbind(sample_data(ps), ps_metrics(ps, refdb = "GTDB_220"))
 ```
 
 Now let's write a function to create a scatter plot for two variables and add a regression line.
@@ -244,7 +246,7 @@ The following commands load the data and plot two environmental variables (ORP a
 ```{r load_Qinghai.Tibet}
 psfile2 <- system.file("extdata/DADA2-GTDB_214/ZFZ+23/ps_ZFZ+23.rds", package = "chem16S")
 ps2 <- readRDS(psfile2)
-data.and.metrics <- cbind(sample_data(ps2), ps_metrics(ps2, refdb = "GTDB_214"))
+data.and.metrics <- cbind(sample_data(ps2), ps_metrics(ps2, refdb = "GTDB_220"))
 ps2
 ```
 
@@ -290,7 +292,7 @@ Let's add a column to the sample data to indicate the type of environment for ea
 ```{r plot_metrics2.merged, fig.width = 6, fig.height = 4, fig.align = "center", pngquant = pngquant}
 sample_data(ps_merged)$Environment <-
   ifelse(is.na(sample_data(ps_merged)$Depth), "Hot spring", "Marine sediment")
-plot_ps_metrics2(ps_merged, refdb = "GTDB_214", color = "Environment", shape = "Environment") +
+plot_ps_metrics2(ps_merged, refdb = "GTDB_220", color = "Environment", shape = "Environment") +
   geom_point(size = 3)
 ```
 
