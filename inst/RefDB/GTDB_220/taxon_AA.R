@@ -5,10 +5,6 @@ taxon_AA <- function() {
   genome_AA <- read.csv("genome_AA.csv")
   # Read the taxonomy 20231229
   taxonomy <- read.csv("taxonomy.csv")
-  # Keep only genomes with at least 500 proteins
-  i500 <- genome_AA$chains >= 500
-  genome_AA <- genome_AA[i500, ]
-  taxonomy <- taxonomy[i500, ]
   # Normalize by number of proteins
   genome_AA[, 5:25] <- genome_AA[, 5:25] / genome_AA$chains
 
