@@ -10,7 +10,9 @@ export(
   # 20230617
   "plot_ps_metrics2",
   # 20230704
-  "chemlab"
+  "chemlab",
+  # 20241119
+  "get_metric_byrank"
 )
 
 importFrom("stats", "aggregate", "na.omit")
