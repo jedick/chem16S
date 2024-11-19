@@ -30,6 +30,7 @@ History:
     \item Late 2022. GTDB r207 was added as a reference database.
     \item June--July 2023. Integration with \pkg{phyloseq} and addition of vignettes: \emph{Chemical metrics of reference proteomes}, \emph{Integration of chem16S with phyloseq}, and \emph{Plotting two chemical metrics}. Default reference database changed to GTDB r207.
     \item April 2024. Updated to GTDB r214.
+    \item July 2024. Updated to GTDB r220.
   }
 
 }
@@ -113,7 +114,7 @@ History:
   \describe{
     \item{\file{pipeline.R}}{
       Pipeline for sequence data processing (uses external programs fastq-dump, vsearch, seqtk, RDP Classifier).
-      This was used to make the files in both \file{RDP} and \file{RDP-GTDB_207} (the latter with \code{GTDB = TRUE} in the script).
+      This was used to make the files in both \file{RDP} and \file{RDP-GTDB_220} (the latter with \code{GTDB = TRUE} in the script).
     }
     \item{\file{BGPF13.tab.xz}}{Heart Lake Geyser Basin.}
     \item{\file{HLA+16.tab.xz}}{Baltic Sea.}
@@ -122,9 +123,9 @@ History:
 
 }
 
-\section{Files in extdata/RDP-GTDB_207}{
+\section{Files in extdata/RDP-GTDB_220}{
 
-  Output of RDP Classifer using the GTDB r207 SSU training set (\doi{10.5281/zenodo.7633100}).
+  Output of RDP Classifer trained with 16S rRNA sequences from GTDB release 220 (\doi{https://doi.org/10.5281/zenodo.7633099}).
 
   \describe{
     \item{\file{BGPF13.tab.xz}}{Heart Lake Geyser Basin.}

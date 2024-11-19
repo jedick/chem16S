@@ -49,7 +49,7 @@ A data frame of numeric values with row names corresponding to samples and colum
 \examples{
 # Plot similar to Fig. 1 in Dick and Shock (2013)
 # Read example dataset
-RDPfile <- system.file("extdata/RDP-GTDB_207/SMS+12.tab.xz", package = "chem16S")
+RDPfile <- system.file("extdata/RDP-GTDB_220/SMS+12.tab.xz", package = "chem16S")
 RDP <- read_RDP(RDPfile)
 # Get mapping to reference database
 map <- map_taxa(RDP)

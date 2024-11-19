@@ -49,7 +49,7 @@ For mapping to the NCBI (RefSeq) taxonomy, some group names are manually mapped 
 
 To avoid manual mapping, GTDB can be used for both taxonomic assignemnts and reference proteomes.
 Taxonomic assignments based on 16S rRNA sequences from GTDB can be made using training files for the RDP Classifier (\doi{10.5281/zenodo.7633099}) or \pkg{dada2} (\doi{10.5281/zenodo.2541238}) (make sure to choose the appropriate GTDB version).
-Example files created using the RDP Classifier are provided under \file{extdata/RDP-GTDB_207}.
+Example files created using the RDP Classifier are provided under \file{extdata/RDP-GTDB_220}.
 An example dataset created with DADA2 is \code{data(\link{mouse.GTDB_214})}; this is a \code{\link[phyloseq]{phyloseq-class}} object that can be processed with functions described at \code{\link{physeq}}.
 
 Change \code{quiet} to TRUE to suppress printing of messages about manual mappings, most abundant unmapped groups, and overall percentage of mapped names.
@@ -62,20 +62,18 @@ Attributes \code{unmapped_groups} and \code{unmapped_percent} have the input nam
 }
 
 \examples{
-# Mapping taxonomic classifications from RDP training set to NCBI taxonomy
+# Partial mapping from RDP training set to NCBI taxonomy
 file <- system.file("extdata/RDP/SMS+12.tab.xz", package = "chem16S")
 RDP <- read_RDP(file)
 map <- map_taxa(RDP, refdb = "RefSeq_206")
 # About 24% of classifications are unmapped
 sum(attributes(map)$unmapped_percent)
 
-# Mapping from GTDB training set to GTDB taxonomy
-file <- system.file("extdata/RDP-GTDB_207/SMS+12.tab.xz", package = "chem16S")
+# 100% mapping from GTDB training set to GTDB taxonomy
+file <- system.file("extdata/RDP-GTDB_220/SMS+12.tab.xz", package = "chem16S")
 RDP.GTDB <- read_RDP(file)
 map.GTDB <- map_taxa(RDP.GTDB)
-# The classifications were made with GTDB r207, but the reference database 
-# in chem16S has been updated to GTDB r220, so the mapping rate is less than 100 %
-sum(attributes(map.GTDB)$unmapped_percent)
+stopifnot(all.equal(sum(attributes(map.GTDB)$unmapped_percent), 0))
 }
 
 \references{

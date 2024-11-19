@@ -68,12 +68,10 @@ groups <- list(A = mdat$metadata$domain == "Archaea",
 # This is a data frame with 2 rows and group, Zc, nO2, and nH2O columns
 get_metrics(RDP, map, refdb = "RefSeq_206", groups = groups)
 
-## Classifications here were made using the RDP Classifer
-## retrained with 16S rRNA sequences from GTDB r207, but
-## reference proteomes are generated based on genomes in GTDB r220
-## (this uses the default option of refdb = "GTDB_220")
-RDPfile.GTDB <- system.file("extdata/RDP-GTDB_207/BGPF13.tab.xz", package = "chem16S")
+# Classifications were made using the RDP Classifer retrained with GTDB r220
+RDPfile.GTDB <- system.file("extdata/RDP-GTDB_220/BGPF13.tab.xz", package = "chem16S")
 RDP.GTDB <- read_RDP(RDPfile.GTDB)
+# These use the default option of refdb = "GTDB_220"
 map.GTDB <- map_taxa(RDP.GTDB)
 metrics.GTDB <- get_metrics(RDP.GTDB, map.GTDB)
 

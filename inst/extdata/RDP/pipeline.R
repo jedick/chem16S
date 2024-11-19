@@ -37,8 +37,8 @@
 
 # To run RDP Classifier after chimera removal:
 # > classify(RUNID)
-# To combine output of RDP Classifier into one file
-#   - Result is saved in RDP/<study>.tab below the current directory
+# To combine output of RDP Classifier into one file:
+# (Saved as <study>.tab in RDP/ or RDP-GTDB/ in the current directory)
 # > mkRDP()
 
 ## STUDY SETTINGS
@@ -85,7 +85,7 @@ RDPjar <- "/opt/rdp_classifier_2.13/dist/classifier.jar"
 GTDB <- FALSE
 #GTDB <- TRUE
 # Path to rRNAClassifier.properties
-GTDBpath <- "/home/chem16S/RDP/GTDB/genus/training_files/rRNAClassifier.properties"
+GTDBpath <- "/home/chem16S/RDP/GTDB/220.0/genus/training_files/rRNAClassifier.properties"
 
 # RDP Classifier version (java -jar /opt/rdp_classifier_2.13/dist/classifier.jar version)
 #Gene:16srrna    Trainset No:18  Taxonomy Version:RDP 16S rRNA training setNo 18 07/2020
@@ -312,7 +312,7 @@ findchimeras <- function() {
 
 # Run RDP Classifier on one or multiple files 20200910
 # Use GNU parallel 20220509
-classify <- function(RUNID, conf = 0.8, jobs = 4, dryrun = FALSE) {
+classify <- function(RUNID, conf = 0.8, jobs = 8, dryrun = FALSE) {
 
   # Output directory for RDP Classifier
   if(GTDB) RDPdir <- file.path(studydir, "RDP-GTDB") else RDPdir <- file.path(studydir, "RDP")
