@@ -1,5 +1,6 @@
 \docType{data}
 \name{chem16S-data}
+\alias{chem16S-data}
 \alias{mouse.silva}
 \alias{mouse.RDP}
 \alias{mouse.GTDB_220}

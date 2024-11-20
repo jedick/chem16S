@@ -38,7 +38,7 @@ The sequence data analyzed for this plot was taken from [Herlemann et al. (2016)
 
 * Scripts in the [GTDB_220](inst/RefDB/GTDB_220) and [RefSeq_206](inst/RefDB/RefSeq_206) directories were used to generate reference proteomes for genus- and higher-level archaeal and bacterial taxa (and viruses for RefSeq).
 
-* It is recommended to use *16S rRNA sequences from GTDB* for taxonomic classification (files are available for [DADA2](https://doi.org/10.5281/zenodo.10403693) and the [RDP Classifier](https://doi.org/10.5281/zenodo.12525163)) so that taxonomic assignments can be automatically matched to GTDB reference proteomes available in *chem16S*.
+* It is recommended to use *16S rRNA sequences from GTDB* for taxonomic classification (files are available for [DADA2](https://doi.org/10.5281/zenodo.13984843) and the [RDP Classifier](https://doi.org/10.5281/zenodo.12525163)) so that taxonomic assignments can be automatically matched to GTDB reference proteomes available in *chem16S*.
 
 * For taxonomic classifications made using the RDP training set (No. 18 07/2020, used in RDP Classifier version 2.13), *chem16S* includes manual mappings to the NCBI taxonomy described by [Dick and Tan (2023)](https://doi.org/10.1007/s00248-022-01988-9).
 
