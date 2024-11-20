@@ -17,7 +17,7 @@ Supported input formats:
 
 Supported reference databases:
 
-* [Genome Taxonomy Database](https://gtdb.ecogenomic.org/) (GTDB release 214)
+* [Genome Taxonomy Database](https://gtdb.ecogenomic.org/) (GTDB release 220)
 * [NCBI Reference Sequence Database](https://www.ncbi.nlm.nih.gov/refseq/) (RefSeq release 206)
 
 ### Description
@@ -36,7 +36,7 @@ The sequence data analyzed for this plot was taken from [Herlemann et al. (2016)
 
 ### Methods
 
-* Scripts in the [GTDB_214](inst/RefDB/GTDB_214) and [RefSeq_206](inst/RefDB/RefSeq_206) directories were used to generate reference proteomes for genus- and higher-level archaeal and bacterial taxa (and viruses for RefSeq).
+* Scripts in the [GTDB_220](inst/RefDB/GTDB_220) and [RefSeq_206](inst/RefDB/RefSeq_206) directories were used to generate reference proteomes for genus- and higher-level archaeal and bacterial taxa (and viruses for RefSeq).
 
 * It is recommended to use *16S rRNA sequences from GTDB* for taxonomic classification (files are available for [DADA2](https://doi.org/10.5281/zenodo.10403693) and the [RDP Classifier](https://doi.org/10.5281/zenodo.12525163)) so that taxonomic assignments can be automatically matched to GTDB reference proteomes available in *chem16S*.
 

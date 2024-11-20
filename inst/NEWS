@@ -1,7 +1,7 @@
-CHANGES IN chem16S 1.1.0-4 (2024-11-19)
+CHANGES IN chem16S 1.1.0-6 (2024-11-20)
 ---------------------------------------
 
-- Change default reference database to GTDB version 220.
+- Update reference database to GTDB version 220.
 
 - Add get_metric_byrank() to return chemical metric for all taxa at a given
   rank, calculated by aggregating abundance-weighted amino acid compositions.

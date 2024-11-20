@@ -125,13 +125,6 @@ These patterns could suggest an influence of greater oxygenation in flowing wate
 
 ## Humboldt Sulfuretum (Marine Sediment)
 
-::: {.infobox .note}
-Below, GTDB version 220 (the one currently used in **chem16S**) is used for making reference proteomes.
-However, taxonomic classifications of 16S rRNA sequences were made with the files provided by @Ali23, which are based on GTDB version 214.
-Therefore, the mapping rate between 16S rRNA classifications and reference genomes is less than 100%.
-:::
-
-
 @FEN+22 reported 16S rRNA gene sequences for sediment samples from the oxygen minimum zone of the Pacific Ocean along the coast of Chile, known as the Humboldt Sulfuretum.
 The sample data include dissolved oxygen, redox potential in sediment and overlying water, and organic matter (OM) content.
 This is a useful dataset for exploring the hypothesis that `r Zc` of proteins is shaped by redox conditions.
@@ -140,7 +133,7 @@ Here we read the `phyloseq-class` object created by using DADA2 [@CMR+16] to ide
 A sample taken from 50 m depth at the Valparaiso location on 2012-05-12 is available in the Sequence Read Archive (SRA) but was not included in the analysis described by @FEN+22.
 The taxonomic composition of this sample is highly different from the all the others (see the ordination plots in the `extdata` directory where the `ps_FEN+22.rds` file is located), so we exclude it to avoid anomalous results.
 ```{r read_Humboldt}
-psfile <- system.file("extdata/DADA2-GTDB_214/FEN+22/ps_FEN+22.rds", package = "chem16S")
+psfile <- system.file("extdata/DADA2-GTDB_220/FEN+22/ps_FEN+22.rds", package = "chem16S")
 ps <- readRDS(psfile)
 ps <- prune_samples(sample_names(ps) != "SRR1346095", ps)
 ps
@@ -244,7 +237,7 @@ Let's test these predictions by doing some calculations.
 The following commands load the data and plot two environmental variables (ORP and temperature (T)) against two chemical metrics.
 
 ```{r load_Qinghai.Tibet}
-psfile2 <- system.file("extdata/DADA2-GTDB_214/ZFZ+23/ps_ZFZ+23.rds", package = "chem16S")
+psfile2 <- system.file("extdata/DADA2-GTDB_220/ZFZ+23/ps_ZFZ+23.rds", package = "chem16S")
 ps2 <- readRDS(psfile2)
 data.and.metrics <- cbind(sample_data(ps2), ps_metrics(ps2, refdb = "GTDB_220"))
 ps2
@@ -336,10 +329,10 @@ mdat$metadata$pch[ifresh] <- 21
 mdat$metadata$col[isalt] <- 3
 mdat$metadata$col[ifresh] <- 4
 # Append hot spring and sediment values
-FEN22 <- readRDS(system.file("extdata/DADA2-GTDB_214/FEN+22/ps_FEN+22.rds", package = "chem16S"))
+FEN22 <- readRDS(system.file("extdata/DADA2-GTDB_220/FEN+22/ps_FEN+22.rds", package = "chem16S"))
 FEN22 <- prune_samples(sample_names(FEN22) != "SRR1346095", FEN22)
 FEN22_metrics <- ps_metrics(FEN22)[, c("Zc", "nH2O")]
-ZFZ23 <- readRDS(system.file("extdata/DADA2-GTDB_214/ZFZ+23/ps_ZFZ+23.rds", package = "chem16S"))
+ZFZ23 <- readRDS(system.file("extdata/DADA2-GTDB_220/ZFZ+23/ps_ZFZ+23.rds", package = "chem16S"))
 ZFZ23_metrics <- ps_metrics(ZFZ23)[, c("Zc", "nH2O")]
 mdat$metadata <- rbind(mdat$metadata,
   data.frame(name = "sediment", pch = 25, col = rep(7, nrow(FEN22_metrics))))

@@ -36,7 +36,7 @@ for(run in sra$Run) {
 ###
 
 library(dada2); packageVersion("dada2")
-## [1] ‘1.28.0’
+## [1] ‘1.32.0’
 
 path = "."
 
@@ -85,8 +85,9 @@ head(out)
 
 # Timing on 2018 8-core Intel CPU
 system.time(errF <- learnErrors(filtFs, multithread = TRUE))
+## 100873000 total bases in 201746 reads from 26 samples will be used for learning the error rates.
 ##     user   system  elapsed
-## 4406.295    6.821  694.335
+## 5287.732    6.562  783.071
 
 saveRDS(errF, "errF.rds")
 
@@ -217,10 +218,10 @@ saveRDS(seqtab.nochim.B, "seqtab.nochim.B.rds")
 ### Assign taxonomy
 ###
 
-# GTDB r214 16S rRNA sequences formatted for DADA2 were downloaded from https://zenodo.org/record/10403693
-system.time(taxa <- assignTaxonomy(seqtab.nochim.B, "GTDB_bac120_arc53_ssu_r214_genus.fa.gz", multithread = TRUE, tryRC = TRUE))
+# GTDB r220 16S rRNA sequences formatted for DADA2 were downloaded from https://doi.org/10.5281/zenodo.13984843
+system.time(taxa <- assignTaxonomy(seqtab.nochim.B, "GTDB_bac120_arc53_ssu_r220_genus.fa.gz", multithread = TRUE, tryRC = TRUE))
 ##     user   system  elapsed
-## 4788.254    4.055  631.154
+## 5786.686    7.701  772.793
 
 # Let’s inspect the taxonomic assignments:
 taxa.print <- taxa # Removing sequence rownames for display only
@@ -228,7 +229,7 @@ rownames(taxa.print) <- NULL
 head(taxa.print)
 ##      Kingdom    Phylum           Class                 Order              Family              Genus
 ## [1,] "Bacteria" "Bacteroidota"   "Bacteroidia"         "Flavobacteriales" "Flavobacteriaceae" "Lutimonas"
-## [2,] "Bacteria" "Pseudomonadota" "Gammaproteobacteria" NA                 NA                  NA
+## [2,] "Bacteria" "Pseudomonadota" "Gammaproteobacteria" "UBA9214"          "UBA9214"           "UBA9214"
 ## [3,] "Bacteria" "Pseudomonadota" "Gammaproteobacteria" "Beggiatoales"     "Beggiatoaceae"     "Marithrix"
 ## [4,] "Bacteria" "Pseudomonadota" "Gammaproteobacteria" "Beggiatoales"     "Beggiatoaceae"     "Marithrix"
 ## [5,] "Bacteria" "Pseudomonadota" "Gammaproteobacteria" "Beggiatoales"     "Beggiatoaceae"     "Marithrix"
@@ -241,11 +242,11 @@ saveRDS(taxa, "taxa.rds")
 ###
 
 library(phyloseq); packageVersion("phyloseq")
-## [1] ‘1.44.0’
+## [1] ‘1.48.0’
 library(Biostrings); packageVersion("Biostrings")
-## [1] ‘2.68.1’
+## [1] ‘2.72.1’
 library(ggplot2); packageVersion("ggplot2")
-## [1] ‘3.4.2’
+## [1] ‘3.5.1’
 theme_set(theme_bw())
 
 # Read data frame with sample data constructed from BioSample and SRA entries

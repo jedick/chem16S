@@ -135,9 +135,9 @@ History:
 
 }
 
-\section{Files in extdata/DADA2-GTDB_214}{
+\section{Files in extdata/DADA2-GTDB_220}{
 
-  Identification and taxonomic classification of sequences using DADA2 with GTDB r214.
+  Identification and taxonomic classification of sequences using DADA2 with GTDB r220.
 
   \describe{
     \item{\file{FEN+22}}{
@@ -158,6 +158,12 @@ History:
       \file{sample_data.csv} has data obtained from NCBI BioSample records for BioProject PRJNA860942.
       \file{*.png} are several plots created while running the DADA2 pipeline.
       \file{ps_ZFZ+23.rds} contains the phyloseq object with (including \code{otu_table}, \code{sample_data}, and \code{refseq} objects) created at the end of the DADA2 pipeline.
+    }
+  }
+
+  \describe{
+    \item{\file{mouse/pipeline.R}}{
+      Pipeline adapted from the DADA2 pipeline tutorial (Callahan, 2020) for processing the mouse example dataset (see \code{\link{chem16S-data}}).
     }
   }
 

@@ -1,9 +1,9 @@
 \encoding{UTF-8}
 \name{get_metric_byrank}
 \alias{get_metric_byrank}
-\title{Calculate chemical metric for taxa in each sample aggregated to a specified rank}
+\title{Chemical metrics for taxa aggregated to a given rank}
 \description{
-Calculates a single chemical metrics for taxa in each sample aggregated to a specified rank.
+Calculates a single chemical metric for taxa in each sample aggregated to a specified rank.
 }
 
 \usage{
@@ -61,7 +61,7 @@ phylum_Zc <- phylum_Zc[n_values > 2]
 # Swap first two samples to get them in the right location
 # (MG-RAST accession numbers for these samples are not in spatial order)
 phylum_Zc <- phylum_Zc[c(2, 1, 3, 4, 5), ]
-matplot(phylum_Zc, type = "b", xlab = "Location (1-hot, 5-cool)", ylab = "Zc")
+matplot(phylum_Zc, type = "b", xlab = "Sampling site (hot -> cool)", ylab = "Zc")
 title("Phylum-level Zc at Bison Pool hot spring")
 }
 

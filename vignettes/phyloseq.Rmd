@@ -228,33 +228,33 @@ The community reference proteomes for Late samples tend to be more oxidized and 
 
 As noted above, mapping taxon names from Silva or RDP to RefSeq is not perfect.
 To overcome this limitation, the GTDB can be used for both taxonomic classification of 16S rRNA gene sequences and for reference proteomes of taxa.
-Here we load a `phyloseq-class` object prepared following the DADA2 Pipeline Tutorial modified to classify 16S rRNA gene sequences using GTDB r214 [@Ali23].
+Here we load a `phyloseq-class` object prepared following the DADA2 Pipeline Tutorial modified to classify 16S rRNA gene sequences using GTDB r220 [@Ali24].
 Then, we plot chemical metrics calculated for reference proteomes also derived from the GTDB, but a later version.
-(The reason for this is that DADA2-formatted 16S rRNA sequences from GTDB r220 are not yet available in the Zenodo repository maintained by @Ali23.)
+(The reason for this is that DADA2-formatted 16S rRNA sequences from GTDB r220 are not yet available in the Zenodo repository maintained by @Ali24.)
 
 ```{r data.GTDB, collapse = TRUE, fig.width = 6, fig.height = 4, fig.align = "center", pngquant = pngquant}
-data(mouse.GTDB_214)
-plot_ps_metrics2(mouse.GTDB_214, refdb = "GTDB_220", color = "When", shape = "When") + geom_point(size = 3)
+data(mouse.GTDB_220)
+plot_ps_metrics2(mouse.GTDB_220, refdb = "GTDB_220", color = "When", shape = "When") + geom_point(size = 3)
 ```
 
 Compared to using the RDP for classification of 16S rRNA sequences and RefSeq for reference proteomes, using the GTDB for both yields a clearer separation of Early and Late samples in chemical space.
 There is one Early sample with anomalously high `r Zc` and low `r nH2O`; let's identify it:
 
 ```{r early.GTDB, collapse = TRUE, fig.width = 6, fig.height = 4, fig.align = "center", pngquant = pngquant}
-metrics.GTDB <- ps_metrics(mouse.GTDB_214)
-is.early <- sample_data(mouse.GTDB_214)$When == "Early"
+metrics.GTDB <- ps_metrics(mouse.GTDB_220)
+is.early <- sample_data(mouse.GTDB_220)$When == "Early"
 iout <- which.min(metrics.GTDB[is.early, ]$nH2O)
-(day <- sample_data(mouse.GTDB_214)[is.early, ]$Day[iout])
+(day <- sample_data(mouse.GTDB_220)[is.early, ]$Day[iout])
 ```
 
 This is the sample from day `r day`.
 Let's look again at the taxonomic classifications, this time at the phylum level in GTDB:
 
 ```{r barplot.GTDB, fig.width = 7, fig.height = 5, fig.align = "center", pngquant = pngquant}
-top20.GTDB <- names(sort(taxa_sums(mouse.GTDB_214), decreasing = TRUE))[1:20]
-mouse.GTDB_214.top20 <- transform_sample_counts(mouse.GTDB_214, function(OTU) OTU/sum(OTU))
-mouse.GTDB_214.top20 <- prune_taxa(top20.GTDB, mouse.GTDB_214.top20)
-plot_bar(mouse.GTDB_214.top20, x = "Day", fill = "Phylum") + facet_wrap(~When, scales = "free_x")
+top20.GTDB <- names(sort(taxa_sums(mouse.GTDB_220), decreasing = TRUE))[1:20]
+mouse.GTDB_220.top20 <- transform_sample_counts(mouse.GTDB_220, function(OTU) OTU/sum(OTU))
+mouse.GTDB_220.top20 <- prune_taxa(top20.GTDB, mouse.GTDB_220.top20)
+plot_bar(mouse.GTDB_220.top20, x = "Day", fill = "Phylum") + facet_wrap(~When, scales = "free_x")
 ```
 
 This plot suggests that a relatively high proportion of Bacteroidota makes the Day `r day` sample more similar to samples in the Late group.

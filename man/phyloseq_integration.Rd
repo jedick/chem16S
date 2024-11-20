@@ -67,16 +67,14 @@ The author of this Rd file and the \code{ps_taxacounts} and \code{ps_metrics} fu
 
 \examples{
 # Example 1: Humboldt Sulfuretum (Fonseca et al., 2022)
-# This file has the classifications made with DADA2 using 16S rRNA sequences from GTDB r214
-file <- system.file("extdata/DADA2-GTDB_214/FEN+22/ps_FEN+22.rds", package = "chem16S")
+# This file has the classifications made with DADA2 using 16S rRNA sequences from GTDB r220
+file <- system.file("extdata/DADA2-GTDB_220/FEN+22/ps_FEN+22.rds", package = "chem16S")
 physeq <- readRDS(file)
 # Get lowest-level (to genus) classification for each OTU
 taxacounts <- ps_taxacounts(physeq)
 # Show numbers of assignments at each taxonomic level
 table(taxacounts$rank)
 # Map taxonomic names to GTDB r220
-# NOTE: for the time being, reference proteomes (r220) are from a later version
-# of the GTDB than the 16S rRNA classifications (r214)
 map <- map_taxa(taxacounts, refdb = "GTDB_220")
 # Taxonomy and reference proteomes are from different versions of GTDB,
 # so there is a small percentage of unmapped classifications

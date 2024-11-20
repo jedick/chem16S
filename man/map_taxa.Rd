@@ -48,9 +48,9 @@ For mapping to the NCBI (RefSeq) taxonomy, some group names are manually mapped 
 }
 
 To avoid manual mapping, GTDB can be used for both taxonomic assignemnts and reference proteomes.
-Taxonomic assignments based on 16S rRNA sequences from GTDB can be made using training files for the RDP Classifier (\doi{10.5281/zenodo.7633099}) or \pkg{dada2} (\doi{10.5281/zenodo.2541238}) (make sure to choose the appropriate GTDB version).
+16S rRNA sequences from GTDB release 220 are available for the RDP Classifier (\doi{10.5281/zenodo.7633099}) and \pkg{dada2} (\doi{10.5281/zenodo.13984843}).
 Example files created using the RDP Classifier are provided under \file{extdata/RDP-GTDB_220}.
-An example dataset created with DADA2 is \code{data(\link{mouse.GTDB_214})}; this is a \code{\link[phyloseq]{phyloseq-class}} object that can be processed with functions described at \code{\link{physeq}}.
+An example dataset created with DADA2 is \code{data(\link{mouse.GTDB_220})}; this is a \code{\link[phyloseq]{phyloseq-class}} object that can be processed with functions described at \code{\link{physeq}}.
 
 Change \code{quiet} to TRUE to suppress printing of messages about manual mappings, most abundant unmapped groups, and overall percentage of mapped names.
 }

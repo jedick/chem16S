@@ -22,7 +22,7 @@ for(run in sra$Run) {
 ###
 
 library(dada2); packageVersion("dada2")
-## [1] ‘1.28.0’
+## [1] ‘1.32.0’
 
 path = "."
 
@@ -69,9 +69,9 @@ head(out)
 system.time(errF <- learnErrors(filtFs, multithread = TRUE))
 ## 127464868 total bases in 522397 reads from 4 samples will be used for learning the error rates.
 ##      user    system   elapsed
-## 10404.745    40.656  1882.410
+## 11758.419    39.066  1991.560
 
-#saveRDS(errF, "errF.rds")
+saveRDS(errF, "errF.rds")
 
 # Visualize the estimated error rates:
 plotErrors(errF, nominalQ = TRUE)
@@ -109,7 +109,7 @@ table(nchar(getSequences(seqtab)))
 ##   244
 ## 12439
 
-#saveRDS(seqtab, "seqtab.rds")
+saveRDS(seqtab, "seqtab.rds")
 
 ###
 ### Remove chimeras
@@ -145,10 +145,11 @@ track
 ### Assign taxonomy
 ###
 
-# GTDB r214 16S rRNA sequences formatted for DADA2 were downloaded from https://zenodo.org/record/10403693
-system.time(taxa <- assignTaxonomy(seqtab.nochim, "/home/sequence/DADA2/GTDB_bac120_arc53_ssu_r214_genus.fa.gz", multithread = TRUE, tryRC = TRUE))
+# GTDB r220 16S rRNA sequences formatted for DADA2 were downloaded from https://doi.org/10.5281/zenodo.13984843
+system.time(taxa <- assignTaxonomy(seqtab.nochim, "GTDB_bac120_arc53_ssu_r220_genus.fa.gz", multithread = TRUE, tryRC = TRUE))
 ##      user    system   elapsed
-## 10143.656     6.935  1312.774
+## 11720.239     8.153  1510.985
+
 
 # Let’s inspect the taxonomic assignments:
 taxa.print <- taxa # Removing sequence rownames for display only
@@ -169,11 +170,11 @@ saveRDS(taxa, "taxa.rds")
 ###
 
 library(phyloseq); packageVersion("phyloseq")
-## [1] ‘1.44.0’
+## [1] ‘1.48.0’
 library(Biostrings); packageVersion("Biostrings")
-## [1] ‘2.68.1’
+## [1] ‘2.72.1’
 library(ggplot2); packageVersion("ggplot2")
-## [1] ‘3.4.2’
+## [1] ‘3.5.1’
 theme_set(theme_bw())
 
 # Read data frame with sample data constructed from SRA entries and Table S5 of Zhang et al. (2023)
@@ -191,10 +192,11 @@ ps <- merge_phyloseq(ps, dna)
 taxa_names(ps) <- paste0("ASV", seq(ntaxa(ps)))
 ps
 ## phyloseq-class experiment-level object
-## otu_table()   OTU Table:         [ 2095 taxa and 14 samples ]
-## sample_data() Sample Data:       [ 14 samples by 19 sample variables ]
-## tax_table()   Taxonomy Table:    [ 2095 taxa by 6 taxonomic ranks ]
-## refseq()      DNAStringSet:      [ 2095 reference sequences ]
+## otu_table()   OTU Table:         [ 9466 taxa and 7 samples ]
+## sample_data() Sample Data:       [ 7 samples by 24 sample variables ]
+## tax_table()   Taxonomy Table:    [ 9466 taxa by 6 taxonomic ranks ]
+## refseq()      DNAStringSet:      [ 9466 reference sequences ]
+
 
 saveRDS(ps, "ps_ZFZ+23.rds", compress = "xz")
 
