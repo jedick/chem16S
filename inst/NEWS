@@ -1,4 +1,4 @@
-CHANGES IN chem16S 1.1.0-8 (2024-11-23)
+CHANGES IN chem16S 1.1.0-9 (2024-11-23)
 ---------------------------------------
 
 - Update reference database to GTDB version 220.
@@ -10,6 +10,9 @@ CHANGES IN chem16S 1.1.0-8 (2024-11-23)
   Classification to non-prokaryotic groups was an issue with previous
   reference databases but not the GTDB, and dropping root- and domain-
   level classifications may lose information.
+
+- Add 'rootrank' (Root) taxon to RefDB/GTDB_220/taxon_AA.csv.xz to permit
+  complete mapping of RDP output with GTDB reference database.
 
 CHANGES IN chem16S 1.1.0 (2024-07-01)
 -------------------------------------

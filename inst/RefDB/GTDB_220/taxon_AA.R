@@ -5,11 +5,13 @@ taxon_AA <- function() {
   genome_AA <- read.csv("genome_AA.csv")
   # Read the taxonomy 20231229
   taxonomy <- read.csv("taxonomy.csv")
+  # Add a "rootrank" column 20241123
+  taxonomy$rootrank = "Root"
   # Normalize by number of proteins
   genome_AA[, 5:25] <- genome_AA[, 5:25] / genome_AA$chains
 
   # Loop over taxonomic ranks
-  ranks <- c("domain", "phylum", "class", "order", "family", "genus")
+  ranks <- c("rootrank", "domain", "phylum", "class", "order", "family", "genus")
   aa <- lapply(ranks, function(rank) {
     # Names of all taxa at this rank
     taxa <- taxonomy[, rank]
@@ -36,7 +38,7 @@ taxon_AA <- function() {
     # Normalize by number of genomes (put the number in 'ref' column)
     aa$ref <- aa$chains
     aa[, 5:25] <- aa[, 5:25] / aa$chains
-    # For ranks below domain, put the higher-level rank in the 'abbrv' column
+    # For ranks below rootrank, put the higher-level rank in the 'abbrv' column
     irank <- match(rank, ranks)
     if(irank > 1) {
       uprank <- ranks[irank - 1]
