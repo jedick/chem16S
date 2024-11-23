@@ -64,7 +64,9 @@ Attributes \code{unmapped_groups} and \code{unmapped_percent} have the input nam
 \examples{
 # Partial mapping from RDP training set to NCBI taxonomy
 file <- system.file("extdata/RDP/SMS+12.tab.xz", package = "chem16S")
-RDP <- read_RDP(file)
+# Use drop.groups = TRUE to exclude root- and domain-level
+# classifications and certain non-prokaryotic groups
+RDP <- read_RDP(file, drop.groups = TRUE)
 map <- map_taxa(RDP, refdb = "RefSeq_206")
 # About 24% of classifications are unmapped
 sum(attributes(map)$unmapped_percent)

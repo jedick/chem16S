@@ -8,7 +8,7 @@ Reads RDP Classifier output and optionally extracts lineages, removes classifica
 
 \usage{
   read_RDP(file, lineage = NULL, mincount = 200,
-    lowest.level = NULL, quiet = FALSE)
+    lowest.level = NULL, drop.groups = FALSE, quiet = FALSE)
 }
 
 \arguments{
@@ -16,6 +16,7 @@ Reads RDP Classifier output and optionally extracts lineages, removes classifica
   \item{lineage}{character, regular expression for filtering lineages}
   \item{mincount}{integer, samples with less than this number of RDP classifications are excluded}
   \item{lowest.level}{character, truncate classifications at this taxonomic level}
+  \item{drop.groups}{logical, remove some taxonomic groups deemed to be uninformative?}
   \item{quiet}{logical, suppress printed messages?}
 }
 
@@ -25,8 +26,12 @@ The input file should be created by RDP Classifer using the -h option to create 
 Classifications for multiple samples can be combined into a single file using the merge-count command of RDP Classifier.
 
 Only rows (lineages) with count > 0 for at least one sample are retained.
-Sequences with classification results at only the root or domain level (Root, Archaea, or Bacteria) are omitted because they provide poor taxonomic resolution.
+
+If \code{drop.groups} is TRUE:
+Sequences with classifications at only the root or domain level (Root, Archaea, or Bacteria) are omitted because they provide poor taxonomic resolution.
 Sequences classified to the class Chloroplast or genera Chlorophyta or Bacillariophyta are also omitted because they have little correspondence with the NCBI taxonomy.
+These actions were hard-coded in earlier versions of chem16S (based on using the RDP Classifier taxonomy) but were made optional with adoption of the GTDB.
+
 Then, only columns (samples) with classification count >= \code{mincount} are retained.
 All remaining sequences (those classified to genus or higher levels) can be used for mapping to the NCBI taxonomy.
 

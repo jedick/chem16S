@@ -1,7 +1,7 @@
 # 20220505
 
 file <- system.file("extdata/RDP/SMS+12.tab.xz", package = "chem16S")
-RDP <- read_RDP(file, quiet = TRUE)
+RDP <- read_RDP(file, drop.groups = TRUE, quiet = TRUE)
 
 info <- "Expected classifications are produced"
 # These are five sites at Bison Pool from high to low temperature
@@ -23,7 +23,7 @@ info <- "lowest.level truncates taxonomy but does not change classification coun
 # Default: classifications go down to genus level
 RDP.counts <- colSums(RDP[, -(1:4)])
 # Truncate classifications at phylum level
-RDP.phylum <- read_RDP(file, lowest.level = "phylum", quiet = TRUE)
+RDP.phylum <- read_RDP(file, lowest.level = "phylum", drop.groups = TRUE, quiet = TRUE)
 RDP.phylum.counts <- colSums(RDP.phylum[, -(1:4)])
 
 # Test 1: column names are the same
@@ -32,3 +32,8 @@ expect_identical(colnames(RDP), colnames(RDP.phylum), info = info)
 expect_identical(RDP.counts, RDP.phylum.counts, info = info)
 # Test 3: only phyla are present in truncated result
 expect_identical(unique(RDP.phylum$rank), "phylum", info = info)
+
+# 20241123
+info <- "drop.groups = FALSE (the default) includes domain-level classifications"
+RDP.phylum <- read_RDP(file, lowest.level = "phylum", quiet = TRUE)
+expect_equal(unique(RDP.phylum$rank), c("phylum", "domain"), info = info)

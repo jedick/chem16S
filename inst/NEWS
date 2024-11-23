@@ -1,10 +1,15 @@
-CHANGES IN chem16S 1.1.0-6 (2024-11-20)
+CHANGES IN chem16S 1.1.0-8 (2024-11-23)
 ---------------------------------------
 
 - Update reference database to GTDB version 220.
 
 - Add get_metric_byrank() to return chemical metric for all taxa at a given
   rank, calculated by aggregating abundance-weighted amino acid compositions.
+
+- Add `drop.groups` argument to read_RDP() with default of FALSE.
+  Classification to non-prokaryotic groups was an issue with previous
+  reference databases but not the GTDB, and dropping root- and domain-
+  level classifications may lose information.
 
 CHANGES IN chem16S 1.1.0 (2024-07-01)
 -------------------------------------

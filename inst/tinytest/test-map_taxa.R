@@ -31,7 +31,7 @@ expect_equal(NCBIname[sapply(samenames, isFALSE)], c("genus_Synechococcus", "phy
 
 info <- "First example from ?map_taxa produces expected output"
 file <- system.file("extdata/RDP/SMS+12.tab.xz", package = "chem16S")
-RDP <- read_RDP(file, quiet = TRUE)
+RDP <- read_RDP(file, drop.groups = TRUE, quiet = TRUE)
 expect_message(map <- map_taxa(RDP, refdb = "RefSeq_206"), "class_Cyanobacteria --> phylum_Cyanobacteria \\(12.3%\\)", info = info)
 expect_equal(length(attributes(map)$unmapped_percent), 8, info = info)
 expect_equal(round(sum(attributes(map)$unmapped_percent), 2), 24.42)

@@ -5,7 +5,7 @@
 # Moved to chem16S 20220505
 
 # Read and filter RDP results for all samples in a study 20200912
-read_RDP <- function(file, lineage = NULL, mincount = 200, lowest.level = NULL, quiet = FALSE) {
+read_RDP <- function(file, lineage = NULL, mincount = 200, lowest.level = NULL, drop.groups = FALSE, quiet = FALSE) {
 
   # Read file
   dat <- read.table(file, sep = "\t", header = TRUE, check.names = FALSE)
@@ -82,28 +82,31 @@ read_RDP <- function(file, lineage = NULL, mincount = 200, lowest.level = NULL, 
     print(paste0("read_RDP", basetxt, ": ", genuspercent, "% of classifications at genus level"))
   }
 
-  RDPgroups <- paste(out$rank, out$name, sep = "_")
-  RDPgroups[grepl("Eukaryota", out$lineage)] <- "Eukaryota"
-  rmgroups <- c(
-    # Remove classifications at root and domain level (Bacteria and Archaea) 20200922
-    "rootrank_Root", "domain_Bacteria", "domain_Archaea",
-    # Chloroplast 20200922
-    "class_Chloroplast", "family_Chloroplast", "genus_Chlorophyta", "genus_Bacillariophyta",
-    # Eukaryota 20211012
-    "Eukaryota"
-  )
-  isrm <- RDPgroups %in% rmgroups
-  if(any(isrm)) {
-    irm <- which(isrm)
-    rmpercent <- round(rowSums(out[irm, icol, drop = FALSE]) / sum(totalcounts) * 100, 1)
-    for(i in seq_along(irm)) {
-      # Only print message if removed group is >= 0.1% 20200927
-      if(!quiet & rmpercent[i] >= 0.1) print(paste0("read_RDP", basetxt, ": removing ", RDPgroups[irm[i]], " (", rmpercent[i], "%)"))
+  # Drop groups above phylum or not archaea or bacteria
+  if(drop.groups) {
+    RDPgroups <- paste(out$rank, out$name, sep = "_")
+    RDPgroups[grepl("Eukaryota", out$lineage)] <- "Eukaryota"
+    rmgroups <- c(
+      # Remove classifications at root and domain level (Bacteria and Archaea) 20200922
+      "rootrank_Root", "domain_Bacteria", "domain_Archaea",
+      # Chloroplast 20200922
+      "class_Chloroplast", "family_Chloroplast", "genus_Chlorophyta", "genus_Bacillariophyta",
+      # Eukaryota 20211012
+      "Eukaryota"
+    )
+    isrm <- RDPgroups %in% rmgroups
+    if(any(isrm)) {
+      irm <- which(isrm)
+      rmpercent <- round(rowSums(out[irm, icol, drop = FALSE]) / sum(totalcounts) * 100, 1)
+      for(i in seq_along(irm)) {
+        # Only print message if removed group is >= 0.1% 20200927
+        if(!quiet & rmpercent[i] >= 0.1) print(paste0("read_RDP", basetxt, ": removing ", RDPgroups[irm[i]], " (", rmpercent[i], "%)"))
+      }
+      out <- out[!isrm, , drop = FALSE] 
     }
-    out <- out[!isrm, , drop = FALSE] 
+    # Recalculate total counts
+    totalcounts <- colSums(out[, icol, drop = FALSE])
   }
-  # Recalculate total counts
-  totalcounts <- colSums(out[, icol, drop = FALSE])
 
   # Discard samples with < mincount total counts 20201001
   ismall <- totalcounts < mincount
