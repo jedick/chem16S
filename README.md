@@ -4,27 +4,40 @@
 [![R-CMD-check](https://github.com/jedick/chem16S/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/jedick/chem16S/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-*chem16S* calculates chemical metrics for microbial communities by combining taxonomic abundances with genomic reference sequences for proteins.
-The chemical representation of communities has applications ranging from human microbiomes to Earth-life coevolution.
+*chem16S* generates chemical representations of microbial communities by combining taxonomic abundances of archaea and bacteria with reference sequences for proteins.
+Chemical metrics for community reference proteomes are used to investigate genomic adaptations to environmental conditions.
+Potential applications range from human microbiomes to Earth-life coevolution.
 
 * Read the paper in *Bioinformatics*: [*chem16S*: community-level chemical metrics for exploring genomic adaptation to environments](https://doi.org/10.1093/bioinformatics/btad564).
 
 * View the [manual](https://chnosz.net/chem16S/manual/) and vignettes: [Chemical metrics of reference proteomes for taxa](https://chnosz.net/chem16S/vignettes/metrics.html), [Integration of *chem16S* with *phyloseq*](https://chnosz.net/chem16S/vignettes/phyloseq.html), and [Plotting two chemical metrics](https://chnosz.net/chem16S/vignettes/plotting.html).
 
+### Methods
+
+The user provides taxonomic classifications of high-throughput 16S rRNA gene sequences.
+These are combined with reference proteomes for archaea and bacteria to obtain the amino acid compositions of **community reference proteomes**.
+Amino acid compositions used to calculate chemical metrics including **carbon oxidation state** (*Z*<sub>C</sub>) and **stoichiometric hydration state** (*n*<sub>H<sub>2</sub>O</sub>).
+
 Supported input formats:
 * `phyloseq-class` objects created using [*phyloseq*](https://doi.org/doi:10.18129/B9.bioc.phyloseq)
-* [RDP Classifier](https://sourceforge.net/projects/rdp-classifier/)
+* [RDP Classifier](https://sourceforge.net/projects/rdp-classifier/) output
 
 Supported reference databases:
 
 * [Genome Taxonomy Database](https://gtdb.ecogenomic.org/) (GTDB release 220)
 * [NCBI Reference Sequence Database](https://www.ncbi.nlm.nih.gov/refseq/) (RefSeq release 206)
+* Scripts used to generate reference proteomes for genus- and higher-level archaeal and bacterial taxa (and viruses for RefSeq) are available in the [GTDB_220](inst/RefDB/GTDB_220) and [RefSeq_206](inst/RefDB/RefSeq_206) directories.
 
-### Description
+Details:
 
-The *chem16S* R package combines taxonomic classifications of high-throughput 16S rRNA gene sequences with precomputed amino acid compositions of reference proteomes for archaea and bacteria to obtain the amino acid compositions of **community reference proteomes**.
-Chemical metrics of community reference proteomes such as **carbon oxidation state** (*Z*<sub>C</sub>) and **stoichiometric hydration state** (*n*<sub>H<sub>2</sub>O</sub>) reveal new types of adaptations of microbial genomes to environmental conditions.
-For instance, an association of lower *n*<sub>H<sub>2</sub>O</sub> with higher salinity in the Baltic Sea suggests a genomically encoded dehydration trend:
+* The taxonomic classifier should be trained on *16S rRNA sequences from GTDB* so that taxon names are matched to GTDB reference proteomes available in *chem16S*.
+Training files are available for [DADA2](https://doi.org/10.5281/zenodo.13984843) and the [RDP Classifier](https://doi.org/10.5281/zenodo.12525163).
+* For taxonomic classifications made using the RDP training set (No. 18 07/2020, used in RDP Classifier version 2.13), *chem16S* includes manual mappings to the NCBI taxonomy described by [Dick and Tan (2023)](https://doi.org/10.1007/s00248-022-01988-9).
+
+### Example
+
+The Baltic Sea has a salinity gradient from freshwater to marine conditions.
+Progressively lower *n*<sub>H<sub>2</sub>O</sub> of community reference proteomes along this gradient represent a genomically coded dehydration trend.
 
 <!-- Default image is too big
 ![chem16S::plot_metrics example: Baltic Sea nH2O-Zc plot](inst/images/plot_metrics.png)
@@ -33,14 +46,6 @@ For instance, an association of lower *n*<sub>H<sub>2</sub>O</sub> with higher s
 
 PSU stands for practical salinity units.
 The sequence data analyzed for this plot was taken from [Herlemann et al. (2016)](https://doi.org/10.3389/fmicb.2016.01883) and the code to make this plot is available in the [help page for `chem16S::plot_metrics`](https://chnosz.net/chem16S/manual/plot_metrics.html).
-
-### Methods
-
-* Scripts in the [GTDB_220](inst/RefDB/GTDB_220) and [RefSeq_206](inst/RefDB/RefSeq_206) directories were used to generate reference proteomes for genus- and higher-level archaeal and bacterial taxa (and viruses for RefSeq).
-
-* It is recommended to use *16S rRNA sequences from GTDB* for taxonomic classification (files are available for [DADA2](https://doi.org/10.5281/zenodo.13984843) and the [RDP Classifier](https://doi.org/10.5281/zenodo.12525163)) so that taxonomic assignments can be automatically matched to GTDB reference proteomes available in *chem16S*.
-
-* For taxonomic classifications made using the RDP training set (No. 18 07/2020, used in RDP Classifier version 2.13), *chem16S* includes manual mappings to the NCBI taxonomy described by [Dick and Tan (2023)](https://doi.org/10.1007/s00248-022-01988-9).
 
 ### Installation
 

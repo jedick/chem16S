@@ -45,6 +45,32 @@ map_taxa <- function(taxacounts = NULL, refdb = "GTDB_220", taxon_AA = NULL, qui
 
   }
 
+  # Post-curation mappings for GTDB release 220 20241130
+  # See https://data.gtdb.ecogenomic.org/releases/release220/220.0/RELEASE_NOTES.txt
+  if(refdb == "GTDB_220") {
+
+    mapping <- read.csv(system.file("extdata/GTDB_220_mappings.csv", package = "chem16S"))
+    OLD <- paste(mapping$OLD.rank, mapping$OLD.name, sep = "_")
+    NEW <- paste(mapping$NEW.rank, mapping$NEW.name, sep = "_")
+    iswitch <- INPUTgroups %in% OLD
+
+    if(any(iswitch)) {
+      # Make the switch
+      imap <- match(INPUTgroups[iswitch], OLD)
+      INPUTgroups[iswitch] <- NEW[imap]
+      if(!quiet) {
+        # Print message(s) about switched names and abundance
+        from <- OLD[imap]
+        to <- NEW[imap]
+        switchcounts <- groupcounts[iswitch]
+        switchpercent <- signif(switchcounts / sum(groupcounts) * 100, 2)
+        print(paste0("map_taxa", basetxt, ": using these post-curation mapping(s) for GTDB release 220:"))
+        for(i in seq_along(from)) message(paste0(from[i], " --> ", to[i], " (", switchpercent[i], "%)"))
+      }
+    }
+
+  }
+
   # Read amino acid compositions of reference proteomes for genus and higher taxonomic groups:
   #   - from RefSeq (NCBI) or
   #   - from GTDB 20221016

@@ -59,3 +59,43 @@ expect_equal(sum(equalrank), 361, info = info)
 icrossrank <- RDP$rank != taxon_AA$protein
 expect_equal(RDP$name[icrossrank], c("Actinobacteria", "Spartobacteria_genera_incertae_sedis", "Subdivision3_genera_incertae_sedis", "Cyanobacteria"), info = info)
 expect_equal(taxon_AA$organism[icrossrank], c("Actinobacteria", "Spartobacteria", "Verrucomicrobia subdivision 3", "Cyanobacteria"), info = info)
+
+# 20241130
+
+## From https://data.gtdb.ecogenomic.org/releases/release220/220.0/RELEASE_NOTES.txt
+## - Post-curation cycle, we identified updated spelling for 15 taxon names:
+##    p__Calescibacterota (updated name: Calescibacteriota)
+##    c__Brachyspirae (updated name: Brachyspiria)
+##    c__Leptospirae (updated name: Leptospiria)
+##    o__Ammonifexales (updated name: Ammonificales)
+##    o__Exiguobacterales (updated name: Exiguobacteriales)
+##    o__Hydrogenedentiales (updated name: Hydrogenedentales)
+##    o__Phormidesmiales (updated name: Phormidesmidales)
+##    f__Arcanobacteraceae (updated name: Arcanibacteraceae)
+##    f__Acetonemaceae (updated name: Acetonemataceae)
+##    f__Ethanoligenenaceae (updated name: Ethanoligenentaceae)
+##    f__Exiguobacteraceae (updated name: Exiguobacteriaceae)
+##    f__Geitlerinemaceae (updated name: Geitlerinemataceae)
+##    f__Koribacteraceae (updated name: Korobacteraceae)
+##    f__Phormidesmiaceae (updated name: Phormidesmidaceae)
+##    f__Porisulfidaceae (updated name: Poriferisulfidaceae)
+##   Note that the LPSN linkouts point to the correct updated names. We encourage users to use the updated names as these will appear in the next release.
+## - Post-curation cycle, we discovered that two provisionally named families, Nitrincolaceae and Denitrovibrionaceae  have been validly named under the ICNP as Balneatricaceae and Geovibrionaceae, respectively.
+##   We encourage users to use the validly published names as these will appear in the next release.
+
+info <- "GTDB release 220 maps post-curation updated names"
+# Get amino acid compositions of taxa compiled from GTDB
+GTDB_220 = read.csv(system.file("RefDB/GTDB_220/taxon_AA.csv.xz", package = "chem16S"))
+# Read phyloseq file generated with DADA2 pipeline and GTDB 16S rRNA sequences
+psfile <- system.file("extdata/DADA2-GTDB_220/ZFZ+23/ps_ZFZ+23.rds", package = "chem16S")
+ps <- readRDS(psfile)
+taxa <- na.omit(unlist(data.frame(phyloseq::tax_table(ps))))
+# We see that some deprecated names are present
+oldnames <- c("Leptospirae", "Ammonifexales", "Phormidesmiales", "Exiguobacterales", 
+"Hydrogenedentiales", "Phormidesmiaceae", "Exiguobacteraceae", 
+"Koribacteraceae", "Acetonemaceae", "Nitrincolaceae")
+expect_equal(setdiff(taxa, GTDB_220$organism), oldnames, info = info)
+# map_taxa() takes care of mapping the deprecated names to current ones
+taxacounts <- ps_taxacounts(ps)
+expect_stdout(map <- map_taxa(taxacounts), "using these post-curation mapping\\(s\\)", info = info)
+expect_false(any(is.na(map)), info = info)
