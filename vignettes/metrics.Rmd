@@ -41,7 +41,7 @@ if (!nzchar(Sys.which("pngquant"))) pngquant <- NULL
 
 ```{r HTML, include = FALSE}
 Zc <- "<i>Z</i><sub>C</sub>"
-nH2O <- "<i>n</i><sub>H<sub>2</sub>O</sub>"
+nH2O <- "<i>n</i>H<sub>2</sub>O"
 ```
 
 Here we visualize chemical metrics for archaeal and bacterial taxa and viruses using precomputed reference proteomes in the **chem16S** package.

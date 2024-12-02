@@ -1,4 +1,4 @@
-CHANGES IN chem16S 1.1.0-10 (2024-12-01)
+CHANGES IN chem16S 1.1.0-11 (2024-12-02)
 ---------------------------------------
 
 - Update reference database to GTDB release 220.
@@ -17,6 +17,8 @@ CHANGES IN chem16S 1.1.0-10 (2024-12-01)
 
 - Add 'rootrank' (Root) taxon to RefDB/GTDB_220/taxon_AA.csv.xz to permit
   complete mapping of RDP output with GTDB reference database.
+
+- Elemental formulas (O2 and H2O) are no longer subscripted in documentation.
 
 CHANGES IN chem16S 1.1.0 (2024-07-01)
 -------------------------------------

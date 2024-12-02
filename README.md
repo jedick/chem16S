@@ -16,7 +16,7 @@ Potential applications range from human microbiomes to Earth-life coevolution.
 
 The user provides taxonomic classifications of high-throughput 16S rRNA gene sequences.
 These are combined with reference proteomes for archaea and bacteria to obtain the amino acid compositions of **community reference proteomes**.
-Amino acid compositions used to calculate chemical metrics including **carbon oxidation state** (*Z*<sub>C</sub>) and **stoichiometric hydration state** (*n*<sub>H<sub>2</sub>O</sub>).
+Amino acid compositions used to calculate chemical metrics including **carbon oxidation state** (*Z*<sub>C</sub>) and **stoichiometric hydration state** (*n*<sub>2</sub>O).
 
 Supported input formats:
 * `phyloseq-class` objects created using [*phyloseq*](https://doi.org/doi:10.18129/B9.bioc.phyloseq)
@@ -37,7 +37,7 @@ Training files are available for [DADA2](https://doi.org/10.5281/zenodo.13984843
 ### Example
 
 The Baltic Sea has a salinity gradient from freshwater to marine conditions.
-Progressively lower *n*<sub>H<sub>2</sub>O</sub> of community reference proteomes along this gradient represent a genomically coded dehydration trend.
+Progressively lower *n*H<sub>2</sub>O of community reference proteomes along this gradient represent a genomically coded dehydration trend.
 
 <!-- Default image is too big
 ![chem16S::plot_metrics example: Baltic Sea nH2O-Zc plot](inst/images/plot_metrics.png)
