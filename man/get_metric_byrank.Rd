@@ -7,8 +7,8 @@ Calculates a single chemical metric for taxa in each sample aggregated to a spec
 }
 
 \usage{
-  get_metric_byrank(RDP, map, refdb = "GTDB_220", taxon_AA = NULL, groups = NULL,
-    zero_AA = NULL, metric = "Zc", rank = "genus")
+  get_metric_byrank(RDP, map, refdb = "GTDB_220", taxon_AA = NULL,
+    groups = NULL, zero_AA = NULL, metric = "Zc", rank = "genus")
 }
 
 \arguments{

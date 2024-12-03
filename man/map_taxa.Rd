@@ -7,7 +7,8 @@ Maps taxonomic names to NCBI (RefSeq) or GTDB taxonomy by automatic matching of 
 }
 
 \usage{
-  map_taxa(taxacounts = NULL, refdb = "GTDB_220", taxon_AA = NULL, quiet = FALSE)
+  map_taxa(taxacounts = NULL, refdb = "GTDB_220",
+    taxon_AA = NULL, quiet = FALSE)
 }
 
 \arguments{
