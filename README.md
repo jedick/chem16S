@@ -2,6 +2,7 @@
 [![CRAN](https://img.shields.io/badge/dynamic/yaml?url=https%3A%2F%2Fcloud.r-project.org%2Fweb%2Fpackages%2Fchem16S%2FDESCRIPTION&query=%24.Version&logo=r&label=CRAN&color=4bc51e)](https://cran.r-project.org/package=chem16S)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6793059.svg)](https://doi.org/10.5281/zenodo.6793059)
 [![R-CMD-check](https://github.com/jedick/chem16S/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/jedick/chem16S/actions/workflows/R-CMD-check.yaml)
+[![Codecov test coverage](https://codecov.io/gh/jedick/chem16S/graph/badge.svg)](https://app.codecov.io/gh/jedick/chem16S)
 <!-- badges: end -->
 
 *chem16S* generates chemical representations of microbial communities by combining taxonomic abundances of archaea and bacteria with reference sequences for proteins.
