@@ -5,7 +5,7 @@ authors:
   given-names: "Jeffrey M."
   orcid: "https://orcid.org/0000-0002-0687-5890"
 title: "chem16S"
-doi: 10.5281/zenodo.6793059
+doi: 10.32614/CRAN.package.chem16S
 url: "https://github.com/jedick/chem16S"
 preferred-citation:
   type: article

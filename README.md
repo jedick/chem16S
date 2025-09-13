@@ -1,6 +1,5 @@
 <!-- badges: start -->
-[![CRAN/METACRAN Version](https://img.shields.io/cran/v/chem16S?label=CRAN&color=4bc51e)](https://cran.r-project.org/package=chem16S)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6793059.svg)](https://doi.org/10.5281/zenodo.6793059)
+[![CRAN status](https://www.r-pkg.org/badges/version/chem16S)](https://CRAN.R-project.org/package=chem16S)
 [![R-CMD-check](https://github.com/jedick/chem16S/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/jedick/chem16S/actions/workflows/R-CMD-check.yaml)
 [![Codecov test coverage](https://codecov.io/gh/jedick/chem16S/graph/badge.svg)](https://app.codecov.io/gh/jedick/chem16S)
 <!-- badges: end -->

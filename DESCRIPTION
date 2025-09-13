@@ -1,6 +1,6 @@
-Date: 2025-07-25
+Date: 2025-09-13
 Package: chem16S
-Version: 1.2.0-4
+Version: 1.2.0-5
 Title: Chemical Metrics for Microbial Communities
 Authors@R: c(
     person("Jeffrey", "Dick", , "j3ffdick@gmail.com", role = c("aut", "cre"),
