@@ -29,7 +29,7 @@ mouse.silva
 }
 
 \references{
-Callahan B (2020). DADA2 Pipeline Tutorial (1.16). \url{https://benjjneb.github.io/dada2/tutorial.html}, accessed on 2023-06-14. Publication year taken from \url{https://code.bioconductor.org/browse/dada2/blob/RELEASE_3_11/DESCRIPTION}.
+Callahan B (2020). DADA2 Pipeline Tutorial (1.16). \url{https://benjjneb.github.io/dada2/tutorial.html}, accessed on 2023-06-14.
 
 Schloss PD, Schubert AM, Zackular JP, Iverson KD, Young VB, Petrosino JF. 2012. Stabilization of the murine gut microbiome following weaning. \emph{Gut Microbes} \bold{3}(4): 383–393. \doi{10.4161/gmic.21008}
 }
